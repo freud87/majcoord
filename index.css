@@ -130,13 +130,12 @@ button:disabled {
     gap: 8px;
   }
 
+  input,
   button {
     font-size: 35px;
     padding: 15px;
-  }
-
-  input {
-    font-size: 35px;
-    padding: 15px;
+    width: 100%;              /* prend toute la largeur */
+    box-sizing: border-box;   /* inclut padding/border dans le width */
   }
 }
+
