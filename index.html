@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion Étudiants</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    input, button { margin: 5px; padding: 8px; }
+    .field { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Recherche & Modification Étudiant</h2>
+  
+  <div class="field">
+    <label>CIN : </label>
+    <input type="text" id="cinInput">
+    <button onclick="chercherEtudiant()">Chercher</button>
+  </div>
+
+  <div class="field"><label>Nom : </label><input type="text" id="nom"></div>
+  <div class="field"><label>Téléphone 1 : </label><input type="text" id="tel1"></div>
+  <div class="field"><label>Téléphone 2 : </label><input type="text" id="tel2"></div>
+  <div class="field"><label>Email : </label><input type="text" id="email"></div>
+  <div class="field"><label>Modifié le : </label><input type="text" id="modifie" readonly></div>
+
+  <button onclick="soumettre()">Soumettre</button>
+
+  <script>
+    const apiURL = "COLLE_ICI_URL_APPS_SCRIPT"; // ton URL Apps Script
+    let currentRow = null; // pour stocker la ligne trouvée
+
+    async function chercherEtudiant() {
+      const cin = document.getElementById("cinInput").value;
+      if (!cin) {
+        alert("Veuillez entrer un CIN !");
+        return;
+      }
+
+      const response = await fetch(`${apiURL}?cin=${cin}`);
+      const data = await response.json();
+
+      if (Object.keys(data).length === 0) {
+        alert("Aucun étudiant trouvé !");
+      } else {
+        currentRow = data.row;
+        document.getElementById("nom").value = data.Nom || "";
+        document.getElementById("tel1").value = data.Tel1 || "";
+        document.getElementById("tel2").value = data.Tel2 || "";
+        document.getElementById("email").value = data.Email || "";
+        document.getElementById("modifie").value = data.Modifie || "";
+      }
+    }
+
+    async function soumettre() {
+      if (!currentRow) {
+        alert("Veuillez d'abord rechercher un étudiant !");
+        return;
+      }
+
+      const payload = {
+        row: currentRow,
+        Nom: document.getElementById("nom").value,
+        Tel1: document.getElementById("tel1").value,
+        Tel2: document.getElementById("tel2").value,
+        Email: document.getElementById("email").value
+      };
+
+      const response = await fetch(apiURL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" }
+      });
+
+      const result = await response.json();
+      if (result.status === "success") {
+        alert("Modification enregistrée !");
+        document.getElementById("modifie").value = new Date().toLocaleString();
+      } else {
+        alert("Erreur lors de la mise à jour !");
+      }
+    }
+  </script>
+</body>
+</html>
