@@ -2,90 +2,171 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Gestion Étudiants</title>
+  <title>Recherche Étudiant</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    input, button { margin: 5px; padding: 8px; }
-    .field { margin-bottom: 10px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      margin-top: 50px;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #007BFF;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0,123,255,0.2);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007BFF;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .required {
+      color: red;
+      margin-left: 4px;
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      color: green;
+    }
   </style>
 </head>
 <body>
-  <h2>Recherche & Modification Étudiant</h2>
-  
-  <div class="field">
-    <label>CIN : </label>
-    <input type="text" id="cinInput">
-    <button onclick="chercherEtudiant()">Chercher</button>
+  <div class="container">
+    <h1>Recherche Étudiant</h1>
+    <form id="studentForm">
+      <label for="cin">CIN <span class="required">*</span></label>
+      <input type="text" id="cin" name="cin" required>
+
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom">
+
+      <label for="tel1">Téléphone 1</label>
+      <input type="text" id="tel1" name="tel1">
+
+      <label for="tel2">Téléphone 2</label>
+      <input type="text" id="tel2" name="tel2">
+
+      <label for="email">Email <span class="required">*</span></label>
+      <input type="email" id="email" name="email" required>
+
+      <button type="submit">Soumettre</button>
+    </form>
+    <div class="message" id="message"></div>
   </div>
 
-  <div class="field"><label>Nom : </label><input type="text" id="nom"></div>
-  <div class="field"><label>Téléphone 1 : </label><input type="text" id="tel1"></div>
-  <div class="field"><label>Téléphone 2 : </label><input type="text" id="tel2"></div>
-<div class="field">
-  <label>Email : </label>
-  <input type="email" id="email" required>
-</div
-  <div class="field"><label>Modifié le : </label><input type="text" id="modifie" readonly></div>
-
-  <button onclick="soumettre()">Soumettre</button>
-
   <script>
-    const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec"; // ton URL Apps Script
-    let currentRow = null; // pour stocker la ligne trouvée
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec"; // remplace par ton URL Apps Script
 
-    async function chercherEtudiant() {
-      const cin = document.getElementById("cinInput").value;
-      if (!cin) {
-        alert("Veuillez entrer un CIN !");
+    const form = document.getElementById("studentForm");
+    const message = document.getElementById("message");
+
+    // Recherche auto par CIN
+    document.getElementById("cin").addEventListener("blur", function () {
+      const cin = this.value.trim();
+      if (!cin) return;
+
+      fetch(SHEET_URL + "?action=get&cin=" + cin)
+        .then(res => res.json())
+        .then(data => {
+          if (data) {
+            document.getElementById("nom").value = data.nom || "";
+            document.getElementById("tel1").value = data.tel1 || "";
+            document.getElementById("tel2").value = data.tel2 || "";
+            document.getElementById("email").value = data.email || "";
+          } else {
+            message.textContent = "Aucun étudiant trouvé pour ce CIN.";
+            message.style.color = "red";
+          }
+        })
+        .catch(err => console.error(err));
+    });
+
+    // Soumission
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const data = {
+        cin: document.getElementById("cin").value,
+        nom: document.getElementById("nom").value,
+        tel1: document.getElementById("tel1").value,
+        tel2: document.getElementById("tel2").value,
+        email: document.getElementById("email").value,
+      };
+
+      if (!data.email) {
+        message.textContent = "L'email est obligatoire.";
+        message.style.color = "red";
         return;
       }
 
-      const response = await fetch(`${apiURL}?cin=${cin}`);
-      const data = await response.json();
-
-      if (Object.keys(data).length === 0) {
-        alert("Aucun étudiant trouvé !");
-      } else {
-        currentRow = data.row;
-        document.getElementById("nom").value = data.Nom || "";
-        document.getElementById("tel1").value = data.Tel1 || "";
-        document.getElementById("tel2").value = data.Tel2 || "";
-        document.getElementById("email").value = data.Email || "";
-        document.getElementById("modifie").value = data.Modifie || "";
-      }
-    }
-
-    async function soumettre() {
-  if (!currentRow) {
-    alert("Veuillez d'abord rechercher un étudiant !");
-    return;
-  }
-
-  const email = document.getElementById("email").value.trim();
-  if (!email) {
-    alert("L'email est obligatoire !");
-    return;
-  }
-
-  const formData = new URLSearchParams();
-  formData.append("row", currentRow);
-  formData.append("Nom", document.getElementById("nom").value);
-  formData.append("Tel1", document.getElementById("tel1").value);
-  formData.append("Tel2", document.getElementById("tel2").value);
-  formData.append("Email", email);
-
-  const response = await fetch(apiURL, { method: "POST", body: formData });
-  const result = await response.json();
-
-  if (result.status === "success") {
-    alert("Modification enregistrée !");
-    document.getElementById("modifie").value = new Date().toLocaleString();
-  } else {
-    alert("Erreur lors de la mise à jour !");
-  }
-}
-
-
+      fetch(SHEET_URL, {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+        .then(res => res.text())
+        .then(response => {
+          message.textContent = "✅ Données soumises avec succès.";
+          message.style.color = "green";
+        })
+        .catch(err => {
+          message.textContent = "❌ Erreur lors de l'envoi.";
+          message.style.color = "red";
+          console.error(err);
+        });
+    });
   </script>
 </body>
 </html>
