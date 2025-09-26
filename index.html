@@ -53,33 +53,32 @@
     }
 
     async function soumettre() {
-      if (!currentRow) {
-        alert("Veuillez d'abord rechercher un étudiant !");
-        return;
-      }
+  if (!currentRow) {
+    alert("Veuillez d'abord rechercher un étudiant !");
+    return;
+  }
 
-      const payload = {
-        row: currentRow,
-        Nom: document.getElementById("nom").value,
-        Tel1: document.getElementById("tel1").value,
-        Tel2: document.getElementById("tel2").value,
-        Email: document.getElementById("email").value
-      };
+  const formData = new URLSearchParams();
+  formData.append("row", currentRow);
+  formData.append("Nom", document.getElementById("nom").value);
+  formData.append("Tel1", document.getElementById("tel1").value);
+  formData.append("Tel2", document.getElementById("tel2").value);
+  formData.append("Email", document.getElementById("email").value);
 
-      const response = await fetch(apiURL, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
-      });
+  const response = await fetch(apiURL, {
+    method: "POST",
+    body: formData
+  });
 
-      const result = await response.json();
-      if (result.status === "success") {
-        alert("Modification enregistrée !");
-        document.getElementById("modifie").value = new Date().toLocaleString();
-      } else {
-        alert("Erreur lors de la mise à jour !");
-      }
-    }
+  const result = await response.json();
+  if (result.status === "success") {
+    alert("Modification enregistrée !");
+    document.getElementById("modifie").value = new Date().toLocaleString();
+  } else {
+    alert("Erreur lors de la mise à jour !");
+  }
+}
+
   </script>
 </body>
 </html>
