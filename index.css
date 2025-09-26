@@ -32,9 +32,12 @@ body {
     label {
       display: block;
       font-weight: bold;
-      /*margin-bottom: 6px;*/
+      margin-top: 6px;
       color: #444;
     }
+      #cinlbl{
+         margin-top: 0;   
+      }
     input {
       width: 100%;
       padding: 10px;
