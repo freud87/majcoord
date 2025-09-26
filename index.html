@@ -28,86 +28,103 @@
   </div>
 
   <script>
-    const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec"; 
-    let currentRow = null; 
+  const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec"; 
+  let currentRow = null; 
 
-    async function chercherEtudiant() {
-      const cin = document.getElementById("cinInput").value.trim();
-      const message = document.getElementById("message");
-      message.textContent = "";
+  // 🔹 Désactiver tous les champs sauf CIN et Chercher
+  window.onload = () => {
+    toggleFields(true);
+  };
 
-      if (!cin) {
-        message.textContent = "⚠️ Veuillez entrer un CIN !";
-        message.className = "message error";
-        return;
-      }
+  function toggleFields(disabled) {
+    document.getElementById("nom").disabled = disabled;
+    document.getElementById("tel1").disabled = disabled;
+    document.getElementById("tel2").disabled = disabled;
+    document.getElementById("email").disabled = disabled;
+    document.getElementById("modifie").disabled = true; // reste toujours readonly
+    document.querySelector("button[onclick='soumettre()']").disabled = disabled;
+  }
 
-      try {
-        const response = await fetch(`${apiURL}?cin=${cin}`);
-        const data = await response.json();
+  async function chercherEtudiant() {
+    const cin = document.getElementById("cinInput").value.trim();
+    const message = document.getElementById("message");
+    message.textContent = "";
 
-        if (Object.keys(data).length === 0) {
-          message.textContent = "❌ CIN non trouvée ou erronée!";
-          message.className = "message error";
-        } else {
-          currentRow = data.row;
-          document.getElementById("nom").value = data.Nom || "";
-          document.getElementById("tel1").value = data.Tel1 || "";
-          document.getElementById("tel2").value = data.Tel2 || "";
-          document.getElementById("email").value = data.Email || "";
-          document.getElementById("modifie").value = data.Modifie || "";
-          message.textContent = "✅ CIN trouvée.";
-          message.className = "message success";
-        }
-      } catch (error) {
-        console.error(error);
-        message.textContent = "❌ Erreur de connexion au serveur.";
-        message.className = "message error";
-      }
+    if (!cin) {
+      message.textContent = "⚠️ Veuillez entrer un CIN !";
+      message.className = "message error";
+      return;
     }
 
-    async function soumettre() {
-      const message = document.getElementById("message");
-      message.textContent = "";
+    try {
+      const response = await fetch(`${apiURL}?cin=${cin}`);
+      const data = await response.json();
 
-      if (!currentRow) {
-        message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
+      if (Object.keys(data).length === 0) {
+        message.textContent = "❌ CIN non trouvée ou erronée!";
         message.className = "message error";
-        return;
+        toggleFields(true);
+      } else {
+        currentRow = data.row;
+        document.getElementById("nom").value = data.Nom || "";
+        document.getElementById("tel1").value = data.Tel1 || "";
+        document.getElementById("tel2").value = data.Tel2 || "";
+        document.getElementById("email").value = data.Email || "";
+        document.getElementById("modifie").value = data.Modifie || "";
+        message.textContent = "✅ CIN trouvée.";
+        message.className = "message success";
+        toggleFields(false); // 🔹 Réactiver les champs et Soumettre
       }
-
-      const email = document.getElementById("email").value.trim();
-      if (!email) {
-        message.textContent = "⚠️ L'email est obligatoire !";
-        message.className = "message error";
-        return;
-      }
-
-      const formData = new URLSearchParams();
-      formData.append("row", currentRow);
-      formData.append("Nom", document.getElementById("nom").value);
-      formData.append("Tel1", document.getElementById("tel1").value);
-      formData.append("Tel2", document.getElementById("tel2").value);
-      formData.append("Email", email);
-
-      try {
-        const response = await fetch(apiURL, { method: "POST", body: formData });
-        const result = await response.json();
-
-        if (result.status === "success") {
-          document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-          message.textContent = "✅ Modification enregistrée !";
-          message.className = "message success";
-        } else {
-          message.textContent = "❌ Erreur lors de la mise à jour !";
-          message.className = "message error";
-        }
-      } catch (error) {
-        console.error(error);
-        message.textContent = "❌ Erreur de connexion au serveur.";
-        message.className = "message error";
-      }
+    } catch (error) {
+      console.error(error);
+      message.textContent = "❌ Erreur de connexion au serveur.";
+      message.className = "message error";
+      toggleFields(true);
     }
-  </script>
+  }
+
+  async function soumettre() {
+    const message = document.getElementById("message");
+    message.textContent = "";
+
+    if (!currentRow) {
+      message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
+      message.className = "message error";
+      return;
+    }
+
+    const email = document.getElementById("email").value.trim();
+    if (!email) {
+      message.textContent = "⚠️ L'email est obligatoire !";
+      message.className = "message error";
+      return;
+    }
+
+    const formData = new URLSearchParams();
+    formData.append("row", currentRow);
+    formData.append("Nom", document.getElementById("nom").value);
+    formData.append("Tel1", document.getElementById("tel1").value);
+    formData.append("Tel2", document.getElementById("tel2").value);
+    formData.append("Email", email);
+
+    try {
+      const response = await fetch(apiURL, { method: "POST", body: formData });
+      const result = await response.json();
+
+      if (result.status === "success") {
+        document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
+        message.textContent = "✅ Modification enregistrée !";
+        message.className = "message success";
+      } else {
+        message.textContent = "❌ Erreur lors de la mise à jour !";
+        message.className = "message error";
+      }
+    } catch (error) {
+      console.error(error);
+      message.textContent = "❌ Erreur de connexion au serveur.";
+      message.className = "message error";
+    }
+  }
+</script>
 </body>
 </html>
