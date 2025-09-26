@@ -47,7 +47,7 @@
         const data = await response.json();
 
         if (Object.keys(data).length === 0) {
-          message.textContent = "❌ Aucun étudiant trouvé !";
+          message.textContent = "❌ CIN non trouvée ou erronnée!";
           message.className = "message error";
         } else {
           currentRow = data.row;
@@ -56,7 +56,7 @@
           document.getElementById("tel2").value = data.Tel2 || "";
           document.getElementById("email").value = data.Email || "";
           document.getElementById("modifie").value = data.Modifie || "";
-          message.textContent = "✅ Étudiant trouvé.";
+          message.textContent = "✅ CIN trouvée.";
           message.className = "message success";
         }
       } catch (error) {
@@ -71,7 +71,7 @@
       message.textContent = "";
 
       if (!currentRow) {
-        message.textContent = "⚠️ Veuillez d'abord rechercher un étudiant !";
+        message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
         message.className = "message error";
         return;
       }
