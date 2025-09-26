@@ -115,6 +115,10 @@
         document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
         message.textContent = "✅ Modification enregistrée !";
         message.className = "message success";
+        // 🔄 Recharger la page après 2 secondes (laisser voir le message avant)
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       } else {
         message.textContent = "❌ Erreur lors de la mise à jour !";
         message.className = "message error";
