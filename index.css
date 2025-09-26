@@ -61,7 +61,7 @@ body {
       cursor: pointer;
       font-weight: bold;
       transition: background 0.3s;
-      margin-top: 5px;
+      /*margin-top: 5px;*/
     }
     button:hover {
       background: #0056b3;
