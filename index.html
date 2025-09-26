@@ -2,32 +2,26 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <link href="logocnfcpp.png" rel="icon" type="image/x-icon" />
+  <link href="logocnfcpp.png" rel="icon" type="image/x-icon"/>
   <title>MAJ Coordonnées</title>
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
   <div class="container">
     <h2>Mise à jour des coordonnées</h2>
-    
-    
     <div class="field row">
       <label id="cinlbl" for="cinInput">CIN :</label>
       <input type="text" id="cinInput">
       <button onclick="chercherEtudiant()">Chercher</button>
-  </div>
-
+    </div>
     <div class="field"><label>Nom :</label><input type="text" id="nom"></div>
     <div class="field"><label>Téléphone 1 :</label><input type="text" id="tel1"></div>
     <div class="field"><label>Téléphone 2 :</label><input type="text" id="tel2"></div>
     <div class="field"><label>Email <span style="color:red">*</span> :</label><input type="email" id="email" required></div>
     <div class="field"><label></label><input type="text" id="modifie" readonly></div>
-
     <button onclick="soumettre()">Soumettre</button>
-
     <div id="message" class="message"></div>
   </div>
-
   <script>
   const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec"; 
   let currentRow = null; 
