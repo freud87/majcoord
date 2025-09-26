@@ -2,12 +2,12 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Gestion Étudiants</title>
+  <title>MAJ Coordonnées</title>
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
   <div class="container">
-    <h2>Recherche & Modification Étudiant</h2>
+    <h2>Mise à jour des coordonnées</h2>
     
     
     <div class="field row">
@@ -47,7 +47,7 @@
         const data = await response.json();
 
         if (Object.keys(data).length === 0) {
-          message.textContent = "❌ CIN non trouvée ou erronnée!";
+          message.textContent = "❌ CIN non trouvée ou erronée!";
           message.className = "message error";
         } else {
           currentRow = data.row;
