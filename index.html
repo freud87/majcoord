@@ -24,8 +24,15 @@
       margin-bottom: 20px;
       color: #333;
     }
-    .field {
-      margin-bottom: 15px;
+    .field.row {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* espace entre les éléments */
+    }
+    
+    .field.row label {
+      white-space: nowrap; /* garde "CIN :" sur une seule ligne */
+      margin-right: 5px;
     }
     label {
       display: block;
@@ -75,11 +82,12 @@
   <div class="container">
     <h2>Recherche & Modification Étudiant</h2>
     
-    <div class="field">
-      <label>CIN :</label>
+    
+    <div class="field row">
+      <label for="cinInput">CIN :</label>
       <input type="text" id="cinInput">
       <button onclick="chercherEtudiant()">Chercher</button>
-    </div>
+  </div>
 
     <div class="field"><label>Nom :</label><input type="text" id="nom"></div>
     <div class="field"><label>Téléphone 1 :</label><input type="text" id="tel1"></div>
