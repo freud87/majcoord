@@ -33,6 +33,15 @@ h2 {
   white-space: nowrap;
   margin-right: 5px;
 }
+.field.row input {
+  flex: 1; /* prend l’espace restant */
+}
+
+.field.row button {
+  flex: 0 0 auto; /* garde sa taille naturelle */
+  width: auto;    /* ne s’étire pas inutilement */
+  padding: 12px 20px; /* bouton plus équilibré */
+}
 
 label {
   display: block;
@@ -44,9 +53,13 @@ label {
 #cinlbl {
   margin-top: 0;
 }
-
-input {
+input,
+button {
+  display: block;
   width: 100%;
+  box-sizing: border-box;
+}
+input {
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -71,7 +84,6 @@ input:disabled {
 
 button {
   padding: 12px;
-  width: 100%;
   background: #007BFF;
   color: #fff;
   border: none;
