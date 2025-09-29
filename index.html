@@ -20,6 +20,9 @@
     <div class="field"><label>Email <span style="color:red">*</span> :</label><input type="email" id="email" required></div>
     <div class="field"><label></label><input type="text" id="modifie" readonly></div>
     <button onclick="soumettre()">Soumettre</button>
+    <div id="loader" style="display:none; text-align:center; margin-top:10px;">
+      <img src="loader.gif" alt="Chargement..." width="40">
+    </div>
     <div id="message" class="message"></div>
   </div>
   <script>
@@ -41,42 +44,49 @@
   }
 
   async function chercherEtudiant() {
-    const cin = document.getElementById("cinInput").value.trim();
-    const message = document.getElementById("message");
-    message.textContent = "";
+  const cin = document.getElementById("cinInput").value.trim();
+  const message = document.getElementById("message");
+  const loader = document.getElementById("loader");
+  
+  message.textContent = "";
+  loader.style.display = "block"; // 🔹 afficher le GIF
 
-    if (!cin) {
-      message.textContent = "⚠️ Veuillez entrer un CIN !";
-      message.className = "message error";
-      return;
-    }
+  if (!cin) {
+    loader.style.display = "none"; // masquer si erreur avant requête
+    message.textContent = "⚠️ Veuillez entrer un CIN !";
+    message.className = "message error";
+    return;
+  }
 
-    try {
-      const response = await fetch(`${apiURL}?cin=${cin}`);
-      const data = await response.json();
+  try {
+    const response = await fetch(`${apiURL}?cin=${cin}`);
+    const data = await response.json();
 
-      if (Object.keys(data).length === 0) {
-        message.textContent = "❌ CIN non trouvée ou erronée!";
-        message.className = "message error";
-        toggleFields(true);
-      } else {
-        currentRow = data.row;
-        document.getElementById("nom").value = data.Nom || "";
-        document.getElementById("tel1").value = data.Tel1 || "";
-        document.getElementById("tel2").value = data.Tel2 || "";
-        document.getElementById("email").value = data.Email || "";
-        document.getElementById("modifie").value = data.Modifie || "";
-        message.textContent = "✅ CIN trouvée.";
-        message.className = "message success";
-        toggleFields(false); // 🔹 Réactiver les champs et Soumettre
-      }
-    } catch (error) {
-      console.error(error);
-      message.textContent = "❌ Erreur de connexion au serveur.";
+    if (Object.keys(data).length === 0) {
+      message.textContent = "❌ CIN non trouvée ou erronée!";
       message.className = "message error";
       toggleFields(true);
+    } else {
+      currentRow = data.row;
+      document.getElementById("nom").value = data.Nom || "";
+      document.getElementById("tel1").value = data.Tel1 || "";
+      document.getElementById("tel2").value = data.Tel2 || "";
+      document.getElementById("email").value = data.Email || "";
+      document.getElementById("modifie").value = data.Modifie || "";
+      message.textContent = "✅ CIN trouvée.";
+      message.className = "message success";
+      toggleFields(false);
     }
+  } catch (error) {
+    console.error(error);
+    message.textContent = "❌ Erreur de connexion au serveur.";
+    message.className = "message error";
+    toggleFields(true);
+  } finally {
+    loader.style.display = "none"; // 🔹 toujours masquer après traitement
   }
+}
+
 
   async function soumettre() {
     const message = document.getElementById("message");
