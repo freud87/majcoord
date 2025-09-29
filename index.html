@@ -13,6 +13,9 @@
     <div id="loader" style="display:none; text-align:center; margin-top:10px;">
       <img src="loader.gif" alt="Chargement..." width="200">
     </div>
+    <div id="cinfail" style="display:none; text-align:center; margin-top:10px;">
+      <img src="cinfail.png" alt="Chargement..." width="200">
+    </div>
     <div class="field row">
       <label id="cinlbl" for="cinInput">CIN :</label>
       <input type="text" id="cinInput">
@@ -24,9 +27,6 @@
     <div class="field"><label>Email <span style="color:red">*</span> :</label><input type="email" id="email" required></div>
     <div class="field"><label></label><input type="text" id="modifie" readonly></div>
     <button onclick="soumettre()">Soumettre</button>
-    <div id="loader" style="display:none; text-align:center; margin-top:10px;">
-      <img src="loader.gif" alt="Chargement..." width="40">
-    </div>
     <div id="message" class="message"></div>
   </div>
   <script>
@@ -70,6 +70,7 @@ async function chercherEtudiant() {
     if (Object.keys(data).length === 0) {
       message.textContent = "❌ CIN non trouvée ou erronée!";
       message.className = "message error";
+      document.getElementById("cinfail").style.display = "block";
       toggleFields(true);
     } else {
       currentRow = data.row;
