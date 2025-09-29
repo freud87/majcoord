@@ -70,7 +70,7 @@ async function chercherEtudiant() {
     if (Object.keys(data).length === 0) {
       message.textContent = "";
       message.className = "";
-      document.getElementById("cinfail").style.display = "block";
+      document.getElementById("cinfail").style.display = "flex";
       toggleFields(true);
     } else {
       currentRow = data.row;
