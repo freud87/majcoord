@@ -7,20 +7,20 @@ body {
   padding: 40px;
   font-size: 16px;
 }
+
 #loader,
 #cinfail {
-  display: none;                /* Caché par défaut */
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(5px);   /* 🔹 floute le fond */
+  backdrop-filter: blur(5px);
   z-index: 9999;
 
-  /* Centre le loader au milieu de l’écran */
-  display: flex;
+  display: none;               /* Caché par défaut */
   align-items: center;
   justify-content: center;
 }
+
 .container {
   background: url('background1.jpg') center/cover no-repeat;
   padding: 25px 30px;
