@@ -47,16 +47,17 @@
     document.querySelector("button[onclick='soumettre()']").disabled = disabled;
   }
 
-  async function chercherEtudiant() {
+  const loader = document.getElementById("loader");
+
+async function chercherEtudiant() {
   const cin = document.getElementById("cinInput").value.trim();
   const message = document.getElementById("message");
-  const loader = document.getElementById("loader");
-  
+
   message.textContent = "";
-  loader.style.display = "block"; // 🔹 afficher le GIF
+  loader.style.display = "flex"; // 🔹 Affiche le GIF + flou
 
   if (!cin) {
-    loader.style.display = "none"; // masquer si erreur avant requête
+    loader.style.display = "none"; 
     message.textContent = "⚠️ Veuillez entrer un CIN !";
     message.className = "message error";
     return;
@@ -87,9 +88,10 @@
     message.className = "message error";
     toggleFields(true);
   } finally {
-    loader.style.display = "none"; // 🔹 toujours masquer après traitement
+    loader.style.display = "none"; // 🔹 Cache le loader une fois fini
   }
 }
+
 
 
   async function soumettre() {
