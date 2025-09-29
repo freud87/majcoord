@@ -68,8 +68,8 @@ async function chercherEtudiant() {
     const data = await response.json();
 
     if (Object.keys(data).length === 0) {
-      message.textContent = "❌ CIN non trouvée ou erronée!";
-      message.className = "message error";
+      message.textContent = "";
+      message.className = "";
       document.getElementById("cinfail").style.display = "block";
       toggleFields(true);
     } else {
