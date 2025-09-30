@@ -51,6 +51,7 @@
     document.getElementById("email").disabled = disabled;
     document.getElementById("modifie").disabled = true; // reste toujours readonly
     document.querySelector("button[onclick='soumettre()']").disabled = disabled;
+    document.querySelector("button[onclick='getrecu()']").disabled = disabled;
   }
 
   const loader = document.getElementById("loader");
