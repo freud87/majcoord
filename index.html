@@ -14,7 +14,7 @@
       <img src="loader.gif" alt="Chargement..." width="200">
     </div>
     <div id="cinfail">
-      <img src="cinfail.png" alt="Chargement..." width="300">
+      <img src="cinfail.png" alt="CIN introuvable ou erroné !" width="300">
     </div>
     <div class="field row">
       <label id="cinlbl" for="cinInput">CIN :</label>
@@ -36,8 +36,11 @@
   // 🔹 Désactiver tous les champs sauf CIN et Chercher
   window.onload = () => {
     toggleFields(true);
+ // 🔹 Clique sur l'image "cinfail" recharge la page
+    document.getElementById("cinfail").onclick = () => {
+      location.reload();
+    };
   };
-
   function toggleFields(disabled) {
     document.getElementById("nom").disabled = disabled;
     document.getElementById("tel1").disabled = disabled;
