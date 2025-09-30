@@ -15,8 +15,9 @@
     </div>
     <div id="cinfail">
       <img src="cinfail.png" alt="CIN introuvable ou erroné !" width="400">
-      <div class="field"><label>Nom :</label><input type="text" id="nomsignal"></div>
+      <div><label>Nom :</label><input type="text" id="nomsignal"></div>
       <button onclick="signaler()">Signaler erreur</button>
+      <button id="cinfailcncl">Annuler</button>
     </div>
     <div class="field row">
       <label id="cinlbl" for="cinInput">CIN :</label>
@@ -42,7 +43,7 @@
   // 🔹 Met le focus directement sur le champ CIN au chargement
   document.getElementById("cinInput").focus();
  // 🔹 Clique sur l'image "cinfail" recharge la page
-    document.getElementById("cinfail").onclick = () => {
+    document.getElementById("cinfailcncl").onclick = () => {
       location.reload();
     };
   };
