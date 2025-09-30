@@ -181,6 +181,40 @@ async function chercherEtudiant() {
       message.className = "message error";
     }
   }
+    async function signaler() {
+  const message = document.getElementById("message");
+  message.textContent = "";
+
+  const nomsignal = document.getElementById("nomsignal").value.trim();
+  if (!nomsignal) {
+    message.textContent = "⚠️ Veuillez remplir le champ Nom pour signaler.";
+    message.className = "message error";
+    return;
+  }
+
+  const formData = new URLSearchParams();
+  formData.append("action", "signalement");
+  formData.append("NomSignal", nomsignal);
+
+  try {
+    const response = await fetch(apiURL, { method: "POST", body: formData });
+    const result = await response.json();
+
+    if (result.status === "success") {
+      message.textContent = "✅ Signalement enregistré, merci !";
+      message.className = "message success";
+      document.getElementById("nomsignal").value = ""; // vide le champ
+    } else {
+      message.textContent = "❌ Erreur lors de l'envoi du signalement.";
+      message.className = "message error";
+    }
+  } catch (error) {
+    console.error(error);
+    message.textContent = "❌ Erreur de connexion au serveur.";
+    message.className = "message error";
+  }
+}
+
 </script>
 </body>
 </html>
