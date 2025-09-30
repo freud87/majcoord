@@ -36,10 +36,11 @@
   // 🔹 Désactiver tous les champs sauf CIN et Chercher
   window.onload = () => {
     toggleFields(true);
+  // 🔹 Met le focus directement sur le champ CIN au chargement
+  document.getElementById("cinInput").focus();
  // 🔹 Clique sur l'image "cinfail" recharge la page
     document.getElementById("cinfail").onclick = () => {
       location.reload();
-      document.getElementById("cinInput").focus();
     };
   };
   function toggleFields(disabled) {
