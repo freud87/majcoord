@@ -127,6 +127,10 @@ button:disabled {
 #btnrecu{
   margin-top: 10px;
 }
+#cinfail button {
+  margin: 10px;
+  width: 50px;
+}
 .message {
   margin-top: 15px;
   text-align: center;
