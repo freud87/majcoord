@@ -27,6 +27,7 @@
     <div class="field"><label>Email <span style="color:red">*</span> :</label><input type="email" id="email" required></div>
     <div class="field"><label></label><input type="text" id="modifie" readonly></div>
     <button onclick="soumettre()">Soumettre</button>
+    <button onclick="getrecu()">Reçu d'inscription</button>
     <div id="message" class="message"></div>
   </div>
   <script>
@@ -54,12 +55,14 @@
 
   const loader = document.getElementById("loader");
 
+let recuURL = null;
+
 async function chercherEtudiant() {
   const cin = document.getElementById("cinInput").value.trim();
   const message = document.getElementById("message");
 
   message.textContent = "";
-  loader.style.display = "flex"; // 🔹 Affiche le GIF + flou
+  loader.style.display = "flex";
 
   if (!cin) {
     loader.style.display = "none"; 
@@ -74,9 +77,9 @@ async function chercherEtudiant() {
 
     if (Object.keys(data).length === 0) {
       message.textContent = "";
-      message.className = "";
       document.getElementById("cinfail").style.display = "flex";
       toggleFields(true);
+      recuURL = null;
     } else {
       currentRow = data.row;
       document.getElementById("nom").value = data.Nom || "";
@@ -84,6 +87,9 @@ async function chercherEtudiant() {
       document.getElementById("tel2").value = data.Tel2 || "";
       document.getElementById("email").value = data.Email || "";
       document.getElementById("modifie").value = data.Modifie || "";
+
+      recuURL = data.Recu || null;  // 🔹 Stocke l’URL du reçu
+
       message.textContent = "✅ CIN trouvée.";
       message.className = "message success";
       toggleFields(false);
@@ -94,9 +100,30 @@ async function chercherEtudiant() {
     message.className = "message error";
     toggleFields(true);
   } finally {
-    loader.style.display = "none"; // 🔹 Cache le loader une fois fini
+    loader.style.display = "none";
   }
 }
+
+    function getrecu() {
+  const message = document.getElementById("message");
+  message.textContent = "";
+
+  if (!recuURL) {
+    message.textContent = "⚠️ Aucun reçu disponible pour ce CIN.";
+    message.className = "message error";
+    return;
+  }
+
+  // Téléchargement direct
+  const link = document.createElement("a");
+  link.href = recuURL;
+  link.target = "_blank";  // ouvre dans un nouvel onglet si ce n'est pas un vrai PDF
+  link.download = "Recu_Inscription.pdf";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 
 
 
