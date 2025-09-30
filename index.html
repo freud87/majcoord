@@ -80,7 +80,11 @@ async function chercherEtudiant() {
 
     if (Object.keys(data).length === 0) {
       message.textContent = "";
-      document.getElementById("cinfail").style.display = "flex";
+      
+      let cinfail = document.getElementById("cinfail");
+      cinfail.style.display = "flex";
+      cinfail.style.flexDirection = "column";
+
       toggleFields(true);
       recuURL = null;
     } else {
