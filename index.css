@@ -124,7 +124,9 @@ button:disabled {
   background: #b0c7e4;
   cursor: not-allowed;
 }
-
+#btnrecu{
+  margin-top: 10px;
+}
 .message {
   margin-top: 15px;
   text-align: center;
