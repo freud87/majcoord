@@ -35,10 +35,18 @@
   </div>
   <script>
     
-    window.addEventListener("load", function() {
-    const input = document.getElementById("cinInput");
-    input.focus();
-  });
+     window.addEventListener("load", function() {
+      const input = document.getElementById("cinInput");
+
+      // Met le focus dès le chargement
+      input.focus();
+
+      // Petit hack : déclencher aussi un "click" pour Android
+      setTimeout(() => {
+        input.click();
+        input.focus();
+      }, 300);
+    });
     
   const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec"; 
   let currentRow = null; 
