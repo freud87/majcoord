@@ -7,12 +7,15 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  
   <div class="container">
     <h2>Mise à jour des coordonnées</h2>
+
+    <!-- Loader -->
     <div id="loader">
       <img src="loader.gif" alt="Chargement..." width="200">
     </div>
+
+    <!-- CIN introuvable -->
     <div id="cinfail">
       <img src="cinfail.png" alt="CIN introuvable ou erroné !" width="400">
       <div><label>Nom :</label><input type="text" id="nomsignal"></div>
@@ -20,218 +23,217 @@
       <button id="cinfailcncl">Retour</button>
       <div id="message-signalement" class="message"></div>
     </div>
+
+    <!-- Recherche CIN -->
     <div class="field row">
       <label id="cinlbl" for="cinInput">CIN :</label>
       <input type="text" id="cinInput" inputmode="numeric" pattern="[0-9]*" placeholder="Entrer CIN">
       <button onclick="chercherEtudiant()">Chercher</button>
     </div>
+
+    <!-- Coordonnées -->
     <div class="field"><label>Nom :</label><input type="text" id="nom"></div>
     <div class="field"><label>Téléphone 1 :</label><input type="text" id="tel1"></div>
     <div class="field"><label>Téléphone 2 :</label><input type="text" id="tel2"></div>
     <div class="field"><label>Email <span style="color:red">*</span> :</label><input type="email" id="email" required></div>
     <div class="field"><label></label><input type="text" id="modifie" readonly></div>
+
+    <!-- Boutons -->
     <button onclick="soumettre()">Soumettre</button>
     <button id="btnrecu" onclick="getrecu()">Reçu d'inscription</button>
+
     <div id="message" class="message"></div>
   </div>
+
   <script>
-    
-     window.addEventListener("load", function() {
+    const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
+    let currentRow = null;
+    let recuURL = null;
+
+    const loader = document.getElementById("loader");
+
+    // Met le focus sur le champ CIN au chargement
+    window.addEventListener("load", function () {
       const input = document.getElementById("cinInput");
-
-      // Met le focus dès le chargement
       input.focus();
-
-      // Petit hack : déclencher aussi un "click" pour Android
-      setTimeout(() => {
-        input.click();
-        input.focus();
-      }, 300);
-    });
-    
-  const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec"; 
-  let currentRow = null; 
-
-  // 🔹 Désactiver tous les champs sauf CIN et Chercher
-  window.onload = () => {
-    toggleFields(true);
-  // 🔹 Met le focus directement sur le champ CIN au chargement
-  document.getElementById("cinInput").focus();
- // 🔹 Clique sur l'image "cinfail" recharge la page
-    document.getElementById("cinfailcncl").onclick = () => {
-      location.reload();
-    };
-  };
-  function toggleFields(disabled) {
-    document.getElementById("nom").disabled = disabled;
-    document.getElementById("tel1").disabled = disabled;
-    document.getElementById("tel2").disabled = disabled;
-    document.getElementById("email").disabled = disabled;
-    document.getElementById("modifie").disabled = true; // reste toujours readonly
-    document.querySelector("button[onclick='soumettre()']").disabled = disabled;
-    document.querySelector("button[onclick='getrecu()']").disabled = disabled;
-  }
-
-  const loader = document.getElementById("loader");
-
-let recuURL = null;
-
-async function chercherEtudiant() {
-  const cin = document.getElementById("cinInput").value.trim();
-  const message = document.getElementById("message");
-
-  message.textContent = "";
-  loader.style.display = "flex";
-
-  if (!cin) {
-    loader.style.display = "none"; 
-    message.textContent = "⚠️ Veuillez entrer un CIN !";
-    message.className = "message error";
-    return;
-  }
-
-  try {
-    const response = await fetch(`${apiURL}?cin=${cin}`);
-    const data = await response.json();
-
-    if (Object.keys(data).length === 0) {
-      message.textContent = "";
-      
-      let cinfail = document.getElementById("cinfail");
-      cinfail.style.display = "flex";
-      cinfail.style.flexDirection = "column";
+      setTimeout(() => { input.click(); input.focus(); }, 300);
 
       toggleFields(true);
-      recuURL = null;
-    } else {
-      currentRow = data.row;
-      document.getElementById("nom").value = data.Nom || "";
-      document.getElementById("tel1").value = data.Tel1 || "";
-      document.getElementById("tel2").value = data.Tel2 || "";
-      document.getElementById("email").value = data.Email || "";
-      document.getElementById("modifie").value = data.Modifie || "";
 
-      recuURL = data.Recu || null;  // 🔹 Stocke l’URL du reçu
+      // Retour (CIN fail)
+      document.getElementById("cinfailcncl").onclick = () => location.reload();
+    });
 
-      message.textContent = "✅ CIN trouvée.";
-      message.className = "message success";
-      toggleFields(false);
+    // Active/désactive les champs et boutons
+    function toggleFields(disabled, hasEmail = false) {
+      document.getElementById("nom").disabled = disabled;
+      document.getElementById("tel1").disabled = disabled;
+      document.getElementById("tel2").disabled = disabled;
+      document.getElementById("email").disabled = disabled;
+      document.getElementById("modifie").disabled = true;
+
+      document.querySelector("button[onclick='soumettre()']").disabled = disabled;
+      document.getElementById("btnrecu").disabled = disabled || !hasEmail;
     }
-  } catch (error) {
-    console.error(error);
-    message.textContent = "❌ Erreur de connexion au serveur.";
-    message.className = "message error";
-    toggleFields(true);
-  } finally {
-    loader.style.display = "none";
-  }
-}
 
+    // Chercher étudiant
+    async function chercherEtudiant() {
+      const cin = document.getElementById("cinInput").value.trim();
+      const message = document.getElementById("message");
+
+      message.textContent = "";
+      loader.style.display = "flex";
+
+      if (!cin) {
+        loader.style.display = "none";
+        message.textContent = "⚠️ Veuillez entrer un CIN !";
+        message.className = "message error";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiURL}?cin=${cin}`);
+        const data = await response.json();
+
+        if (Object.keys(data).length === 0) {
+          // Pas trouvé
+          document.getElementById("cinfail").style.display = "flex";
+          toggleFields(true);
+          recuURL = null;
+        } else {
+          // Étudiant trouvé
+          currentRow = data.row;
+          document.getElementById("nom").value = data.Nom || "";
+          document.getElementById("tel1").value = data.Tel1 || "";
+          document.getElementById("tel2").value = data.Tel2 || "";
+          document.getElementById("email").value = data.Email || "";
+          document.getElementById("modifie").value = data.Modifie || "";
+
+          recuURL = data.Recu || null;
+
+          message.textContent = "✅ CIN trouvée.";
+          message.className = "message success";
+
+          // Active les champs et boutons (Reçu seulement si email existe)
+          const hasEmail = !!data.Email;
+          toggleFields(false, hasEmail);
+
+          // Si l’utilisateur saisit un email manuellement → activer reçu
+          document.getElementById("email").addEventListener("input", () => {
+            const emailVal = document.getElementById("email").value.trim();
+            document.getElementById("btnrecu").disabled = !emailVal;
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        message.textContent = "❌ Erreur de connexion au serveur.";
+        message.className = "message error";
+        toggleFields(true);
+      } finally {
+        loader.style.display = "none";
+      }
+    }
+
+    // Télécharger reçu
     function getrecu() {
-  const message = document.getElementById("message");
-  message.textContent = "";
+      const message = document.getElementById("message");
+      message.textContent = "";
 
-  if (!recuURL) {
-    message.textContent = "⚠️ Aucun reçu disponible pour ce CIN.";
-    message.className = "message error";
-    return;
-  }
+      if (!recuURL) {
+        message.textContent = "⚠️ Aucun reçu disponible pour ce CIN.";
+        message.className = "message error";
+        return;
+      }
 
-  // Téléchargement direct
-  const link = document.createElement("a");
-  link.href = recuURL;
-  link.target = "_blank";  // ouvre dans un nouvel onglet si ce n'est pas un vrai PDF
-  link.download = "Recu_Inscription.pdf";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-
-
-
-  async function soumettre() {
-    const message = document.getElementById("message");
-    message.textContent = "";
-
-    if (!currentRow) {
-      message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
-      message.className = "message error";
-      return;
+      const link = document.createElement("a");
+      link.href = recuURL;
+      link.target = "_blank";
+      link.download = "Recu_Inscription.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
-    const email = document.getElementById("email").value.trim();
-    if (!email) {
-      message.textContent = "⚠️ L'email est obligatoire !";
-      message.className = "message error";
-      return;
-    }
+    // Soumettre MAJ
+    async function soumettre() {
+      const message = document.getElementById("message");
+      message.textContent = "";
 
-    const formData = new URLSearchParams();
-    formData.append("row", currentRow);
-    formData.append("Nom", document.getElementById("nom").value);
-    formData.append("Tel1", document.getElementById("tel1").value);
-    formData.append("Tel2", document.getElementById("tel2").value);
-    formData.append("Email", email);
+      if (!currentRow) {
+        message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
+        message.className = "message error";
+        return;
+      }
 
-    try {
-      const response = await fetch(apiURL, { method: "POST", body: formData });
-      const result = await response.json();
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        message.textContent = "⚠️ L'email est obligatoire !";
+        message.className = "message error";
+        return;
+      }
 
-      if (result.status === "success") {
-        document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-        message.textContent = "✅ Modification enregistrée !";
-        message.className = "message success";
-        // 🔄 Recharger la page après 2 secondes (laisser voir le message avant)
-        setTimeout(() => {
-          location.reload();
-        }, 2000);
-      } else {
-        message.textContent = "❌ Erreur lors de la mise à jour !";
+      const formData = new URLSearchParams();
+      formData.append("row", currentRow);
+      formData.append("Nom", document.getElementById("nom").value);
+      formData.append("Tel1", document.getElementById("tel1").value);
+      formData.append("Tel2", document.getElementById("tel2").value);
+      formData.append("Email", email);
+
+      try {
+        const response = await fetch(apiURL, { method: "POST", body: formData });
+        const result = await response.json();
+
+        if (result.status === "success") {
+          document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
+          message.textContent = "✅ Modification enregistrée !";
+          message.className = "message success";
+          setTimeout(() => location.reload(), 2000);
+        } else {
+          message.textContent = "❌ Erreur lors de la mise à jour !";
+          message.className = "message error";
+        }
+      } catch (error) {
+        console.error(error);
+        message.textContent = "❌ Erreur de connexion au serveur.";
         message.className = "message error";
       }
-    } catch (error) {
-      console.error(error);
-      message.textContent = "❌ Erreur de connexion au serveur.";
-      message.className = "message error";
     }
-  }
+
+    // Signaler erreur
     async function signaler() {
-  const message = document.getElementById("message-signalement"); // 🔹 changement ici
-  message.textContent = "";
-  message.className = "message";
+      const message = document.getElementById("message-signalement");
+      message.textContent = "";
+      message.className = "message";
 
-  const nomsignal = document.getElementById("nomsignal").value.trim();
-  if (!nomsignal) {
-    message.textContent = "⚠️ Veuillez remplir le champ Nom pour signaler.";
-    message.classList.add("error");
-    return;
-  }
+      const nomsignal = document.getElementById("nomsignal").value.trim();
+      if (!nomsignal) {
+        message.textContent = "⚠️ Veuillez remplir le champ Nom pour signaler.";
+        message.classList.add("error");
+        return;
+      }
 
-  const formData = new URLSearchParams();
-  formData.append("action", "signalement");
-  formData.append("NomSignal", nomsignal);
+      const formData = new URLSearchParams();
+      formData.append("action", "signalement");
+      formData.append("NomSignal", nomsignal);
 
-  try {
-    const response = await fetch(apiURL, { method: "POST", body: formData });
-    const result = await response.json();
+      try {
+        const response = await fetch(apiURL, { method: "POST", body: formData });
+        const result = await response.json();
 
-    if (result.status === "success") {
-      message.textContent = "✅ Signalement enregistré, merci !";
-      message.classList.add("success");
-      document.getElementById("nomsignal").value = "";
-    } else {
-      message.textContent = "❌ Erreur lors de l'envoi du signalement.";
-      message.classList.add("error");
+        if (result.status === "success") {
+          message.textContent = "✅ Signalement enregistré, merci !";
+          message.classList.add("success");
+          document.getElementById("nomsignal").value = "";
+        } else {
+          message.textContent = "❌ Erreur lors de l'envoi du signalement.";
+          message.classList.add("error");
+        }
+      } catch (error) {
+        console.error(error);
+        message.textContent = "❌ Erreur de connexion au serveur.";
+        message.classList.add("error");
+      }
     }
-  } catch (error) {
-    console.error(error);
-    message.textContent = "❌ Erreur de connexion au serveur.";
-    message.classList.add("error");
-  }
-}
-
-
-</script>
+  </script>
 </body>
 </html>
