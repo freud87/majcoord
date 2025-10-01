@@ -18,6 +18,7 @@
       <div><label>Nom :</label><input type="text" id="nomsignal"></div>
       <button onclick="signaler()">Signaler erreur</button>
       <button id="cinfailcncl">Annuler</button>
+      <div id="message-signalement" class="message"></div>
     </div>
     <div class="field row">
       <label id="cinlbl" for="cinInput">CIN :</label>
@@ -196,13 +197,14 @@ async function chercherEtudiant() {
     }
   }
     async function signaler() {
-  const message = document.getElementById("message");
+  const message = document.getElementById("message-signalement"); // 🔹 changement ici
   message.textContent = "";
+  message.className = "message";
 
   const nomsignal = document.getElementById("nomsignal").value.trim();
   if (!nomsignal) {
     message.textContent = "⚠️ Veuillez remplir le champ Nom pour signaler.";
-    message.className = "message error";
+    message.classList.add("error");
     return;
   }
 
@@ -216,18 +218,19 @@ async function chercherEtudiant() {
 
     if (result.status === "success") {
       message.textContent = "✅ Signalement enregistré, merci !";
-      message.className = "message success";
-      document.getElementById("nomsignal").value = ""; // vide le champ
+      message.classList.add("success");
+      document.getElementById("nomsignal").value = "";
     } else {
       message.textContent = "❌ Erreur lors de l'envoi du signalement.";
-      message.className = "message error";
+      message.classList.add("error");
     }
   } catch (error) {
     console.error(error);
     message.textContent = "❌ Erreur de connexion au serveur.";
-    message.className = "message error";
+    message.classList.add("error");
   }
 }
+
 
 </script>
 </body>
