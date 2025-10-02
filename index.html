@@ -62,7 +62,12 @@
       toggleFields(true);
 
       // Retour (CIN fail)
-      document.getElementById("cinfailcncl").onclick = () => location.reload();
+      document.getElementById("cinfailcncl").onclick = () => {
+  document.getElementById("cinfail").style.display = "none";
+  document.getElementById("login").style.display = "block";
+  document.getElementById("cinInput").value = "";
+  document.getElementById("cinInput").focus();
+};
     });
 
     // Active/désactive les champs et boutons
