@@ -50,12 +50,13 @@ h2 {
   flex: 1; /* prend l’espace restant 
 }
 
-.field.row button {
+
+*/
+button {
   flex: 0 0 auto; 
   width: auto;    /* ne s’étire pas inutilement */
   padding: 12px 20px; /* bouton plus équilibré 
 }
-*/
 label {
   display: block;
   font-weight: bold;
