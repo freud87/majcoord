@@ -46,26 +46,27 @@ h2 {
   color: #333;
 }
 
-.field.row {
+#login {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-direction: column;
 }
-
+/*
 .field.row label {
   white-space: nowrap;
   margin-right: 5px;
 }
 .field.row input {
-  flex: 1; /* prend l’espace restant */
+  flex: 1; /* prend l’espace restant 
 }
 
 .field.row button {
-  flex: 0 0 auto; /* garde sa taille naturelle */
+  flex: 0 0 auto; 
   width: auto;    /* ne s’étire pas inutilement */
-  padding: 12px 20px; /* bouton plus équilibré */
+  padding: 12px 20px; /* bouton plus équilibré 
 }
-
+*/
 label {
   display: block;
   font-weight: bold;
