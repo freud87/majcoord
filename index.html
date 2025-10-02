@@ -11,7 +11,7 @@
     <!-- page de login -->
      <div id="login">
         <div class="cadre">
-          <img src="logocnfcpp.png" alt="logocnfcpp" width="200">
+          <img id="logo" src="logocnfcpp.png" alt="logocnfcpp" width="200">
           <img id="loader" src="loader.gif" alt="Chargement..." width="200">
           <input type="text" id="cinInput" inputmode="numeric" pattern="[0-9]*" placeholder="Entrer CIN">
           <button onclick="chercherEtudiant()">Chercher</button>
@@ -55,6 +55,7 @@
     let recuURL = null;
 
     const loader = document.getElementById("loader");
+    const logo = document.getElementById("logo");
 
     // Met le focus sur le champ CIN au chargement
     window.addEventListener("load", function () {
@@ -87,6 +88,7 @@
 
       message.textContent = "";
       loader.style.display = "flex";
+      logo.style.display = "none";
       
 // 🔹 Masquer la page de login
 //  document.getElementById("login").style.display = "none";
