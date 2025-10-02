@@ -8,7 +8,6 @@ body {
   font-size: 16px;
 }
 /*loader et cinfail caché par défaut*/
-#login,
 #loader,
 #cinfail {
   position: fixed;
@@ -20,11 +19,62 @@ body {
   justify-content: center;
   flex-direction: column;
 }
+/* Zone login */
 #login {
   display: flex;
-  justify-content: center;
-
+  flex-direction: column;  /* éléments empilés */
+  gap: 15px;               /* espace vertical entre label, input, bouton */
+  text-align: center;
+  padding: 30px;
+  border-radius: 10px;
 }
+
+/* Label CIN */
+#login label {
+  font-size: 18px;
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Input CIN */
+#login input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#login input:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+  outline: none;
+}
+
+/* Bouton Chercher */
+#login button {
+  padding: 12px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#login button:hover {
+  background: #218838;
+  transform: scale(1.03);
+}
+
+#login button:active {
+  background: #1e7e34;
+  transform: scale(0.98);
+}
+
 #loader,
 #cinfail {
   display: none;
