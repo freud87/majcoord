@@ -1,4 +1,4 @@
-/* 🌐 Styles généraux */
+/* Styles généraux */
 body {
   font-family: Arial, sans-serif;
   background: #f4f6f9;
@@ -6,25 +6,20 @@ body {
   justify-content: center;
   padding: 40px;
   font-size: 16px;
-  margin: 0;
 }
-
-/* 🔄 Loader et cinfail cachés par défaut */
+/*loader et cinfail caché par défaut*/
 #loader,
 #cinfail {
-  display: none; /* cachés */
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(5px);
   z-index: 9999;
-  
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-
-/* 🔑 Zone login */
+/* Zone login */
 #login {
   display: flex;
   position: fixed;
@@ -32,27 +27,16 @@ body {
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(5px);
   z-index: 9999;
-  flex-direction: column;
+  flex-direction: column;  /* éléments empilés */
+  gap: 15px;               /* espace vertical entre label, input, bouton */
+  text-align: center;
   align-items: center;
   justify-content: center;
   padding: 30px;
+  border-radius: 10px;
 }
 
-/* 📦 Cadre du formulaire */
-.cadre {
-  background: #fff;
-  padding: 30px 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-}
-
-/* 🏷️ Label CIN */
+/* Label CIN */
 #login label {
   font-size: 18px;
   color: #222;
@@ -60,58 +44,32 @@ body {
   margin-bottom: 5px;
 }
 
-#cinlbl {
-  margin-top: 0;
-}
-
-/* 📝 Input */
-#login input,
-input {
+/* Input CIN */
+#login input {
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
   transition: border-color 0.3s, box-shadow 0.3s;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
 }
 
-#login input:focus,
-input:focus {
+#login input:focus {
   border-color: #007BFF;
   box-shadow: 0 0 5px rgba(0,123,255,0.3);
   outline: none;
 }
 
-input:disabled {
-  background: #e9ecef;
-  cursor: not-allowed;
-}
-
-/* 🔘 Boutons */
-button,
+/* Bouton Chercher */
 #login button {
-  flex: 0 0 auto;
-  padding: 12px 20px;
-  background: #007BFF;
-  color: #fff;
+  padding: 12px;
+  background: #28a745;
+  color: white;
   border: none;
   border-radius: 6px;
-  font-weight: bold;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-#login button {
-  background: #28a745; /* bouton chercher vert */
-}
-
-button:hover {
-  background: #0056b3;
 }
 
 #login button:hover {
@@ -124,21 +82,109 @@ button:hover {
   transform: scale(0.98);
 }
 
+#loader,
+#cinfail {
+  display: none;
+}
+
+.container {
+  background: url('background1.jpg') center/cover no-repeat;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+
+/*
+.field.row label {
+  white-space: nowrap;
+  margin-right: 5px;
+}
+.field.row input {
+  flex: 1; /* prend l’espace restant 
+}
+
+
+*/
+button {
+  flex: 0 0 auto; 
+  width: auto;    /* ne s’étire pas inutilement */
+  padding: 12px 20px; /* bouton plus équilibré */
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 12px;
+  color: #444;
+}
+
+#cinlbl {
+  margin-top: 0;
+}
+input,
+button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+input:focus {
+  border-color: #007BFF;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0,123,255,0.2);
+}
+
+input:disabled {
+  background: #e9ecef;
+  cursor: not-allowed;
+}
+
+#modifie {
+  display: none;
+}
+
+button {
+  padding: 12px;
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
 button:disabled {
   background: #b0c7e4;
   cursor: not-allowed;
 }
-
+#btnrecu{
+  margin-top: 10px;
+}
 #cinfail button {
   margin: 10px;
   width: 200px;
 }
-
-#btnrecu {
-  margin-top: 10px;
-}
-
-/* 📩 Messages */
 .message {
   margin-top: 15px;
   text-align: center;
@@ -160,39 +206,29 @@ button:disabled {
   border: 1px solid #f5c2c7;
 }
 
-/* 📦 Container principal (hors login) */
-.container {
-  background: url('background1.jpg') center/cover no-repeat;
-  padding: 25px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 500px;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* 📱 Mode mobile (jusqu’à 1100px) */
+/* 🔹 Mode mobile élargi (jusqu’à 1100px) */
 @media (max-width: 1100px) {
   body {
     padding: 20px;
-    font-size: 20px;
+    font-size: 35px; /* un peu plus grand */
   }
 
   .container {
     padding: 25px;
-    max-width: 100%;
+    max-width: 100%; /* occupe toute la largeur dispo */
+  }
+
+  .field.row {
+    flex-direction: column; /* CIN + bouton l’un sous l’autre */
+    align-items: stretch;
+    gap: 8px;
   }
 
   input,
   button {
-    font-size: 20px;
+    font-size: 35px;
     padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
+    width: 100%;              /* prend toute la largeur */
+    box-sizing: border-box;   /* inclut padding/border dans le width */
   }
 }
