@@ -55,7 +55,7 @@ h2 {
 button {
   flex: 0 0 auto; 
   width: auto;    /* ne s’étire pas inutilement */
-  padding: 12px 20px; /* bouton plus équilibré 
+  padding: 12px 20px; /* bouton plus équilibré */
 }
 label {
   display: block;
