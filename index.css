@@ -10,7 +10,7 @@ body {
 }
 
 /* 🔄 Loader et cinfail cachés par défaut */
-#loader,
+/*#loader,*/
 #cinfail {
   display: none; /* cachés */
   position: fixed;
