@@ -35,6 +35,18 @@ body {
   padding: 30px;
   border-radius: 10px;
 }
+.cadre {
+  background: #fff;                 /* fond blanc */
+  padding: 30px 25px;               /* espace intérieur */
+  border-radius: 12px;              /* coins arrondis */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* ombre douce */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;                        /* espacement entre label, input, bouton */
+  width: 100%;
+  max-width: 400px;                 /* largeur max pour rester compact */
+  text-align: center;
+}
 
 /* Label CIN */
 #login label {
