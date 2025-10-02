@@ -23,7 +23,9 @@ body {
   justify-content: center;
   flex-direction: column;
 }
-
+#loader {
+  display: none; /* cachés */
+}
 /* 🔑 Zone login */
 #login {
   display: flex;
