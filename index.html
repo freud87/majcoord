@@ -8,7 +8,13 @@
 </head>
 <body>
   <div class="container">
-    <h2>Mise à jour des coordonnées</h2>
+    <!-- page de login -->
+     <div class="field row">
+      <label id="cinlbl" for="cinInput">CIN :</label>
+      <input type="text" id="cinInput" inputmode="numeric" pattern="[0-9]*" placeholder="Entrer CIN">
+      <button onclick="chercherEtudiant()">Chercher</button>
+    </div>
+    
 
     <!-- Loader -->
     <div id="loader">
@@ -24,13 +30,8 @@
       <div id="message-signalement" class="message"></div>
     </div>
 
-    <!-- Recherche CIN -->
-    <div class="field row">
-      <label id="cinlbl" for="cinInput">CIN :</label>
-      <input type="text" id="cinInput" inputmode="numeric" pattern="[0-9]*" placeholder="Entrer CIN">
-      <button onclick="chercherEtudiant()">Chercher</button>
-    </div>
-
+   
+<h2>Mise à jour de vos informations</h2>
     <!-- Coordonnées -->
     <div class="field"><label>Nom :</label><input type="text" id="nom"></div>
     <div class="field"><label>Téléphone 1 :</label><input type="text" id="tel1"></div>
