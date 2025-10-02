@@ -23,6 +23,8 @@ body {
 #login {
   display: flex;
   justify-content: center;
+  height: 50%;
+  width: 50%;
 }
 #loader,
 #cinfail {
