@@ -93,6 +93,7 @@ async function chercherEtudiant() {
   if (!cin) {
     loader.style.display = "none";
     logo.style.display = "flex";
+    document.getElementById("login").style.display = "flex";
     message.textContent = "⚠️ Veuillez entrer un CIN !";
     message.className = "message error";
     return;
