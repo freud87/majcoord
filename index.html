@@ -81,67 +81,63 @@
       document.getElementById("btnrecu").disabled = disabled || !hasEmail;
     }
 
-    // Chercher étudiant
-    async function chercherEtudiant() {
-      const cin = document.getElementById("cinInput").value.trim();
-      const message = document.getElementById("message");
-
-      message.textContent = "";
-      loader.style.display = "flex";
-      logo.style.display = "none";
+// Chercher étudiant
+async function chercherEtudiant() {
+  const cin = document.getElementById("cinInput").value.trim();
+  const message = document.getElementById("message");
+  message.textContent = "";
+  loader.style.display = "flex";
+  logo.style.display = "none";
+  // 🔹 Masquer la page de login
+  //document.getElementById("login").style.display = "none";
+  if (!cin) {
+    loader.style.display = "none";
+    logo.style.display = "flex";
+    message.textContent = "⚠️ Veuillez entrer un CIN !";
+    message.className = "message error";
+    return;
+  }
+  try {
+    const response = await fetch(`${apiURL}?cin=${cin}`);
+    const data = await response.json();
+    if (Object.keys(data).length === 0) {
+      // Pas trouvé
+      document.getElementById("cinfail").style.display = "flex";
+      toggleFields(true);
+      recuURL = null;
+    } else {
+      // Étudiant trouvé
+      currentRow = data.row;
+      document.getElementById("nom").value = data.Nom || "";
+      document.getElementById("tel1").value = data.Tel1 || "";
+      document.getElementById("tel2").value = data.Tel2 || "";
+      document.getElementById("email").value = data.Email || "";
+      document.getElementById("modifie").value = data.Modifie || "";
       
-// 🔹 Masquer la page de login
-  document.getElementById("login").style.display = "none";
+      recuURL = data.Recu || null;
       
-      if (!cin) {
-        loader.style.display = "none";
-        message.textContent = "⚠️ Veuillez entrer un CIN !";
-        message.className = "message error";
-        return;
-      }
-
-      try {
-        const response = await fetch(`${apiURL}?cin=${cin}`);
-        const data = await response.json();
-
-        if (Object.keys(data).length === 0) {
-          // Pas trouvé
-          document.getElementById("cinfail").style.display = "flex";
-          toggleFields(true);
-          recuURL = null;
-        } else {
-          // Étudiant trouvé
-          currentRow = data.row;
-          document.getElementById("nom").value = data.Nom || "";
-          document.getElementById("tel1").value = data.Tel1 || "";
-          document.getElementById("tel2").value = data.Tel2 || "";
-          document.getElementById("email").value = data.Email || "";
-          document.getElementById("modifie").value = data.Modifie || "";
-
-          recuURL = data.Recu || null;
-
-          message.textContent = "✅ CIN trouvée.";
-          message.className = "message success";
-
-          // Active les champs et boutons (Reçu seulement si email existe)
-          const hasEmail = !!data.Email;
-          toggleFields(false, hasEmail);
-
-          // Si l’utilisateur saisit un email manuellement → activer reçu
-          document.getElementById("email").addEventListener("input", () => {
-            const emailVal = document.getElementById("email").value.trim();
-            document.getElementById("btnrecu").disabled = !emailVal;
-          });
-        }
-      } catch (error) {
-        console.error(error);
-        message.textContent = "❌ Erreur de connexion au serveur.";
-        message.className = "message error";
-        toggleFields(true);
-      } finally {
-        loader.style.display = "none";
-      }
+      message.textContent = "✅ CIN trouvée.";
+      message.className = "message success";
+      
+      // Active les champs et boutons (Reçu seulement si email existe)
+      const hasEmail = !!data.Email;
+      toggleFields(false, hasEmail);
+      
+      // Si l’utilisateur saisit un email manuellement → activer reçu
+      document.getElementById("email").addEventListener("input", () => {
+        const emailVal = document.getElementById("email").value.trim();
+        document.getElementById("btnrecu").disabled = !emailVal;
+      });
     }
+  } catch (error) {
+    console.error(error);
+    message.textContent = "❌ Erreur de connexion au serveur.";
+    message.className = "message error";
+    toggleFields(true);
+  } finally {
+    loader.style.display = "none";
+    }
+}
 
     // Télécharger reçu
     function getrecu() {
