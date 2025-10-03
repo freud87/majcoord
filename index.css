@@ -11,6 +11,7 @@ body {
 input,
   button {
     padding: 15px;
+    
   }
 #login img {
   margin-bottom: 5px;
@@ -102,8 +103,8 @@ input,
 }
 
 input:focus {
-  border-color: #007BFF;
-  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+  border-color: #f37640;
+  box-shadow: 0 0 5px rgba(244,246,249,0.3);
   outline: none;
 }
 
