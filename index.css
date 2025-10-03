@@ -52,7 +52,33 @@ body {
   max-width: 400px;
   text-align: center;
 }
+/* logform */
+#logform input,
+#logform button {
+  width: 90%;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
 
+/* cinfail */
+#cinfail input {
+  width: 90%;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+
+/* deux boutons dans btnfail partagent 90% */
+#btnfail {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+#btnfail button {
+  flex: 1;                /* ils prennent la même largeur */
+  max-width: calc(45%);   /* 2 × 45% ≈ 90% */
+  box-sizing: border-box;
+}
 
 /* 📝 Input */
 /*#login input,*/
