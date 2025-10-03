@@ -40,7 +40,6 @@ body {
 /* 📦 Cadre du formulaire */
 .cadre {
   background: #fff;
-  padding: 30px 25px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   display: flex;
