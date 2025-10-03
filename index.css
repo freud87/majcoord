@@ -222,4 +222,11 @@ h2 {
     width: 100%;
     box-sizing: border-box;
   }
+  #notifications {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-bottom: 15px; /* espace avec le cadre */
+    align-items: center; /* centrer si tu veux */
+  }
 }
