@@ -105,8 +105,8 @@ async function chercherEtudiant() {
     loader.style.display = "none";
     logo.style.display = "flex";
     document.getElementById("login").style.display = "flex";
-    message.textContent = "⚠️ Veuillez entrer un CIN !";
-    message.className = "message error";
+    //message.textContent = "⚠️ Veuillez entrer un CIN !";
+    //message.className = "message error";
     return;
   }
   try {
@@ -132,8 +132,8 @@ async function chercherEtudiant() {
       
       recuURL = data.Recu || null;
       
-      message.textContent = "✅ CIN trouvée.";
-      message.className = "message success";
+      //message.textContent = "✅ CIN trouvée.";
+      //message.className = "message success";
       
       // Active les champs et boutons (Reçu seulement si email existe)
       const hasEmail = !!data.Email;
@@ -147,8 +147,8 @@ async function chercherEtudiant() {
     }
   } catch (error) {
     console.error(error);
-    message.textContent = "❌ Erreur de connexion au serveur.";
-    message.className = "message error";
+    //message.textContent = "❌ Erreur de connexion au serveur.";
+    //message.className = "message error";
     toggleFields(true);
   } finally {
     loader.style.display = "none";
@@ -161,8 +161,8 @@ async function chercherEtudiant() {
       message.textContent = "";
 
       if (!recuURL) {
-        message.textContent = "⚠️ Aucun reçu disponible pour ce CIN.";
-        message.className = "message error";
+        //message.textContent = "⚠️ Aucun reçu disponible pour ce CIN.";
+        //message.className = "message error";
         return;
       }
 
@@ -177,19 +177,19 @@ async function chercherEtudiant() {
 
     // Soumettre MAJ
     async function soumettre() {
-      const message = document.getElementById("message");
-      message.textContent = "";
+      //const message = document.getElementById("message");
+     // message.textContent = "";
 
       if (!currentRow) {
-        message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
-        message.className = "message error";
+       // message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
+       // message.className = "message error";
         return;
       }
 
       const email = document.getElementById("email").value.trim();
       if (!email) {
-        message.textContent = "⚠️ L'email est obligatoire !";
-        message.className = "message error";
+      //  message.textContent = "⚠️ L'email est obligatoire !";
+       // message.className = "message error";
         return;
       }
 
@@ -206,30 +206,30 @@ async function chercherEtudiant() {
 
         if (result.status === "success") {
           document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-          message.textContent = "✅ Modification enregistrée !";
-          message.className = "message success";
+         // message.textContent = "✅ Modification enregistrée !";
+         // message.className = "message success";
           setTimeout(() => location.reload(), 2000);
         } else {
-          message.textContent = "❌ Erreur lors de la mise à jour !";
-          message.className = "message error";
+       //   message.textContent = "❌ Erreur lors de la mise à jour !";
+        //  message.className = "message error";
         }
       } catch (error) {
         console.error(error);
-        message.textContent = "❌ Erreur de connexion au serveur.";
-        message.className = "message error";
+       // message.textContent = "❌ Erreur de connexion au serveur.";
+       // message.className = "message error";
       }
     }
 
     // Signaler erreur
     async function signaler() {
       const message = document.getElementById("message-signalement");
-      message.textContent = "";
-      message.className = "message";
+    //  message.textContent = "";
+    //  message.className = "message";
 
       const nomsignal = document.getElementById("nomsignal").value.trim();
       if (!nomsignal) {
-        message.textContent = "⚠️ Veuillez remplir le champ Nom pour signaler.";
-        message.classList.add("error");
+     //   message.textContent = "⚠️ Veuillez remplir le champ Nom pour signaler.";
+//message.classList.add("error");
         return;
       }
 
@@ -242,17 +242,17 @@ async function chercherEtudiant() {
         const result = await response.json();
 
         if (result.status === "success") {
-          message.textContent = "✅ Signalement enregistré, merci !";
-          message.classList.add("success");
+     //     message.textContent = "✅ Signalement enregistré, merci !";
+     //     message.classList.add("success");
           document.getElementById("nomsignal").value = "";
         } else {
-          message.textContent = "❌ Erreur lors de l'envoi du signalement.";
-          message.classList.add("error");
+      //    message.textContent = "❌ Erreur lors de l'envoi du signalement.";
+      //    message.classList.add("error");
         }
       } catch (error) {
         console.error(error);
-        message.textContent = "❌ Erreur de connexion au serveur.";
-        message.classList.add("error");
+      //  message.textContent = "❌ Erreur de connexion au serveur.";
+      //  message.classList.add("error");
       }
     }
   </script>
