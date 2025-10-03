@@ -222,11 +222,33 @@ h2 {
     width: 100%;
     box-sizing: border-box;
   }
+  /* Notifications centrées en haut */
   #notifications {
-    position: relative;
-    top: auto;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     right: auto;
-    margin-bottom: 15px; /* espace avec le cadre */
-    align-items: center; /* centrer si tu veux */
+    width: 60%;          /* occupe presque toute la largeur */
+    max-width: 500px;    /* limite pour éviter que ce soit trop large */
+    align-items: center; /* centre les toasts */
+  }
+
+  #notifications .toast {
+    font-size: 35px;     /* texte plus grand */
+    padding: 16px 20px;  /* plus d’espace intérieur */
+    min-width: auto;     /* on laisse la largeur s’adapter */
+    width: 100%;         /* chaque toast prend la largeur dispo */
+    text-align: center;  /* texte centré */
+  }
+  /* Animation verticale (mobile) */
+  @keyframes fadeinY {
+    from { opacity: 0; transform: translateY(-100%); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeoutY {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-100%); }
   }
 }
