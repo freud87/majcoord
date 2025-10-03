@@ -124,7 +124,8 @@ input:disabled {
 }
 
 #login button {
-  background: #28a745; /* bouton chercher vert */
+  background: #1370B6;
+  
 }
 
 button:hover {
@@ -132,14 +133,10 @@ button:hover {
 }
 
 #login button:hover {
-  background: #218838;
+  background: #FDFEFE;
  
 }
 
-#login button:active {
-  background: #1e7e34;
-  
-}
 
 button:disabled {
   background: #b0c7e4;
