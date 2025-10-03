@@ -56,14 +56,14 @@ body {
 #logform input,
 #logform button {
   width: 90%;
-  margin: 5px 0;
+  
   box-sizing: border-box;
 }
 
 /* cinfail */
 #cinfail input {
   width: 90%;
-  margin: 5px 0;
+
   box-sizing: border-box;
 }
 
@@ -89,7 +89,7 @@ input {
   font-size: 16px;
   transition: border-color 0.3s, box-shadow 0.3s;
   display: block;
-  width: 100%;
+  /*width: 100%;*/
   box-sizing: border-box;
 }
 
@@ -118,7 +118,7 @@ button,
   font-size: 16px;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
-  width: 100%;
+ /* width: 100%;*/
   box-sizing: border-box;
 }
 
@@ -145,10 +145,10 @@ button:disabled {
   cursor: not-allowed;
 }
 
-#login button {
+/*#login button {
   margin: 10px;
   width: auto;
-}
+}*/
 
 #btnrecu {
   margin-top: 10px;
