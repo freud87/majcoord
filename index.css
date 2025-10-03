@@ -10,6 +10,7 @@ body {
 }
 
 /* 🔄 Loader et cinfail cachés par défaut */
+#logform,
 #cinfail {
   align-items: center;
   justify-content: center;
@@ -68,7 +69,7 @@ body {
 }
 
 /* deux boutons dans btnfail partagent 90% */
-#logform,
+
 #btnfail {
   /*width: 100%;*/
   display: flex;
