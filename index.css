@@ -15,6 +15,9 @@ body {
   justify-content: center;
   flex-direction: column;
 }
+#btnfail {
+  flex-direction: row;
+}
 #loader, #fail, #cinfail {
   display: none; /* cachés */
 }
@@ -46,7 +49,7 @@ body {
   text-align: center;
 }
 
-/* 🏷️ Label CIN */
+/* 🏷️ Label CIN 
 #login label {
   font-size: 18px;
   color: #222;
@@ -56,7 +59,7 @@ body {
 
 #cinlbl {
   margin-top: 0;
-}
+}*/
 
 /* 📝 Input */
 #login input,
