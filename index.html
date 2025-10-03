@@ -13,8 +13,19 @@
         <div class="cadre">
           <img id="logo" src="logocnfcpp.png" alt="logocnfcpp" width="200">
           <img id="loader" src="load.gif" alt="Chargement..." width="200">
-          <input type="text" id="cinInput" inputmode="numeric" pattern="[0-9]*" placeholder="Entrer CIN">
-          <button onclick="chercherEtudiant()">Chercher</button>
+          <img id="fail" src="cinfail.png" alt="CIN introuvable ou erroné !" width="200">
+          <div id="logform">
+            <input type="text" id="cinInput" inputmode="numeric" pattern="[0-9]*" placeholder="Entrer CIN">
+            <button onclick="chercherEtudiant()">Chercher</button>
+          </div>
+          <div id="cinfail">
+            <input type="text" id="nomsignal" placeholder="Saisir votre nom">
+            <div id="btnfail">
+              <button onclick="signaler()">Signaler erreur</button>
+              <button id="cinfailcncl">Retour</button>
+            </div>
+            <div id="message-signalement" class="message"></div>
+          </div>
         </div>
     </div>
     
@@ -25,14 +36,14 @@
     </div> -->
 
     <!-- CIN introuvable -->
-    <div id="cinfail">
-      <img src="cinfail.png" alt="CIN introuvable ou erroné !" width="400">
-      <div><label>Nom :</label><input type="text" id="nomsignal"></div>
+   <!-- <div id="cinfail">
+        <img src="cinfail.png" alt="CIN introuvable ou erroné !" width="200"> 
+      <input type="text" id="nomsignal" placeholder="Saisir votre nom">
       <button onclick="signaler()">Signaler erreur</button>
       <button id="cinfailcncl">Retour</button>
       <div id="message-signalement" class="message"></div>
     </div>
-
+ -->
    <div class="container">
 <h2>Mise à jour de vos informations</h2>
     <!-- Coordonnées -->
