@@ -115,6 +115,7 @@ async function chercherEtudiant() {
     if (Object.keys(data).length === 0) {
       // Pas trouvé
       document.getElementById("fail").style.display = "flex";
+      document.getElementById("logform").style.display = "none";
       document.getElementById("cinfail").style.display = "flex";
       toggleFields(true);
       recuURL = null;
