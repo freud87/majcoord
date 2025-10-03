@@ -128,9 +128,7 @@ input:disabled {
   
 }
 
-button:hover {
-  background: #0056b3;
-}
+
 
 #login button:hover {
   background: #FDFEFE;
