@@ -16,6 +16,7 @@ body {
   flex-direction: column;
 }
 #btnfail {
+  display: flex;
   flex-direction: row;
 }
 #loader, #fail, #cinfail {
