@@ -9,19 +9,12 @@ body {
   margin: 0;
 }
 
-/* 🔄 Loader et cinfail cachés par défaut 
+/* 🔄 Loader et cinfail cachés par défaut */
 #cinfail {
-  display: none; 
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(5px);
-  z-index: 9999;
-  
   align-items: center;
   justify-content: center;
   flex-direction: column;
-}*/
+}
 #loader, #fail, #cinfail {
   display: none; /* cachés */
 }
