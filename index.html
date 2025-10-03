@@ -68,22 +68,22 @@
   const loader = document.getElementById("loader");
   const logo = document.getElementById("logo");
 
-  // 🔹 Fonction d'affichage des messages
+  // 🔹 Fonction d'affichage des notifications
   function showMessage(text, type = "info", duration = 4000) {
-    const container = document.getElementById("messages");
+    const container = document.getElementById("notifications");
     const msg = document.createElement("div");
     msg.className = `message ${type}`;
     msg.textContent = text;
     container.appendChild(msg);
 
-    // Suppression automatique après duration
+    // Disparition auto
     setTimeout(() => {
       msg.style.opacity = "0";
       setTimeout(() => msg.remove(), 500);
     }, duration);
   }
 
-  // Met le focus sur le champ CIN au chargement
+  // 🔹 Focus au chargement
   window.addEventListener("load", function () {
     const input = document.getElementById("cinInput");
     input.focus();
@@ -95,7 +95,7 @@
     document.getElementById("cinfailcncl").onclick = () => location.reload();
   });
 
-  // Active/désactive les champs et boutons
+  // 🔹 Activation/Désactivation des champs
   function toggleFields(disabled, hasEmail = false) {
     document.getElementById("nom").disabled = disabled;
     document.getElementById("tel1").disabled = disabled;
@@ -107,7 +107,7 @@
     document.getElementById("btnrecu").disabled = disabled || !hasEmail;
   }
 
-  // Chercher étudiant
+  // 🔹 Chercher étudiant
   async function chercherEtudiant() {
     const cin = document.getElementById("cinInput").value.trim();
     loader.style.display = "flex";
@@ -120,9 +120,11 @@
       showMessage("⚠️ Veuillez entrer un CIN !", "error");
       return;
     }
+
     try {
       const response = await fetch(`${apiURL}?cin=${cin}`);
       const data = await response.json();
+
       if (Object.keys(data).length === 0) {
         // Pas trouvé
         document.getElementById("fail").style.display = "flex";
@@ -135,6 +137,7 @@
         // Étudiant trouvé
         document.getElementById("login").style.display = "none";
         currentRow = data.row;
+
         document.getElementById("nom").value = data.Nom || "";
         document.getElementById("tel1").value = data.Tel1 || "";
         document.getElementById("tel2").value = data.Tel2 || "";
@@ -161,7 +164,7 @@
     }
   }
 
-  // Télécharger reçu
+  // 🔹 Télécharger reçu
   function getrecu() {
     if (!recuURL) {
       showMessage("⚠️ Aucun reçu disponible pour ce CIN.", "error");
@@ -179,7 +182,7 @@
     showMessage("📄 Reçu téléchargé.", "info");
   }
 
-  // Soumettre MAJ
+  // 🔹 Soumettre mise à jour
   async function soumettre() {
     if (!currentRow) {
       showMessage("⚠️ Veuillez d'abord saisir votre CIN !", "error");
@@ -216,7 +219,7 @@
     }
   }
 
-  // Signaler erreur
+  // 🔹 Signaler erreur
   async function signaler() {
     const nomsignal = document.getElementById("nomsignal").value.trim();
     if (!nomsignal) {
@@ -244,5 +247,6 @@
     }
   }
 </script>
+
 </body>
 </html>
