@@ -55,7 +55,7 @@ body {
 /* logform → input + bouton chercher */
 #logform input,
 #logform button {
-  width: 90%;
+  width: 100%;
   margin: 5px 0;
   box-sizing: border-box;
 }
