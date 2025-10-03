@@ -124,8 +124,9 @@ input:disabled {
 }
 
 #login button {
+  color: white;
   background: #1370B6;
-  
+  font-weight: bold;
 }
 
 
