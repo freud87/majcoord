@@ -132,27 +132,46 @@ button:disabled {
   margin-top: 10px;
 }
 
-/* 📩 Messages */
-.message {
-  margin-top: 15px;
-  text-align: center;
+/* 🔔 Conteneur global notifications */
+#notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 99999;
+}
+
+/* Style de base d’un message (toast) */
+.toast {
+  min-width: 250px;
+  padding: 12px 16px;
+  border-radius: 6px;
   font-size: 14px;
   font-weight: bold;
-  padding: 8px;
-  border-radius: 6px;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  animation: fadein 0.4s, fadeout 0.4s 4.6s; /* 5s total */
+  opacity: 0.95;
 }
 
-.success {
-  color: green;
-  background: #e8f9ee;
-  border: 1px solid #b6e2c1;
+/* Variantes */
+.toast.success { background: #28a745; }
+.toast.error   { background: #dc3545; }
+.toast.info    { background: #007bff; }
+.toast.warning { background: #ffc107; color: #222; }
+
+/* Animations d’apparition/disparition */
+@keyframes fadein {
+  from { opacity: 0; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeout {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(100%); }
 }
 
-.error {
-  color: red;
-  background: #fdecea;
-  border: 1px solid #f5c2c7;
-}
 
 /* 📦 Container principal (hors login) */
 .container {
