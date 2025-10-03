@@ -225,7 +225,7 @@ h2 {
   /* Notifications centrées en haut */
   #notifications {
     position: fixed;
-    top: 10px;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
     right: auto;
