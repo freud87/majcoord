@@ -61,200 +61,188 @@
   </div>
 <div id="notifications"></div>
   <script>
-    const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
-    let currentRow = null;
-    let recuURL = null;
+  const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
+  let currentRow = null;
+  let recuURL = null;
 
-    const loader = document.getElementById("loader");
-    const logo = document.getElementById("logo");
+  const loader = document.getElementById("loader");
+  const logo = document.getElementById("logo");
 
-    // Met le focus sur le champ CIN au chargement
-    window.addEventListener("load", function () {
-      const input = document.getElementById("cinInput");
-      input.focus();
-      setTimeout(() => { input.click(); input.focus(); }, 300);
+  // 🔹 Fonction d'affichage des messages
+  function showMessage(text, type = "info", duration = 4000) {
+    const container = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = `message ${type}`;
+    msg.textContent = text;
+    container.appendChild(msg);
 
-      toggleFields(true);
-
-      // Retour (CIN fail)
-      document.getElementById("cinfailcncl").onclick = () => location.reload();
-    });
-
-    // Active/désactive les champs et boutons
-    function toggleFields(disabled, hasEmail = false) {
-      document.getElementById("nom").disabled = disabled;
-      document.getElementById("tel1").disabled = disabled;
-      document.getElementById("tel2").disabled = disabled;
-      document.getElementById("email").disabled = disabled;
-      document.getElementById("modifie").disabled = true;
-
-      document.querySelector("button[onclick='soumettre()']").disabled = disabled;
-      document.getElementById("btnrecu").disabled = disabled || !hasEmail;
-    }
-
-// Chercher étudiant
-async function chercherEtudiant() {
-  const cin = document.getElementById("cinInput").value.trim();
-  //const message = document.getElementById("message");
-  //message.textContent = "";
-  loader.style.display = "flex";
-  logo.style.display = "none";
-  // 🔹 Masquer la page de login
- // document.getElementById("login").style.display = "none";
-  if (!cin) {
-    loader.style.display = "none";
-    logo.style.display = "flex";
-    document.getElementById("login").style.display = "flex";
-    //message.textContent = "⚠️ Veuillez entrer un CIN !";
-    //message.className = "message error";
-    return;
+    // Suppression automatique après duration
+    setTimeout(() => {
+      msg.style.opacity = "0";
+      setTimeout(() => msg.remove(), 500);
+    }, duration);
   }
-  try {
-    const response = await fetch(`${apiURL}?cin=${cin}`);
-    const data = await response.json();
-    if (Object.keys(data).length === 0) {
-      // Pas trouvé
-      document.getElementById("fail").style.display = "flex";
-      document.getElementById("logform").style.display = "none";
-      document.getElementById("cinfail").style.display = "flex";
-      toggleFields(true);
-      recuURL = null;
-    } else {
-      // Étudiant trouvé
-      // 🔹 Masquer la page de login
-      document.getElementById("login").style.display = "none";
-      currentRow = data.row;
-      document.getElementById("nom").value = data.Nom || "";
-      document.getElementById("tel1").value = data.Tel1 || "";
-      document.getElementById("tel2").value = data.Tel2 || "";
-      document.getElementById("email").value = data.Email || "";
-      document.getElementById("modifie").value = data.Modifie || "";
-      
-      recuURL = data.Recu || null;
-      
-      //message.textContent = "✅ CIN trouvée.";
-      //message.className = "message success";
-      
-      // Active les champs et boutons (Reçu seulement si email existe)
-      const hasEmail = !!data.Email;
-      toggleFields(false, hasEmail);
-      
-      // Si l’utilisateur saisit un email manuellement → activer reçu
-      document.getElementById("email").addEventListener("input", () => {
-        const emailVal = document.getElementById("email").value.trim();
-        document.getElementById("btnrecu").disabled = !emailVal;
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    //message.textContent = "❌ Erreur de connexion au serveur.";
-    //message.className = "message error";
+
+  // Met le focus sur le champ CIN au chargement
+  window.addEventListener("load", function () {
+    const input = document.getElementById("cinInput");
+    input.focus();
+    setTimeout(() => { input.click(); input.focus(); }, 300);
+
     toggleFields(true);
-  } finally {
-    loader.style.display = "none";
+
+    // Retour (CIN fail)
+    document.getElementById("cinfailcncl").onclick = () => location.reload();
+  });
+
+  // Active/désactive les champs et boutons
+  function toggleFields(disabled, hasEmail = false) {
+    document.getElementById("nom").disabled = disabled;
+    document.getElementById("tel1").disabled = disabled;
+    document.getElementById("tel2").disabled = disabled;
+    document.getElementById("email").disabled = disabled;
+    document.getElementById("modifie").disabled = true;
+
+    document.querySelector("button[onclick='soumettre()']").disabled = disabled;
+    document.getElementById("btnrecu").disabled = disabled || !hasEmail;
+  }
+
+  // Chercher étudiant
+  async function chercherEtudiant() {
+    const cin = document.getElementById("cinInput").value.trim();
+    loader.style.display = "flex";
+    logo.style.display = "none";
+
+    if (!cin) {
+      loader.style.display = "none";
+      logo.style.display = "flex";
+      document.getElementById("login").style.display = "flex";
+      showMessage("⚠️ Veuillez entrer un CIN !", "error");
+      return;
     }
-}
+    try {
+      const response = await fetch(`${apiURL}?cin=${cin}`);
+      const data = await response.json();
+      if (Object.keys(data).length === 0) {
+        // Pas trouvé
+        document.getElementById("fail").style.display = "flex";
+        document.getElementById("logform").style.display = "none";
+        document.getElementById("cinfail").style.display = "flex";
+        toggleFields(true);
+        recuURL = null;
+        showMessage("❌ CIN introuvable.", "error");
+      } else {
+        // Étudiant trouvé
+        document.getElementById("login").style.display = "none";
+        currentRow = data.row;
+        document.getElementById("nom").value = data.Nom || "";
+        document.getElementById("tel1").value = data.Tel1 || "";
+        document.getElementById("tel2").value = data.Tel2 || "";
+        document.getElementById("email").value = data.Email || "";
+        document.getElementById("modifie").value = data.Modifie || "";
+        recuURL = data.Recu || null;
 
-    // Télécharger reçu
-    function getrecu() {
-      const message = document.getElementById("message");
-      message.textContent = "";
+        showMessage("✅ CIN trouvée.", "success");
 
-      if (!recuURL) {
-        //message.textContent = "⚠️ Aucun reçu disponible pour ce CIN.";
-        //message.className = "message error";
-        return;
+        const hasEmail = !!data.Email;
+        toggleFields(false, hasEmail);
+
+        document.getElementById("email").addEventListener("input", () => {
+          const emailVal = document.getElementById("email").value.trim();
+          document.getElementById("btnrecu").disabled = !emailVal;
+        });
       }
+    } catch (error) {
+      console.error(error);
+      showMessage("❌ Erreur de connexion au serveur.", "error");
+      toggleFields(true);
+    } finally {
+      loader.style.display = "none";
+    }
+  }
 
-      const link = document.createElement("a");
-      link.href = recuURL;
-      link.target = "_blank";
-      link.download = "Recu_Inscription.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  // Télécharger reçu
+  function getrecu() {
+    if (!recuURL) {
+      showMessage("⚠️ Aucun reçu disponible pour ce CIN.", "error");
+      return;
     }
 
-    // Soumettre MAJ
-    async function soumettre() {
-      //const message = document.getElementById("message");
-     // message.textContent = "";
+    const link = document.createElement("a");
+    link.href = recuURL;
+    link.target = "_blank";
+    link.download = "Recu_Inscription.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-      if (!currentRow) {
-       // message.textContent = "⚠️ Veuillez d'abord saisir votre CIN !";
-       // message.className = "message error";
-        return;
-      }
+    showMessage("📄 Reçu téléchargé.", "info");
+  }
 
-      const email = document.getElementById("email").value.trim();
-      if (!email) {
-      //  message.textContent = "⚠️ L'email est obligatoire !";
-       // message.className = "message error";
-        return;
-      }
-
-      const formData = new URLSearchParams();
-      formData.append("row", currentRow);
-      formData.append("Nom", document.getElementById("nom").value);
-      formData.append("Tel1", document.getElementById("tel1").value);
-      formData.append("Tel2", document.getElementById("tel2").value);
-      formData.append("Email", email);
-
-      try {
-        const response = await fetch(apiURL, { method: "POST", body: formData });
-        const result = await response.json();
-
-        if (result.status === "success") {
-          document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-         // message.textContent = "✅ Modification enregistrée !";
-         // message.className = "message success";
-          setTimeout(() => location.reload(), 2000);
-        } else {
-       //   message.textContent = "❌ Erreur lors de la mise à jour !";
-        //  message.className = "message error";
-        }
-      } catch (error) {
-        console.error(error);
-       // message.textContent = "❌ Erreur de connexion au serveur.";
-       // message.className = "message error";
-      }
+  // Soumettre MAJ
+  async function soumettre() {
+    if (!currentRow) {
+      showMessage("⚠️ Veuillez d'abord saisir votre CIN !", "error");
+      return;
     }
 
-    // Signaler erreur
-    async function signaler() {
-      const message = document.getElementById("message-signalement");
-    //  message.textContent = "";
-    //  message.className = "message";
-
-      const nomsignal = document.getElementById("nomsignal").value.trim();
-      if (!nomsignal) {
-     //   message.textContent = "⚠️ Veuillez remplir le champ Nom pour signaler.";
-//message.classList.add("error");
-        return;
-      }
-
-      const formData = new URLSearchParams();
-      formData.append("action", "signalement");
-      formData.append("NomSignal", nomsignal);
-
-      try {
-        const response = await fetch(apiURL, { method: "POST", body: formData });
-        const result = await response.json();
-
-        if (result.status === "success") {
-     //     message.textContent = "✅ Signalement enregistré, merci !";
-     //     message.classList.add("success");
-          document.getElementById("nomsignal").value = "";
-        } else {
-      //    message.textContent = "❌ Erreur lors de l'envoi du signalement.";
-      //    message.classList.add("error");
-        }
-      } catch (error) {
-        console.error(error);
-      //  message.textContent = "❌ Erreur de connexion au serveur.";
-      //  message.classList.add("error");
-      }
+    const email = document.getElementById("email").value.trim();
+    if (!email) {
+      showMessage("⚠️ L'email est obligatoire !", "error");
+      return;
     }
-  </script>
+
+    const formData = new URLSearchParams();
+    formData.append("row", currentRow);
+    formData.append("Nom", document.getElementById("nom").value);
+    formData.append("Tel1", document.getElementById("tel1").value);
+    formData.append("Tel2", document.getElementById("tel2").value);
+    formData.append("Email", email);
+
+    try {
+      const response = await fetch(apiURL, { method: "POST", body: formData });
+      const result = await response.json();
+
+      if (result.status === "success") {
+        document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
+        showMessage("✅ Modification enregistrée !", "success");
+        setTimeout(() => location.reload(), 2000);
+      } else {
+        showMessage("❌ Erreur lors de la mise à jour !", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showMessage("❌ Erreur de connexion au serveur.", "error");
+    }
+  }
+
+  // Signaler erreur
+  async function signaler() {
+    const nomsignal = document.getElementById("nomsignal").value.trim();
+    if (!nomsignal) {
+      showMessage("⚠️ Veuillez remplir le champ Nom pour signaler.", "error");
+      return;
+    }
+
+    const formData = new URLSearchParams();
+    formData.append("action", "signalement");
+    formData.append("NomSignal", nomsignal);
+
+    try {
+      const response = await fetch(apiURL, { method: "POST", body: formData });
+      const result = await response.json();
+
+      if (result.status === "success") {
+        document.getElementById("nomsignal").value = "";
+        showMessage("✅ Signalement enregistré, merci !", "success");
+      } else {
+        showMessage("❌ Erreur lors de l'envoi du signalement.", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      showMessage("❌ Erreur de connexion au serveur.", "error");
+    }
+  }
+</script>
 </body>
 </html>
