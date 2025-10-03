@@ -28,24 +28,8 @@
           </div>
         </div>
     </div>
-    
-
-    <!-- Loader 
-    <div id="loader">
-      <img src="loader.gif" alt="Chargement..." width="200">
-    </div> -->
-
-    <!-- CIN introuvable -->
-   <!-- <div id="cinfail">
-        <img src="cinfail.png" alt="CIN introuvable ou erroné !" width="200"> 
-      <input type="text" id="nomsignal" placeholder="Saisir votre nom">
-      <button onclick="signaler()">Signaler erreur</button>
-      <button id="cinfailcncl">Retour</button>
-      <div id="message-signalement" class="message"></div>
-    </div>
- -->
    <div class="container">
-<h2>Mise à jour de vos informations</h2>
+     <h2>Mise à jour de vos informations</h2>
     <!-- Coordonnées -->
     <div class="field"><label>Nom :</label><input type="text" id="nom"></div>
     <div class="field"><label>Téléphone 1 :</label><input type="text" id="tel1"></div>
@@ -56,10 +40,8 @@
     <!-- Boutons -->
     <button onclick="soumettre()">Soumettre</button>
     <button id="btnrecu" onclick="getrecu()">Reçu d'inscription</button>
-
-    
   </div>
-<div id="notifications"></div>
+  <div id="notifications"></div>
   <script>
   const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
   let currentRow = null;
