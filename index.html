@@ -24,6 +24,7 @@
               <button onclick="signaler()">Signaler erreur</button>
               <button id="cinfailcncl">Retour</button>
             </div>
+            <div id="message-signalement" class="message"></div>
           </div>
         </div>
     </div>
@@ -56,9 +57,9 @@
     <button onclick="soumettre()">Soumettre</button>
     <button id="btnrecu" onclick="getrecu()">Reçu d'inscription</button>
 
-
+    <div id="message" class="message"></div>
   </div>
-<div id="notifications"></div>
+
   <script>
     const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
     let currentRow = null;
@@ -72,8 +73,11 @@
       const input = document.getElementById("cinInput");
       input.focus();
       setTimeout(() => { input.click(); input.focus(); }, 300);
+
       toggleFields(true);
-      document.getElementById("cinfailcncl").onclick = () => location.reload(); //Retour (CIN fail)
+
+      // Retour (CIN fail)
+      document.getElementById("cinfailcncl").onclick = () => location.reload();
     });
 
     // Active/désactive les champs et boutons
@@ -95,6 +99,8 @@ async function chercherEtudiant() {
   message.textContent = "";
   loader.style.display = "flex";
   logo.style.display = "none";
+  // 🔹 Masquer la page de login
+ // document.getElementById("login").style.display = "none";
   if (!cin) {
     loader.style.display = "none";
     logo.style.display = "flex";
