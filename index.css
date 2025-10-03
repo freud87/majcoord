@@ -51,6 +51,7 @@ body {
   /*gap: 15px;*/
   width: 400px;
   text-align: center;
+  padding: 25px 30px;
 }
 
 /* logform → input + bouton chercher */
