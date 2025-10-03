@@ -240,6 +240,7 @@ h2 {
     min-width: auto;     /* on laisse la largeur s’adapter */
     width: 100%;         /* chaque toast prend la largeur dispo */
     text-align: center;  /* texte centré */
+    animation: fadeinY 0.4s, fadeoutY 0.4s 4.6s; /* animation adaptée */
   }
   /* Animation verticale (mobile) */
   @keyframes fadeinY {
