@@ -69,19 +69,18 @@
   const logo = document.getElementById("logo");
 
   // 🔹 Fonction d'affichage des notifications
-  function showMessage(text, type = "info", duration = 4000) {
-    const container = document.getElementById("notifications");
-    const msg = document.createElement("div");
-    msg.className = `message ${type}`;
-    msg.textContent = text;
-    container.appendChild(msg);
+  function showMessage(text, type = "info", duration = 5000) {
+  const container = document.getElementById("notifications");
+  const msg = document.createElement("div");
+  msg.className = `toast ${type}`;
+  msg.textContent = text;
+  container.appendChild(msg);
 
-    // Disparition auto
-    setTimeout(() => {
-      msg.style.opacity = "0";
-      setTimeout(() => msg.remove(), 500);
-    }, duration);
-  }
+  // Disparition après délai
+  setTimeout(() => {
+    msg.remove();
+  }, duration);
+}
 
   // 🔹 Focus au chargement
   window.addEventListener("load", function () {
