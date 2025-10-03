@@ -68,6 +68,7 @@ body {
 }
 
 /* deux boutons dans btnfail partagent 90% */
+#logform,
 #btnfail {
   /*width: 100%;*/
   display: flex;
