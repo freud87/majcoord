@@ -123,20 +123,20 @@ input:disabled {
   box-sizing: border-box;
 }
 
-#login button {
+#logform button {
   color: white;
   background: #1370B6;
   font-weight: bold;
 }
-
-
-
-#login button:hover {
+#logform button:hover {
   color: #1370B6;
   background: #8FADCC;
- 
 }
+#logform input {
+  color: #1370B6;
 
+  font-weight: bold;
+}
 
 button:disabled {
   background: #b0c7e4;
