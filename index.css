@@ -8,6 +8,10 @@ body {
   font-size: 16px;
   margin: 0;
 }
+input,
+  button {
+    padding: 15px;
+  }
 #login img {
   margin-bottom: 5px;
 }
