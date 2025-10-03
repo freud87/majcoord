@@ -14,6 +14,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width:90%;
 }
 #btnfail {
   display: flex;
@@ -61,13 +62,14 @@ body {
 
 /* cinfail → input nomsignal */
 #cinfail input {
-  width: 90%;
+  width: 100%;
   margin: 5px 0;
   box-sizing: border-box;
 }
 
 /* deux boutons dans btnfail partagent 90% */
 #btnfail {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   /*gap: 5px;*/
@@ -76,6 +78,7 @@ body {
 }
 
 #btnfail button {
+  width: 90%;
   flex: 1;
   margin: 5px 0;
   box-sizing: border-box;
