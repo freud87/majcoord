@@ -161,7 +161,7 @@
   // 🔹 Télécharger reçu
   function getrecu() {
     if (!recuURL) {
-      showMessage("⚠️ Aucun reçu disponible pour ce CIN.", "error");
+      showMessage("⚠️ Aucun reçu disponible pour vous.", "error");
       return;
     }
 
@@ -217,7 +217,7 @@
   async function signaler() {
     const nomsignal = document.getElementById("nomsignal").value.trim();
     if (!nomsignal) {
-      showMessage("⚠️ Veuillez remplir le champ Nom pour signaler.", "error");
+      showMessage("⚠️ Veuillez saisir votre nom afin de signaler une erreur.", "error");
       return;
     }
 
