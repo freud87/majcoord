@@ -97,11 +97,17 @@ button {
   box-sizing: border-box;
 }
 #topinfo,
-#basinfo,
 #btnfail {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+#basinfo {
+  display: flex;
+  flex-direction: row;
+  /*justify-content: space-between;*/
   width: 100%;
   gap: 10px;
 }
