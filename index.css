@@ -294,6 +294,10 @@ h2 {
     justify-content: center;
     width: 100%;
   }
+  .container input {
+    font-size: 35px; /* Laissez-les grands pour les doigts, mais ajustez si 40px est trop */
+    padding: 20px; /* Augmenter l'espace intérieur pour une meilleure zone de clic/toucher */
+  }
   .cadre {
     width: 70%;
   }
