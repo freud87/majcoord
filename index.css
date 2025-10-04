@@ -236,6 +236,33 @@ h2 {
   pointer-events: none; /* Ignorer les clics */
   z-index: 9999;       /* Toujours au-dessus */
 }
+#logoutBtn {
+  background: #1370B6;           /* même bleu que le bouton login */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: all 0.25s ease-in-out;
+}
+
+#logoutBtn:hover {
+  background: #8FADCC;           /* bleu clair au survol */
+  color: #1370B6;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+#logoutBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+
 /* 📱 Mode mobile (jusqu’à 1080px) */
 @media (max-width: 1080px) {
   body {
@@ -297,5 +324,10 @@ h2 {
   @keyframes fadeoutY {
     from { opacity: 1; transform: translateY(0); }
     to   { opacity: 0; transform: translateY(-100%); }
+  }
+  #logoutBtn {
+    font-size: 35px;
+    padding: 20px 30px;
+    width: 90%;
   }
 }
