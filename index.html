@@ -99,7 +99,7 @@
       loader.style.display = "none";
       logo.style.display = "flex";
       document.getElementById("login").style.display = "flex";
-      showMessage("⚠️ Veuillez entrer un CIN !", "error");
+      showMessage("⚠️ Veuillez entrer le niméro de CIN !", "error");
       return;
     }
 
@@ -114,7 +114,7 @@
         document.getElementById("cinfail").style.display = "flex";
         toggleFields(true);
         recuURL = null;
-        showMessage("❌ CIN introuvable.", "error");
+        showMessage("❌ Numéro de CIN introuvable ou erroné.", "error");
       } else {
         // Étudiant trouvé
         document.getElementById("login").style.display = "none";
@@ -127,7 +127,9 @@
         document.getElementById("modifie").value = data.Modifie || "";
         recuURL = data.Recu || null;
 
-        showMessage("✅ CIN trouvée.", "success");
+        const nom = document.getElementById("nom").value.trim();
+        showMessage(`👋 Bonjour ${nom}`, "success");
+        //showMessage("✅ CIN trouvée.", "success");
 
         const hasEmail = !!data.Email;
         toggleFields(false, hasEmail);
