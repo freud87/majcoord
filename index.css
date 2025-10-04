@@ -298,7 +298,8 @@ h2 {
     justify-content: center;
     width: 100%;
   }
-  .inputs input {
+#login input, 
+.inputs input {
     font-size: 34px;        /* texte plus grand */
     padding: 18px 22px;     /* plus d’espace pour les doigts */
     border-radius: 10px;    /* arrondis plus doux */
