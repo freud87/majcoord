@@ -102,9 +102,6 @@ button {
 /* 📝 Input */
 .container input {
   padding: 12px;
-/*  border: 1px solid #ccc;
-  border-radius: 6px;*/
-
   transition: border-color 0.3s, box-shadow 0.3s;
   display: block;
   box-sizing: border-box;
@@ -159,8 +156,6 @@ button:disabled {
 .container {
   display: flex;
   flex-direction: row;
-
-  
  justify-content: space-around;
   width: 100%;
   /*gap: 10px;  */
@@ -239,7 +234,11 @@ h2 {
     padding: 25px;
     max-width: 100%;
   }
-
+  #infos,
+  #services {
+    width: 100%;
+    max-width: none; /* supprime la limite de 500px */
+  }
   input,
   button {
     /*font-size: 20px;*/
