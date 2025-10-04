@@ -26,11 +26,16 @@ header h2{
 #login button {
   font-size: inherit;
 }
-input {
-  padding: 15px;
-  font-weight: bold;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.container input {
+  /* Taille de police basée sur le body pour l'héritage */
+  font-size: inherit; 
+  padding: 15px; /* L'espacement intérieur est crucial */
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%; /* Important pour que l'input prenne toute la largeur disponible */
+  box-sizing: border-box; /* S'assure que padding et border sont inclus dans la largeur/hauteur */
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 #login img {
   margin-bottom: 5px;
