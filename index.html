@@ -228,7 +228,13 @@
       showMessage("❌ Erreur de connexion au serveur.", "error");
     }
   }
+    // 🔹 Déclencher la recherche aussi avec la touche Entrée
+    document.getElementById("cinInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        e.preventDefault(); // empêche un éventuel rechargement
+        chercherEtudiant(); // exécute la même fonction que le bouton
+      }
+    });
 </script>
-
 </body>
 </html>
