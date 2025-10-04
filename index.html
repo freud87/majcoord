@@ -104,6 +104,7 @@
 
   // 🔹 Activation/Désactivation des champs
   function toggleFields(disabled, hasEmail = false) {
+    document.getElementById("infocin").disabled = true;
     document.getElementById("nom").disabled = disabled;
     document.getElementById("tel1").disabled = disabled;
     document.getElementById("tel2").disabled = disabled;
