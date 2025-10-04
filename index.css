@@ -26,8 +26,7 @@ header h2{
 #login button {
   font-size: inherit;
 }
-input,
-button {
+input {
   padding: 15px;
   font-weight: bold;
   border: 1px solid #ccc;
@@ -288,9 +287,7 @@ h2 {
 }
   .container {
     flex-direction: column;
-    
     justify-content: center;
-   /* padding: 25px;*/
     width: 100%;
   }
   .cadre {
@@ -300,13 +297,6 @@ h2 {
   #services {
     width: 90%;
     max-width: none; /* supprime la limite de 500px */
-  }
-  input,
-  button {
-    /*font-size: 20px;*/
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
   }
   /* Notifications centrées en haut */
   #notifications {
