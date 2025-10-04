@@ -236,7 +236,7 @@ h2 {
 
   input,
   button {
-    font-size: 20px;
+    /*font-size: 20px;*/
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
