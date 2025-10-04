@@ -43,12 +43,21 @@
         <button onclick="soumettre()">Soumettre</button>
       </div>
       <div id="basinfo">
-        <label>CIN :</label><input id="infocin" readonly>
-        <label>Nom :</label><input type="text" id="nom">
-        <label>Téléphone 1<span style="color:red">*</span> :</label><input type="text" id="tel1">
-        <label>Téléphone 2 :</label><input type="text" id="tel2">
-        <label>Email<span style="color:red">*</span> :</label><input type="email" id="email" required>
-        <label></label><input id="modifie" readonly>
+        <div class="labels">
+          <label>CIN :</label>
+          <label>Nom :</label>
+          <label>Téléphone 1<span style="color:red">*</span> :</label>
+          <label>Téléphone 2 :</label>
+          <label>Email<span style="color:red">*</span> :</label>
+          <label>Modifié le :</label>
+        </div>
+        <div class="inputs">
+          <input id="infocin" readonly>
+          <input type="text" id="nom">
+          <input type="text" id="tel1">
+          <input type="text" id="tel2">
+          <input type="email" id="email" required>
+          <label></label><input id="modifie" readonly>
        </div>
     </div>
     <div id="services">
