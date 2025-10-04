@@ -14,6 +14,12 @@ header {
   align-items:center;
   justify-content: space-between;
 }
+h1, h2, h3, h4, h5, h6 {
+  margin: 0; /* supprime les marges par défaut */
+}
+header h2{
+  margin: 0 0 10px 0;
+}
 #login,
 #login input,
 #login button {
