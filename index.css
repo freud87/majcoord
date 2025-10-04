@@ -212,12 +212,13 @@ h2 {
   body {
     padding: 20px;
     font-size: 20px;
-    
+    align-items: center
   }
 
   .container {
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 25px;
     max-width: 100%;
   }
