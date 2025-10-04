@@ -26,9 +26,7 @@ header h2{
 #login button {
   font-size: inherit;
 }
-.container input {
-  /* Taille de police basée sur le body pour l'héritage */
-  font-size: inherit; 
+.inputs input {
   padding: 15px; /* L'espacement intérieur est crucial */
   font-weight: bold;
   border: 1px solid #ccc;
@@ -294,7 +292,7 @@ h2 {
     justify-content: center;
     width: 100%;
   }
-  .container input {
+  .inputs input {
     font-size: 35px; /* Laissez-les grands pour les doigts, mais ajustez si 40px est trop */
     padding: 20px; /* Augmenter l'espace intérieur pour une meilleure zone de clic/toucher */
   }
