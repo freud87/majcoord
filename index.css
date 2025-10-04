@@ -250,7 +250,7 @@ h2 {
   z-index: 9999;       /* Toujours au-dessus */
 }
 #logoutBtn {
-  background: #1370B6;           /* même bleu que le bouton login */
+  background: #f37640;           /* même bleu que le bouton login */
   color: white;
   border: none;
   padding: 12px 20px;
