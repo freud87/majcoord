@@ -144,7 +144,8 @@
         // Étudiant trouvé
         document.getElementById("login").style.display = "none";
         currentRow = data.row;
-
+        
+        document.getElementById("infocin").value = cin;
         document.getElementById("nom").value = data.Nom || "";
         document.getElementById("tel1").value = data.Tel1 || "";
         document.getElementById("tel2").value = data.Tel2 || "";
