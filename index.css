@@ -3,12 +3,15 @@ body {
   font-family: Arial, sans-serif;
   background: #f4f6f9;
   display: flex;
-  
   justify-content: center;
-
   padding: 40px;
   font-size: 16px;
   margin: 0;
+}
+#login,
+#login input,
+#login button {
+  font-size: inherit;
 }
 input,
 button {
@@ -19,6 +22,7 @@ button {
 }
 #login img {
   margin-bottom: 5px;
+  width: 160px;
 }
 /* 🔄 Loader et cinfail cachés par défaut */
 #logform,
