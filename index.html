@@ -126,7 +126,7 @@
       loader.style.display = "none";
       logo.style.display = "flex";
       document.getElementById("login").style.display = "flex";
-      showMessage("<i class="bi bi-exclamation-triangle"></i> Veuillez entrer le numéro de votre CIN !", "error");
+      showMessage("⚠️ Veuillez entrer le numéro de votre CIN !", "error");
       return;
     }
 
@@ -141,7 +141,7 @@
         document.getElementById("cinfail").style.display = "flex";
         toggleFields(true);
         recuURL = null;
-        showMessage("<i class="bi bi-x-square"></i> Numéro de CIN introuvable ou erroné.", "error");
+        showMessage("❌ Numéro de CIN introuvable ou erroné.", "error");
       } else {
         // Étudiant trouvé
         document.getElementById("login").style.display = "none";
@@ -166,7 +166,8 @@
             } else {
               nomAffiche = mots.slice(0, 2).join(" ");
             }
-        showMessage(`<i class="bi bi-emoji-laughing"></i> Bonjour ${nomAffiche}`, "success");
+        showMessage(`👋 Bonjour ${nomAffiche}`, "success");
+        //showMessage("✅ CIN trouvée.", "success");
 
         const hasEmail = !!data.Email;
         toggleFields(false, hasEmail);
@@ -178,7 +179,7 @@
       }
     } catch (error) {
       console.error(error);
-      showMessage("<i class="bi bi-database-x"></i> Erreur de connexion au serveur.", "error");
+      showMessage("❌ Erreur de connexion au serveur.", "error");
       toggleFields(true);
     } finally {
       loader.style.display = "none";
@@ -200,7 +201,7 @@
     link.click();
     document.body.removeChild(link);
 
-    showMessage("<i class="bi bi-file-earmark-arrow-down"></i> Reçu téléchargé.", "info");
+    showMessage("📄 Reçu téléchargé.", "info");
   }
 
   // 🔹 Soumettre mise à jour
@@ -212,7 +213,7 @@
 
     const email = document.getElementById("email").value.trim();
     if (!email) {
-      showMessage("<i class="bi bi-exclamation-triangle"></i> L'email est obligatoire !", "error");
+      showMessage("⚠️ L'email est obligatoire !", "error");
       return;
     }
 
@@ -229,14 +230,14 @@
 
       if (result.status === "success") {
         document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-        showMessage("<i class="bi bi-floppy"></i> Modification enregistrée !", "success");
+        showMessage("✅ Modification enregistrée !", "success");
         setTimeout(() => window.location.reload(true), 2000);
       } else {
-        showMessage("<i class="bi bi-x-square"></i> Erreur lors de la mise à jour !", "error");
+        showMessage("❌ Erreur lors de la mise à jour !", "error");
       }
     } catch (error) {
       console.error(error);
-      showMessage("<i class="bi bi-database-x"></i> Erreur de connexion au serveur.", "error");
+      showMessage("❌ Erreur de connexion au serveur.", "error");
     }
   }
 
@@ -244,7 +245,7 @@
   async function signaler() {
     const nomsignal = document.getElementById("nomsignal").value.trim();
     if (!nomsignal) {
-      showMessage("<i class="bi bi-exclamation-triangle"></i> Veuillez saisir votre nom afin de signaler une erreur.", "error");
+      showMessage("⚠️ Veuillez saisir votre nom afin de signaler une erreur.", "error");
       return;
     }
 
@@ -258,13 +259,13 @@
 
       if (result.status === "success") {
         document.getElementById("nomsignal").value = "";
-        showMessage("<i class="bi bi-floppy"></i> Signalement enregistré, merci !", "success");
+        showMessage("✅ Signalement enregistré, merci !", "success");
       } else {
-        showMessage("<i class="bi bi-x-square"></i> Erreur lors de l'envoi du signalement.", "error");
+        showMessage("❌ Erreur lors de l'envoi du signalement.", "error");
       }
     } catch (error) {
       console.error(error);
-      showMessage("<i class="bi bi-database-x"></i> Erreur de connexion au serveur.", "error");
+      showMessage("❌ Erreur de connexion au serveur.", "error");
     }
   }
     // 🔹 Déclencher la recherche aussi avec la touche Entrée
