@@ -27,13 +27,16 @@ header h2{
   font-size: inherit;
 }
 .inputs input {
-  padding: 15px; /* L'espacement intérieur est crucial */
-  font-weight: bold;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 100%; /* Important pour que l'input prenne toute la largeur disponible */
-  box-sizing: border-box; /* S'assure que padding et border sont inclus dans la largeur/hauteur */
-  transition: border-color 0.3s, box-shadow 0.3s;
+  padding: 10px 12px;             /* confort visuel */
+  font-size: 16px;                /* taille de texte standard */
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;                    /* prend toute la largeur */
+  box-sizing: border-box;         /* padding inclus dans la largeur */
+  transition: border-color 0.3s, box-shadow 0.3s;
+  color: #333;
+  background: #fff;
 }
 #login img {
   margin-bottom: 5px;
@@ -293,9 +296,11 @@ h2 {
     width: 100%;
   }
   .inputs input {
-    font-size: 35px; /* Laissez-les grands pour les doigts, mais ajustez si 40px est trop */
-    padding: 20px; /* Augmenter l'espace intérieur pour une meilleure zone de clic/toucher */
-  }
+    font-size: 34px;        /* texte plus grand */
+    padding: 18px 22px;     /* plus d’espace pour les doigts */
+    border-radius: 10px;    /* arrondis plus doux */
+    border-width: 2px;      /* trait plus visible */
+  }
   .cadre {
     width: 70%;
   }
