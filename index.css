@@ -216,7 +216,16 @@ h2 {
   margin-bottom: 20px;
   color: #333;
 }
-
+.filigrane {
+  position: fixed;     /* Toujours visible */
+  bottom: 10px;        /* Décalage depuis le bas */
+  right: 10px;         /* Décalage depuis la droite */
+  opacity: 0.15;       /* Transparence */
+  font-size: 20px;     /* Taille du texte */
+  font-family: Arial, sans-serif;
+  pointer-events: none; /* Ignorer les clics */
+  z-index: 9999;       /* Toujours au-dessus */
+}
 /* 📱 Mode mobile (jusqu’à 1080px) */
 @media (max-width: 1080px) {
   body {
