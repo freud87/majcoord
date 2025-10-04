@@ -221,7 +221,7 @@ h2 {
   bottom: 10px;        /* Décalage depuis le bas */
   right: 10px;         /* Décalage depuis la droite */
   opacity: 0.12;       /* Transparence */
-  font-size: 300px;     /* Taille du texte */
+  font-size: 150px;     /* Taille du texte */
   pointer-events: none; /* Ignorer les clics */
   z-index: 9999;       /* Toujours au-dessus */
 }
