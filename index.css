@@ -107,7 +107,7 @@ input {
 #basinfo {
   display: flex;
   flex-direction: row;
-  /*justify-content: space-between;*/
+  justify-content: center;
   width: 100%;
   gap: 10px;
   margin-top:10px;
