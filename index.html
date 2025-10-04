@@ -127,7 +127,8 @@
         document.getElementById("modifie").value = data.Modifie || "";
         recuURL = data.Recu || null;
 
-        const nom = document.getElementById("nom").value.trim();
+        //const nom = document.getElementById("nom").value.trim();
+        const nomComplet = document.getElementById("nom").value.trim();
         const mots = nomComplet.split(/\s+/); // découpe par espaces multiples
             let nomAffiche;
             if (mots.length === 1) {
@@ -137,7 +138,7 @@
             } else {
               nomAffiche = mots.slice(0, 2).join(" ");
             }
-        showMessage(`👋 Bonjour ${nom}`, "success");
+        showMessage(`👋 Bonjour ${nomAffiche}`, "success");
         //showMessage("✅ CIN trouvée.", "success");
 
         const hasEmail = !!data.Email;
