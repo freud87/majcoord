@@ -239,7 +239,7 @@ h2 {
 /* 📱 Mode mobile (jusqu’à 1080px) */
 @media (max-width: 1080px) {
   body {
-    padding: 20px;
+    
     font-size: 40px;
     
   }
@@ -251,14 +251,14 @@ h2 {
     
     align-items: center;
    /* padding: 25px;*/
-    width: 90%;
+    width: 100%;
   }
   .cadre {
     width: 70%;
   }
   #infos,
   #services {
-    width: 100%;
+    width: 90%;
     max-width: none; /* supprime la limite de 500px */
   }
   input,
