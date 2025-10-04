@@ -97,7 +97,7 @@ button {
   box-sizing: border-box;
 }
 #topinfo,
-basinfo,
+#basinfo,
 #btnfail {
   display: flex;
   flex-direction: row;
