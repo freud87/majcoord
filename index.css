@@ -146,14 +146,11 @@ input:disabled {
 
 /* 🔘 Boutons */
 .container button {
-  flex: 0 0 auto;
   padding: 12px 20px;
   background: #007BFF;
   color: #fff;
   border: none;
   border-radius: 6px;
-  
-
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
   box-sizing: border-box;
