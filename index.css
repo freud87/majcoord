@@ -42,6 +42,9 @@ header h2{
   margin-bottom: 5px;
   width: 160px;
 }
+#login input {
+text-align: center;
+} 
 /* 🔄 Loader et cinfail cachés par défaut */
 #logform,
 #cinfail {
