@@ -182,8 +182,9 @@ button:disabled {
   to   { opacity: 0; transform: translateX(100%); }
 }
 
-/* 📦 Container principal (hors login) */
-.container {
+
+#infos,
+#services {
   background: url('background1.jpg') center/cover no-repeat;
   padding: 25px 30px;
   border-radius: 10px;
