@@ -141,7 +141,13 @@ button:disabled {
 #btnrecu {
   margin-top: 10px;
 }
-
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;  
+}
 /* 🔔 Conteneur global notifications */
 #notifications {
   position: fixed;
@@ -207,6 +213,7 @@ h2 {
   }
 
   .container {
+    flex-direction: column;
     padding: 25px;
     max-width: 100%;
   }
