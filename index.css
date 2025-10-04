@@ -96,7 +96,8 @@ button {
   margin: 5px 0;
   box-sizing: border-box;
 }
-
+#topinfo,
+basinfo,
 #btnfail {
   display: flex;
   flex-direction: row;
