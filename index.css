@@ -234,6 +234,9 @@ h2 {
     padding: 25px;
     max-width: 100%;
   }
+  .cadre {
+    width: 600px;
+  }
   #infos,
   #services {
     width: 100%;
