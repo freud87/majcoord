@@ -105,7 +105,10 @@ basinfo,
   width: 100%;
   gap: 10px;
 }
-
+.labels, .inputs{
+  display: flex;
+  flex-direction: column;
+}
 #btnfail button {
   width: auto;
   flex: 1;
