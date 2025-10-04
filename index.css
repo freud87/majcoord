@@ -327,7 +327,7 @@ h2 {
   }
   #logoutBtn {
     font-size: 35px;
-    padding: 20px 30px;
-    width: 90%;
+    padding: 10px 15px;
+    width: auto;
   }
 }
