@@ -65,7 +65,6 @@ header h2{
 }
 #logform input:focus {
   border-color: #f37640;
-  border: 2px solid;
   box-shadow: 0 0 5px rgba(244,246,249,0.3);
 }
 #cinfail input {
