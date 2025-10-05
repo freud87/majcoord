@@ -319,6 +319,7 @@ h2 {
   #services {
     width: 90%;
     max-width: none; /* supprime la limite de 500px */
+Flex-grow: 1;
   }
   /* Notifications centrées en haut */
   #notifications {
