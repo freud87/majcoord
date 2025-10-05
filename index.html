@@ -188,7 +188,7 @@ if (data.Modifie) {
             } else {
               nomAffiche = mots.slice(0, 2).join(" ");
             }
-        showMessage(`👋 Bonjour ${nomAffiche}`, "success");
+        showMessage(`<i class="bi bi-emoji-smile"></i> Bonjour ${nomAffiche}`, "success");
    
 
         const hasEmail = !!data.Email;
@@ -257,7 +257,7 @@ function surveillerModifications() {
     link.click();
     document.body.removeChild(link);
 
-    showMessage("📄 Reçu téléchargé.", "info");
+    showMessage('<i class="bi bi-file-earmark-check"></i> Reçu téléchargé.', "info");
   }
 
   // 🔹 Soumettre mise à jour
