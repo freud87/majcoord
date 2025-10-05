@@ -149,7 +149,25 @@
         document.getElementById("tel1").value = data.Tel1 || "";
         document.getElementById("tel2").value = data.Tel2 || "";
         document.getElementById("email").value = data.Email || "";
-        document.getElementById("modifie").value = data.Modifie || "";
+
+// 🔹 Formater la date si elle existe
+if (data.Modifie) {
+  const d = new Date(data.Modifie);
+  const formatted = d.toLocaleString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  });
+  document.getElementById("modifie").value = formatted;
+} else {
+  document.getElementById("modifie").value = "";
+}
+
+        
+        //document.getElementById("modifie").value = data.Modifie || "";
         recuURL = data.Recu || null;
 
         // Désactiver le bouton initialement
