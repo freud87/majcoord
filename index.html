@@ -40,7 +40,7 @@
     <div id="infos">
       <div id="topinfo">
         <h3>Editer vos informations</h3>
-        <button onclick="soumettre()">Soumettre</button>
+        <button id="btnsubmit" onclick="soumettre()">Soumettre</button>
       </div><!-- fin topinfo -->
       <div id="basinfo">
         <div class="labels">
@@ -110,9 +110,9 @@
     document.getElementById("tel2").disabled = disabled;
     document.getElementById("email").disabled = disabled;
     document.getElementById("modifie").disabled = true;
-
-    document.querySelector("button[onclick='soumettre()']").disabled = disabled;
-    document.getElementById("btnrecu").disabled = disabled || !hasEmail;
+    document.getElementById("btnsubmit").disabled = disabled;
+    //document.querySelector("button[onclick='soumettre()']").disabled = disabled;
+    //document.getElementById("btnrecu").disabled = disabled || !hasEmail;
   }
 
   // 🔹 Chercher étudiant
@@ -230,7 +230,7 @@
       if (result.status === "success") {
         document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
         showMessage("✅ Modification enregistrée !", "success");
-        setTimeout(() => window.location.reload(true), 2000);
+        //setTimeout(() => window.location.reload(true), 2000);
       } else {
         showMessage("❌ Erreur lors de la mise à jour !", "error");
       }
