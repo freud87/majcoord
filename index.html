@@ -104,16 +104,10 @@
   });
 
   // 🔹 Activation/Désactivation des champs
-  function toggleFields(disabled, hasEmail = false) {
+  function toggleFields(disabled) {
     document.getElementById("infocin").disabled = true;
-    document.getElementById("nom").disabled = disabled;
-    document.getElementById("tel1").disabled = disabled;
-    document.getElementById("tel2").disabled = disabled;
-    document.getElementById("email").disabled = disabled;
-    document.getElementById("modifie").disabled = true;
+    document.getElementById("modifie").disabled = true;    
     document.getElementById("btnsubmit").disabled = disabled;
-    //document.querySelector("button[onclick='soumettre()']").disabled = disabled;
-    //document.getElementById("btnrecu").disabled = disabled || !hasEmail;
   }
 
   // 🔹 Chercher étudiant
@@ -172,10 +166,10 @@
         const hasEmail = !!data.Email;
         toggleFields(false, hasEmail);
 
-        document.getElementById("email").addEventListener("input", () => {
+       /* document.getElementById("email").addEventListener("input", () => {
           const emailVal = document.getElementById("email").value.trim();
           document.getElementById("btnrecu").disabled = !emailVal;
-        });
+        });*/
         // 🔄 ⏳ Compte à rebours 3 minutes avant rechargement
         let remaining = 180;
         const timer = setInterval(() => {
