@@ -374,7 +374,7 @@ h2 {
     text-align: center;  /* texte centré */
     animation: fadeinY 0.4s, fadeoutY 0.4s 4.6s; /* animation adaptée */
   }
-  /* Animation verticale (mobile) */
+  /* Animation verticale (mobile) 
   @keyframes fadeinY {
     from { opacity: 0; transform: translateY(-100%); }
     to   { opacity: 1; transform: translateY(0); }
@@ -383,7 +383,7 @@ h2 {
   @keyframes fadeoutY {
     from { opacity: 1; transform: translateY(0); }
     to   { opacity: 0; transform: translateY(-100%); }
-  }
+  }*/
   .logoutBtn {
     font-size: 35px;
     padding: 10px 15px;
