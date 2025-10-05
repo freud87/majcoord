@@ -44,7 +44,7 @@
       </div><!-- fin topinfo -->
       <div id="basinfo">
         <div class="labels">
-          <label> :</label>
+          <label>CIN :</label>
           <label>Nom :</label>
           <label>Téléphone 1<span style="color:red">*</span> :</label>
           <label>Téléphone 2 :</label>
@@ -52,7 +52,7 @@
           <label>Modifié le :</label>
         </div><!-- fin labels -->
         <div class="inputs">
-          <input id="info" readonly>
+          <input id="infocin" readonly>
           <input type="text" id="nom">
           <input type="text" id="tel1">
           <input type="text" id="tel2">
@@ -127,7 +127,6 @@
       document.getElementById("login").style.display = "flex";
       showMessage("⚠️ Veuillez entrer le numéro de votre CIN !", "error");
       return;
-       
     }
 
     try {
