@@ -56,8 +56,6 @@ header h2{
   margin: 5px 0;
   box-sizing: border-box;
   text-align: center;
-  font-weight: bold;
- border-radius: 6px;
 }
 #logform input {
   color: #1370B6;
@@ -65,9 +63,7 @@ header h2{
   padding: 12px 20px;
   border: 1px solid;
   border-radius: 6px;
-  cursor: pointer;
-  /*transition: background 0.3s, transform 0.2s;*/
-  box-sizing: border-box;
+  outline: none;
 }
 #logform button {
   color: #fff;
@@ -159,7 +155,7 @@ header h2{
   flex-direction: column;
   justify-content: space-around;
 }
-input:focus {
+#logform input:focus {
   border-color: #f37640;
   border: 2px solid;
   box-shadow: 0 0 5px rgba(244,246,249,0.3);
