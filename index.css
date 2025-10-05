@@ -33,7 +33,7 @@ header h2{
   align-items: center;
   justify-content: center;
   padding: 30px;
-  font-size: inherit;
+  /*font-size: inherit;*/
  }
 #loader, #fail, #cinfail {
   display: none; /* cachés */
@@ -47,15 +47,13 @@ header h2{
   justify-content: center;
   flex-direction: column;
   width:100%;
-  
 }
-#logform input,
-#logform button,
-#cinfail input {
+#login input{
   width: 100%;
   margin: 5px 0;
   box-sizing: border-box;
   text-align: center;
+  font-weight: bold;
 }
 #logform input {
   color: #1370B6;
@@ -65,6 +63,21 @@ header h2{
   border-radius: 6px;
   outline: none;
 }
+#cinfail input {
+  color: #717171;
+  background: #fff;
+  padding: 12px 20px;
+  border: 1px solid;
+  border-radius: 6px;
+  outline: none;
+}
+#logform button {
+  width: 100%;
+  margin: 5px 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
 #logform button {
   color: #fff;
   background: #1370B6;
