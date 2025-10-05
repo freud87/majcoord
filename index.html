@@ -176,10 +176,10 @@
           document.getElementById("btnrecu").disabled = !emailVal;
         });
         // 🔄 ⏳ Compte à rebours 50 secondes avant rechargement
-        let remaining = 50;
+        let remaining = 180;
         const timer = setInterval(() => {
           remaining--;
-          if (remaining === 10) showMessage("⏳ La page se rechargera dans 10 secondes.", "info");
+          if (remaining === 10) showMessage('<i class="bi bi-hourglass-split"></i> Vous serez déconnecté(e) dans 10 secondes.', "info");
           if (remaining <= 0) {
             clearInterval(timer);
             window.location.reload(true);
