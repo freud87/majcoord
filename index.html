@@ -54,7 +54,7 @@
         <div class="inputs">
           <input id="infocin" readonly>
           <input type="text" id="nom">
-          <input type="text" id="tel1">
+          <input type="text" id="tel1" required>
           <input type="text" id="tel2">
           <input type="email" id="email" required>
           <input id="modifie" readonly>
@@ -175,7 +175,7 @@
           const emailVal = document.getElementById("email").value.trim();
           document.getElementById("btnrecu").disabled = !emailVal;
         });
-        // 🔄 ⏳ Compte à rebours 50 secondes avant rechargement
+        // 🔄 ⏳ Compte à rebours 3 minutes avant rechargement
         let remaining = 180;
         const timer = setInterval(() => {
           remaining--;
@@ -216,35 +216,43 @@
 
   // 🔹 Soumettre mise à jour
   async function soumettre() {
-    const email = document.getElementById("email").value.trim();
-    if (!email) {
-      showMessage("⚠️ L'email est obligatoire !", "error");
-      return;
-    }
+  const tel1 = document.getElementById("tel1").value.trim();
+  const email = document.getElementById("email").value.trim();
 
-    const formData = new URLSearchParams();
-    formData.append("row", currentRow);
-    formData.append("Nom", document.getElementById("nom").value);
-    formData.append("Tel1", document.getElementById("tel1").value);
-    formData.append("Tel2", document.getElementById("tel2").value);
-    formData.append("Email", email);
-
-    try {
-      const response = await fetch(apiURL, { method: "POST", body: formData });
-      const result = await response.json();
-
-      if (result.status === "success") {
-        document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-        showMessage("✅ Modification enregistrée !", "success");
-        //setTimeout(() => window.location.reload(true), 2000);
-      } else {
-        showMessage("❌ Erreur lors de la mise à jour !", "error");
-      }
-    } catch (error) {
-      console.error(error);
-      showMessage("❌ Erreur de connexion au serveur.", "error");
-    }
+  if (!tel1) {
+    showMessage('<i class="bi bi-telephone-x"></i> Le téléphone 1 est obligatoire !', "error");
+    return;
   }
+
+  if (!email) {
+    showMessage('<i class="bi bi-envelope-x"></i> L’email est obligatoire !', "error");
+    return;
+  }
+
+  const formData = new URLSearchParams();
+  formData.append("row", currentRow);
+  formData.append("Nom", document.getElementById("nom").value);
+  formData.append("Tel1", tel1);
+  formData.append("Tel2", document.getElementById("tel2").value);
+  formData.append("Email", email);
+
+  try {
+    const response = await fetch(apiURL, { method: "POST", body: formData });
+    const result = await response.json();
+
+    if (result.status === "success") {
+      document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
+      showMessage('<i class="bi bi-check-circle"></i> Modification enregistrée !', "success");
+      startReloadTimer();
+    } else {
+      showMessage('<i class="bi bi-exclamation-triangle"></i> Erreur lors de la mise à jour !', "error");
+    }
+  } catch (error) {
+    console.error(error);
+    showMessage('<i class="bi bi-wifi-off"></i> Erreur de connexion au serveur.', "error");
+  }
+}
+
 
   // 🔹 Signaler erreur
   async function signaler() {
