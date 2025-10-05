@@ -81,7 +81,8 @@
   const container = document.getElementById("notifications");
   const msg = document.createElement("div");
   msg.className = `toast ${type}`;
-  msg.textContent = text;
+  //msg.textContent = text;
+    msg.innerHTML = text; // ✅ utiliser innerHTML pour afficher les icônes
   container.appendChild(msg);
 
   // Disparition après délai
@@ -220,6 +221,7 @@
   const email = document.getElementById("email").value.trim();
 
   if (!tel1) {
+    showMessage('<i class="bi bi-telephone-x"></i> Le téléphone 1 est obligatoire !', "error");
     showMessage('<i class="bi bi-telephone-x"></i> Le téléphone 1 est obligatoire !', "error");
     return;
   }
