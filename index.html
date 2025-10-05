@@ -175,7 +175,18 @@
           const emailVal = document.getElementById("email").value.trim();
           document.getElementById("btnrecu").disabled = !emailVal;
         });
+        // 🔄 ⏳ Compte à rebours 50 secondes avant rechargement
+        let remaining = 50;
+        const timer = setInterval(() => {
+          remaining--;
+          if (remaining === 10) showMessage("⏳ La page se rechargera dans 10 secondes.", "info");
+          if (remaining <= 0) {
+            clearInterval(timer);
+            window.location.reload(true);
+          }
+        }, 1000);
       }
+      
     } catch (error) {
       console.error(error);
       showMessage("❌ Erreur de connexion au serveur.", "error");
@@ -205,11 +216,6 @@
 
   // 🔹 Soumettre mise à jour
   async function soumettre() {
-   /* if (!currentRow) {
-      showMessage("⚠️ Veuillez d'abord saisir votre CIN !", "error");
-      return;
-    }*/
-
     const email = document.getElementById("email").value.trim();
     if (!email) {
       showMessage("⚠️ L'email est obligatoire !", "error");
@@ -274,10 +280,6 @@
         chercherEtudiant(); // exécute la même fonction que le bouton
       }
     });
-    // 🔄 Recharger la page après 50 secondes
-    setTimeout(() => {
-      window.location.reload(true);
-    }, 50000);
 </script>
 </body>
 </html>
