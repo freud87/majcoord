@@ -221,13 +221,12 @@
   const email = document.getElementById("email").value.trim();
 
   if (!tel1) {
-    showMessage('<i class="bi bi-telephone-x"></i> Le téléphone 1 est obligatoire !', "error");
-    showMessage('<i class="bi bi-telephone-x"></i> Le téléphone 1 est obligatoire !', "error");
+    showMessage('<i class="bi bi-telephone"></i> Le numéro de téléphone est obligatoire !', "error");
     return;
   }
 
   if (!email) {
-    showMessage('<i class="bi bi-envelope-x"></i> L’email est obligatoire !', "error");
+    showMessage('<i class="bi bi-envelope-at"></i> L’email est obligatoire !', "error");
     return;
   }
 
@@ -244,14 +243,14 @@
 
     if (result.status === "success") {
       document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-      showMessage('<i class="bi bi-check-circle"></i> Modification enregistrée !', "success");
+      showMessage('<i class="bi bi-floppy"></i> Modification enregistrée !', "success");
       startReloadTimer();
     } else {
-      showMessage('<i class="bi bi-exclamation-triangle"></i> Erreur lors de la mise à jour !', "error");
+      showMessage('<i class="<i class="bi bi-database-fill-x"></i> Erreur lors de la mise à jour !', "error");
     }
   } catch (error) {
     console.error(error);
-    showMessage('<i class="bi bi-wifi-off"></i> Erreur de connexion au serveur.', "error");
+    showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
   }
 }
 
@@ -260,7 +259,7 @@
   async function signaler() {
     const nomsignal = document.getElementById("nomsignal").value.trim();
     if (!nomsignal) {
-      showMessage("⚠️ Veuillez saisir votre nom afin de signaler une erreur.", "error");
+      showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez saisir votre nom afin de signaler une erreur.', "error");
       return;
     }
 
@@ -274,13 +273,13 @@
 
       if (result.status === "success") {
         document.getElementById("nomsignal").value = "";
-        showMessage("✅ Signalement enregistré, merci !", "success");
+        showMessage("<i class="bi bi-floppy"></i> Signalement enregistré, merci !", "success");
       } else {
-        showMessage("❌ Erreur lors de l'envoi du signalement.", "error");
+        showMessage("<i class="bi bi-database-fill-x"></i> Erreur lors de l'envoi du signalement.", "error");
       }
     } catch (error) {
       console.error(error);
-      showMessage("❌ Erreur de connexion au serveur.", "error");
+      showMessage("<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.", "error");
     }
   }
     // 🔹 Déclencher la recherche aussi avec la touche Entrée
