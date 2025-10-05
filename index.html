@@ -138,7 +138,7 @@
         document.getElementById("cinfail").style.display = "flex";
         document.getElementById("btnsubmit").disabled = true; // Garder désactivé
         recuURL = null;
-        showMessage("❌ Numéro de CIN introuvable ou erroné.", "error");
+        showMessage("<i class="bi bi-x-square"></i> Numéro de CIN introuvable ou erroné.", "error");
       } else {
         // Étudiant trouvé        
         document.getElementById("login").style.display = "none";
