@@ -328,6 +328,7 @@ h2 {
     width: 100%;
   }
 #logform input,
+#logform button,
 .inputs input {
     font-size: 34px;        /* texte plus grand */
     padding: 18px 22px;     /* plus d’espace pour les doigts */
