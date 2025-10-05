@@ -316,7 +316,7 @@ function mettreAJourValeursInitiales() {
   async function signaler() {
     const nomsignal = document.getElementById("nomsignal").value.trim();
     if (!nomsignal) {
-      nomsignal.focus();
+      //nomsignal.focus();
       showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez saisir votre nom afin de signaler une erreur.', "error");
       return;
     }
