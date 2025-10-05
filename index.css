@@ -243,9 +243,15 @@ button:disabled {
   max-width: 500px;
   display:flex;
   flex-direction: column;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
 }
-
+#recus,
+#autres {
+  flex: 1; /* ⚡ les deux prennent une hauteur égale */
+  display: flex;
+  flex-direction: column;
+  /*justify-content: space-between;*/
+}
 h2 {
   margin-bottom: 20px;
 }
