@@ -321,6 +321,10 @@ h2 {
     max-width: none; /* supprime la limite de 500px */
 Flex-grow: 1;
   }
+  #recus,
+  #autres {
+flex-grow: 1;
+} 
   /* Notifications centrées en haut */
   #notifications {
     position: fixed;
