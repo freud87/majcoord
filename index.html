@@ -97,18 +97,14 @@
     input.focus();
     setTimeout(() => { input.click(); input.focus(); }, 300);
 
-    toggleFields(true);
+    // Désactiver uniquement les champs qui doivent être en lecture seule
+  document.getElementById("infocin").disabled = true;
+  document.getElementById("modifie").disabled = true;    
+  document.getElementById("btnsubmit").disabled = true;
 
     // Retour (CIN fail)
     document.getElementById("cinfailcncl").onclick = () => location.reload();
   });
-
-  // 🔹 Activation/Désactivation des champs
-  function toggleFields(disabled) {
-    document.getElementById("infocin").disabled = true;
-    document.getElementById("modifie").disabled = true;    
-    document.getElementById("btnsubmit").disabled = disabled;
-  }
 
   // 🔹 Chercher étudiant
   async function chercherEtudiant() {
@@ -120,7 +116,7 @@
       loader.style.display = "none";
       logo.style.display = "flex";
       document.getElementById("login").style.display = "flex";
-      showMessage("⚠️ Veuillez entrer le numéro de votre CIN !", "error");
+      showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez entrer le numéro de votre CIN !', "error");
       return;
     }
 
@@ -133,7 +129,7 @@
         document.getElementById("fail").style.display = "flex";
         document.getElementById("logform").style.display = "none";
         document.getElementById("cinfail").style.display = "flex";
-        toggleFields(true);
+        document.getElementById("btnsubmit").disabled = true; // Garder désactivé
         recuURL = null;
         showMessage("❌ Numéro de CIN introuvable ou erroné.", "error");
       } else {
@@ -148,6 +144,12 @@
         document.getElementById("email").value = data.Email || "";
         document.getElementById("modifie").value = data.Modifie || "";
         recuURL = data.Recu || null;
+
+        // Désactiver le bouton initialement
+      document.getElementById("btnsubmit").disabled = true;
+
+      // 🔥 POSER LE SURVEILLANT DE MODIFICATION
+      surveillerModifications();
 
         //const nom = document.getElementById("nom").value.trim();
         const nomComplet = document.getElementById("nom").value.trim();
@@ -184,13 +186,36 @@
       
     } catch (error) {
       console.error(error);
-      showMessage("❌ Erreur de connexion au serveur.", "error");
+      showMessage('<i class="bi bi-database-fill-x"></i> Erreur de connexion au serveur.', "error");
       toggleFields(true);
     } finally {
       loader.style.display = "none";
     }
   }
-
+  // 🔹 SURVEILLANT DE MODIFICATION
+function surveillerModifications() {
+  const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
+  const btnsubmit = document.getElementById("btnsubmit");
+  
+  champsASurveiller.forEach(champId => {
+    const champ = document.getElementById(champId);
+    
+    // Sauvegarder la valeur initiale
+    champ.dataset.valeurInitiale = champ.value;
+    
+    // Écouter les modifications
+    champ.addEventListener('input', function() {
+      // Vérifier si la valeur actuelle est différente de la valeur initiale
+      const aChange = champsASurveiller.some(id => {
+        const element = document.getElementById(id);
+        return element.value !== element.dataset.valeurInitiale;
+      });
+      
+      // Activer le bouton seulement si il y a des modifications
+      btnsubmit.disabled = !aChange;
+    });
+  });
+}
   // 🔹 Télécharger reçu
   function getrecu() {
     if (!recuURL) {
@@ -237,6 +262,13 @@
 
     if (result.status === "success") {
       document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
+      
+      // 🔥 METTRE À JOUR LES VALEURS INITIALES APRÈS SOUMISSION
+      mettreAJourValeursInitiales();
+      
+      // Désactiver le bouton après soumission réussie
+      document.getElementById("btnsubmit").disabled = true;
+      
       showMessage('<i class="bi bi-floppy"></i> Modification enregistrée !', "success");
     } else {
       showMessage('<i class="bi bi-database-fill-x"></i> Erreur lors de la mise à jour !', "error");
@@ -246,8 +278,14 @@
     showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
   }
 }
-
-
+// 🔹 METTRE À JOUR LES VALEURS INITIALES
+function mettreAJourValeursInitiales() {
+  const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
+  champsASurveiller.forEach(champId => {
+    const champ = document.getElementById(champId);
+    champ.dataset.valeurInitiale = champ.value;
+  });
+}
   // 🔹 Signaler erreur
   async function signaler() {
     const nomsignal = document.getElementById("nomsignal").value.trim();
