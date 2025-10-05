@@ -134,6 +134,21 @@
         showMessage("❌ Numéro de CIN introuvable ou erroné.", "error");
       } else {
         // Étudiant trouvé
+
+// Fonction utilitaire pour formater ISO → yyyy-MM-ddTHH:mm
+function formatDateISOToInput(dateStr) {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  const pad = n => n.toString().padStart(2, '0');
+  const yyyy = date.getFullYear();
+  const MM = pad(date.getMonth() + 1); // mois de 0 à 11
+  const dd = pad(date.getDate());
+  const HH = pad(date.getHours());
+  const mm = pad(date.getMinutes());
+  return `${yyyy}-${MM}-${dd}T${HH}:${mm}`;
+}
+
+        
         document.getElementById("login").style.display = "none";
         currentRow = data.row;
         
@@ -142,7 +157,9 @@
         document.getElementById("tel1").value = data.Tel1 || "";
         document.getElementById("tel2").value = data.Tel2 || "";
         document.getElementById("email").value = data.Email || "";
-        document.getElementById("modifie").value = data.Modifie || "";
+        document.getElementById("modifie").value = formatDateISOToInput(data.Modifie);
+
+        //document.getElementById("modifie").value = data.Modifie || "";
         recuURL = data.Recu || null;
 
         // Désactiver le bouton initialement
