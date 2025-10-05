@@ -163,10 +163,10 @@
               nomAffiche = mots.slice(0, 2).join(" ");
             }
         showMessage(`👋 Bonjour ${nomAffiche}`, "success");
-        //showMessage("✅ CIN trouvée.", "success");
+   
 
         const hasEmail = !!data.Email;
-        toggleFields(false, hasEmail);
+        //toggleFields(false, hasEmail);
 
        /* document.getElementById("email").addEventListener("input", () => {
           const emailVal = document.getElementById("email").value.trim();
@@ -187,7 +187,7 @@
     } catch (error) {
       console.error(error);
       showMessage('<i class="bi bi-database-fill-x"></i> Erreur de connexion au serveur.', "error");
-      toggleFields(true);
+      //toggleFields(true);
     } finally {
       loader.style.display = "none";
     }
