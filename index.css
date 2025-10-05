@@ -21,15 +21,38 @@ h1, h2, h3, h4, h5, h6 {
 header h2{
   margin: 0 0 10px 0;
 }
-#login,
-#login input,
-#login button {
+#login {
+  display: flex;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
   font-size: inherit;
+  text-align: center;
+  font-weight: bold;
+}
+#logform,
+#cinfail {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width:100%;
+}
+#logform input,
+#logform button,
+#cinfail input {
+  width: 100%;
+  margin: 5px 0;
+  box-sizing: border-box;
 }
 .inputs input {
   padding: 10px 12px;             /* confort visuel */
   font-size: 16px;                /* taille de texte standard */
-  font-weight: bold;
   border: 1px solid #ccc;
   border-radius: 6px;
   width: 100%;                    /* prend toute la largeur */
@@ -42,18 +65,12 @@ header h2{
   margin-bottom: 5px;
   width: 160px;
 }
-#login input {
-text-align: center;
-} 
-/* 🔄 Loader et cinfail cachés par défaut */
-#logform,
-#cinfail {
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width:100%;
+#btnfail button {
+  width: auto;
+  flex: 1;
+  margin: 5px 0;
+  box-sizing: border-box;
 }
-
 #loader, #fail, #cinfail {
   display: none; /* cachés */
 }
@@ -68,18 +85,7 @@ text-align: center;
   100% { transform: translate(0); }
 }
 /* 🔑 Zone login */
-#login {
-  display: flex;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(5px);
-  z-index: 9999;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-}
+
 
 /* 📦 Cadre du formulaire */
 .cadre {
@@ -96,14 +102,6 @@ text-align: center;
   padding: 25px 30px;
 }
 
-/* logform → input + bouton chercher */
-#logform input,
-#logform button,
-#cinfail input {
-  width: 100%;
-  margin: 5px 0;
-  box-sizing: border-box;
-}
 #topinfo,
 #btnfail {
   display: flex;
@@ -126,16 +124,6 @@ text-align: center;
   flex-direction: column;
   justify-content: space-around;
 }
-#btnfail button {
-  width: auto;
-  flex: 1;
-  margin: 5px 0;
-  box-sizing: border-box;
-}
-
-/* 📝 Input */
-
-
 input:focus {
   border-color: #f37640;
   box-shadow: 0 0 5px rgba(244,246,249,0.3);
