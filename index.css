@@ -105,6 +105,7 @@ header h2{
   transition: border-color 0.3s, box-shadow 0.3s;
   color: #333;
   background: #fff;
+  font-weight: bold;
 }
 #login img {
   margin-bottom: 5px;
