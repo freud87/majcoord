@@ -325,6 +325,7 @@ h2 {
   }
   #infos,
   #services {
+    flex: 1;
     width: 90%;
     max-width: none; /* supprime la limite de 500px */
   }
