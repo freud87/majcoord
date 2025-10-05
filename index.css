@@ -244,8 +244,19 @@ button:disabled {
   display:flex;
   flex-direction: column;
   justify-content: space-between;
-}
 
+  /*gap: 20px; /* espacement vertical entre les deux sections */
+  /*height: 100%; /* prend toute la hauteur dispo */
+}
+#recus,
+#autres {
+  flex: 1; /* ⚡ les deux prennent une hauteur égale */
+  display: flex;
+  /*flex-direction: column;
+  justify-content: space-between;*/
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
 h2 {
   margin-bottom: 20px;
 }
@@ -321,10 +332,7 @@ h2 {
     max-width: none; /* supprime la limite de 500px */
 Flex-grow: 1;
   }
-  #recus,
-  #autres {
-flex-grow: 1;
-} 
+
   /* Notifications centrées en haut */
   #notifications {
     position: fixed;
