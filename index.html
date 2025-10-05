@@ -331,9 +331,9 @@ function mettreAJourValeursInitiales() {
 
       if (result.status === "success") {
         document.getElementById("nomsignal").value = "";
-        showMessage('<i class="bi bi-floppy"></i> Signalement enregistré, merci !', "success");
+        showMessage('<i class="bi bi-send-check"></i> Signalement envoyé, merci !', "success");
       } else {
-        showMessage('<i class="bi bi-database-fill-x"></i> Erreur lors de l\'envoi du signalement.', "error");
+        showMessage('<i class="bi bi-send-x"></i> Erreur lors de l\'envoi du signalement.', "error");
       }
     } catch (error) {
       console.error(error);
