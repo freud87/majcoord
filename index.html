@@ -64,10 +64,11 @@
     <div id="services">
       <div id="recus">
         <h3>Récupérer vos reçus de versement des frais</h3>
-        <button id="btnrecu" onclick="getrecu()">Reçu 2ème année</button>
+        <button id="btnrecu1" onclick="getrecu(1)">Reçu 1ère année</button>
+        <button id="btnrecu2" onclick="getrecu(2)">Reçu 2ème année</button>
       </div><!-- fin recus -->
       <div id="autres">
-        <h3>Signaler des problèmes au niveau dela plateforme</h3>
+        <h3>Signaler des problèmes au niveau de la plateforme</h3>
         <button id="btnm2p" onclick="getm2p()">Réinitialiser mon m2p</button>
       </div><!-- fin autres -->
     </div><!-- fin services -->
@@ -77,7 +78,10 @@
   <script>
   const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
   let currentRow = null;
-  let recuURL = null;
+  //let recuURL = null;
+    
+    let recu1URL = null;
+    let recu2URL = null;
 
   const loader = document.getElementById("loader");
   const logo = document.getElementById("logo");
@@ -137,7 +141,9 @@
         document.getElementById("logform").style.display = "none";
         document.getElementById("cinfail").style.display = "flex";
         document.getElementById("btnsubmit").disabled = true; // Garder désactivé
-        recuURL = null;
+        //recuURL = null;
+        recu1URL = null;
+        recu2URL = null;
         nomsignal.focus();
         showMessage('<i class="bi bi-x-square"></i> Numéro de CIN introuvable ou erroné.', "error");
       } else {
@@ -169,7 +175,9 @@ if (data.Modifie) {
 
        
         //document.getElementById("modifie").value = data.Modifie || "";
-        recuURL = data.Recu || null;
+        //recuURL = data.Recu || null;
+        recu1URL = data.Recu1 || null;
+        recu2URL = data.Recu2 || null;
 
         // Désactiver le bouton initialement
       document.getElementById("btnsubmit").disabled = true;
@@ -242,23 +250,26 @@ function surveillerModifications() {
     });
   });
 }
-  // 🔹 Télécharger reçu
-  function getrecu() {
-    if (!recuURL) {
-      showMessage('<i class="bi bi-file-earmark-x"></i> Aucun reçu disponible pour vous.', "error");
-      return;
-    }
+  // 🔹 Télécharger reçu 1ère ou 2ème année
+function getrecu(annee) {
+  const recuURL = (annee === 1) ? recu1URL : recu2URL;
 
-    const link = document.createElement("a");
-    link.href = recuURL;
-    link.target = "_blank";
-    link.download = "Recu_Inscription.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    showMessage('<i class="bi bi-file-earmark-check"></i> Reçu téléchargé.', "info");
+  if (!recuURL) {
+    showMessage('<i class="bi bi-file-earmark-x"></i> Aucun reçu disponible pour la ${annee}ᵉ année.', "error");
+    return;
   }
+
+  const link = document.createElement("a");
+  link.href = recuURL;
+  link.target = "_blank";
+  link.download = `Recu_${annee}e_annee.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  showMessage('<i class="bi bi-file-earmark-check"></i> Reçu ${annee}ᵉ année téléchargé.', "info");
+}
+
 
   // 🔹 Soumettre mise à jour
   async function soumettre() {
