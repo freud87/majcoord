@@ -307,7 +307,7 @@ h2 {
   background: #f37640;           /* même bleu que le bouton login */
   color: white;
   border: none;
-  padding: 12px 20px;
+  /*padding: 12px 20px;*/
   font-size: 16px;
   font-weight: bold;
   border-radius: 6px;
