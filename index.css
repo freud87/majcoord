@@ -317,9 +317,7 @@ h2 {
 /* 📱 Mode mobile (jusqu’à 1080px) */
 @media (max-width: 1080px) {
   body {
-    
     font-size: 40px;
-    
   }
   .container button {
     font-size: 40px;
@@ -334,6 +332,8 @@ h2 {
   }
 #logform input,
 #logform button,
+#cinfail input,
+#btnfail button,
 .inputs input {
     font-size: 34px;        /* texte plus grand */
     padding: 18px 22px;     /* plus d’espace pour les doigts */
