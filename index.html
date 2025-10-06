@@ -11,7 +11,7 @@
   <header>
     <div class="titre">
       <h2>LTI Pr2</h2>
-      <h3>Deuxième année</h3>
+      <h3 id="annuniv"></h3>
     </div>
     <div class="userbox">
       <button class="logoutBtn" id="logoutBtnpc" onclick="location.reload()">Déconnexion</button>
@@ -75,8 +75,42 @@
   </div><!-- fin container -->
   <div id="notifications"></div>
   <div class="filigrane">LTI Pr2</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-  const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
+    //Année en cours
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSNJhHGgvdyQjfDKHTWpGBWK-jCRNV31zSxJjTYl2tz5WuLp4kUNL8F_Op4KuMXH-0_miPt4Ln9ZlDc/pub?gid=1147238427&single=true&output=csv"; // 🔁 Mets ton ID ici
+
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(csv => {
+    const rows = csv.split("\n").map(r => r.split(","));
+    const today = new Date();
+    let currentAnnee = "Non définie";
+
+    // Ignorer l'entête si présente
+    for (let i = 1; i < rows.length; i++) {
+      const [annee, debutStr, finStr] = rows[i].map(v => v.trim());
+
+      // Conversion JJ/MM/AAAA → Date
+      const [dDeb, mDeb, yDeb] = debutStr.split("/");
+      const [dFin, mFin, yFin] = finStr.split("/");
+      const debut = new Date(`${yDeb}-${mDeb}-${dDeb}`);
+      const fin = new Date(`${yFin}-${mFin}-${dFin}`);
+
+      if (today >= debut && today <= fin) {
+        currentAnnee = annee;
+        break;
+      }
+    }
+
+    document.getElementById("annuniv").textContent = currentAnnee;
+  })
+  .catch(err => {
+    console.error("Erreur import GSheet :", err);
+    document.getElementById("annuniv").textContent = "Erreur de chargement";
+  });
+    
+    const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
   let currentRow = null;
   //let recuURL = null;
     
