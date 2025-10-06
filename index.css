@@ -204,6 +204,9 @@ h2 {
   box-sizing: border-box;
   background: #909090;
 }
+#btnsignal {
+  background: #717171;
+}
 
 @keyframes shakefailimage {
   0% { transform: translate(0); }
