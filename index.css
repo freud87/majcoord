@@ -26,7 +26,7 @@ header {
   flex-direction: row;
   justify-content: space-around; /* espace entre les blocs */
   width: 100%;
-  /*padding: 0 20px; /* espace par rapport aux bords gauche/droite */
+  /*padding: 0 20px;  espace par rapport aux bords gauche/droite */
   gap: 20px; /* espace entre #infos et #services */
 }
 #infos,
