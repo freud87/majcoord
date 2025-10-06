@@ -223,7 +223,7 @@ input:disabled {
   box-sizing: border-box;
   width: auto;       /* largeur naturelle du contenu */
   display: inline-block; /* ne prend pas toute la largeur */
-  align-self: flex-start; /* dans un parent flex-col, ne s'étire pas */
+  /*align-self: flex-start; dans un parent flex-col, ne s'étire pas */
 }
 
 
