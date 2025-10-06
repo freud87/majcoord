@@ -192,9 +192,6 @@ header h2,
   100% { transform: translate(0); }
 }
 /* 🔑 Zone login */
-
-
-/* 📦 Cadre du formulaire */
 .cadre {
   background: #fff;
   border-radius: 12px;
@@ -226,7 +223,8 @@ header h2,
   gap: 10px;
   margin-top:10px;
 }
-.labels, .inputs{
+.labels,
+.inputs{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -385,7 +383,6 @@ h2 {
   .cadre {
     width: 70%;
   }
-  
   /* Notifications centrées en haut */
   #notifications {
     position: fixed;
@@ -397,7 +394,6 @@ h2 {
     max-width: 500px;    /* limite pour éviter que ce soit trop large */
     align-items: center; /* centre les toasts */
   }
-
   #notifications .toast {
     font-size: 35px;     /* texte plus grand */
     padding: 16px 20px;  /* plus d’espace intérieur */
@@ -411,7 +407,6 @@ h2 {
     from { opacity: 0; transform: translateY(-100%); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
   @keyframes fadeoutY {
     from { opacity: 1; transform: translateY(0); }
     to   { opacity: 0; transform: translateY(-100%); }
