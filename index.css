@@ -209,19 +209,18 @@ input:disabled {
   background: #e9ecef;
   cursor: not-allowed;
 }
-
-/* 🔘 Boutons */
 .container button {
   font-weight: bold;
-  width: auto;
   padding: 12px 20px;
   background: #007BFF;
- 
   color: #fff;
   border: none;
   border-radius: 6px;
   transition: background 0.3s, transform 0.2s;
   box-sizing: border-box;
+  width: auto;       /* largeur naturelle du contenu */
+  display: inline-block; /* ne prend pas toute la largeur */
+  align-self: flex-start; /* dans un parent flex-col, ne s'étire pas */
 }
 
 
