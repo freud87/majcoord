@@ -187,7 +187,8 @@ input:disabled {
   font-weight: bold;
   width: auto;
   padding: 12px 20px;
-  background: #007BFF;
+  /*background: #007BFF;*/
+  background: blue;
   color: #fff;
   border: none;
   border-radius: 6px;
