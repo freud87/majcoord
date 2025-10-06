@@ -77,13 +77,17 @@ header {
 h1, h2, h3, h4, h5, h6 {
   margin: 0; /* supprime les marges par défaut */
 }
-header h2,
-.container h3{
+header h2 {
   margin: 0 0 10px 0;
 }
+h2 {
+  /*margin-bottom: 20px;*/
+}
 #services h3{
+  margin: 0 0 10px 0;
   align-self: flex-start;
 }
+/*Styles page du login*/
 #login {
   display: flex;
   position: fixed;
@@ -95,13 +99,19 @@ header h2,
   align-items: center;
   justify-content: center;
   padding: 30px;
-  /*font-size: inherit;*/
  }
-#loader, #fail, #cinfail {
-  display: none; /* cachés */
-}
-#fail {
-  animation: shakefailimage 0.25s ease-in-out 0s 2;
+.cadre {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /*gap: 15px;*/
+  width: 400px;
+  text-align: center;
+  padding: 25px 30px;
 }
 #logform,
 #cinfail {
@@ -110,6 +120,17 @@ header h2,
   flex-direction: column;
   width:100%;
 }
+#cinfail {
+  display: none;
+}
+#loader {
+  display: none;
+}
+#fail {
+  display: none
+  animation: shakefailimage 0.25s ease-in-out 0s 2;
+}
+
 #login input{
   width: 100%;
   margin: 5px 0;
@@ -192,19 +213,7 @@ header h2,
   100% { transform: translate(0); }
 }
 /* 🔑 Zone login */
-.cadre {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /*gap: 15px;*/
-  width: 400px;
-  text-align: center;
-  padding: 25px 30px;
-}
+
 
 #topinfo,
 #btnfail {
@@ -263,7 +272,7 @@ button:disabled {
 #notifications {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: 160px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -297,13 +306,6 @@ button:disabled {
 @keyframes fadeout {
   from { opacity: 1; transform: translateX(0); }
   to   { opacity: 0; transform: translateX(100%); }
-}
-
-
-
-
-h2 {
-  margin-bottom: 20px;
 }
 .filigrane {
   position: fixed;     /* Toujours visible */
