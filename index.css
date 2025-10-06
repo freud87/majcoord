@@ -315,7 +315,7 @@ h2 {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 #logoutBtnmob{
-  display:none;
+  display: none;
 }
 
 
@@ -401,9 +401,9 @@ h2 {
     /*width: auto;*/
   }
   #logoutBtnmob{
-    display:block;
+    display: block;
   }
   #logoutBtnpc{
-    display:none;
+    display: none;
   }
 }
