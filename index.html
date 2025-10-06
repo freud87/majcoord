@@ -255,7 +255,7 @@ function getrecu(annee) {
   const recuURL = (annee === 1) ? recu1URL : recu2URL;
 
   if (!recuURL) {
-    showMessage('<i class="bi bi-file-earmark-x"></i> Aucun reçu disponible pour la ${annee}ᵉ année.', "error");
+    showMessage(`<i class="bi bi-file-earmark-x"></i> Aucun reçu disponible pour la ${annee}ᵉ année.`, "error");
     return;
   }
 
@@ -267,7 +267,7 @@ function getrecu(annee) {
   link.click();
   document.body.removeChild(link);
 
-  showMessage('<i class="bi bi-file-earmark-check"></i> Reçu ${annee}ᵉ année téléchargé.', "info");
+  showMessage(`<i class="bi bi-file-earmark-check"></i> Reçu ${annee}ᵉ année téléchargé.`, "info");
 }
 
 
