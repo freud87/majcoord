@@ -45,7 +45,6 @@ header {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;/*Test*/
   align-items: center;
 }
 /* 🌐 Styles des boutons */
@@ -60,6 +59,8 @@ h1, h2, h3, h4, h5, h6 {
 header h2,
 .container h3{
   margin: 0 0 10px 0;
+}
+#services h3{
   align-self: flex-start;
 }
 #login {
