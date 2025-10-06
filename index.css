@@ -40,15 +40,11 @@ header {
   flex: 1; /* prend la même largeur que l'autre bloc */
   max-width: 500px; /* limite la largeur si l'écran est très large */
 }
-#infos,
-#services {
-  padding: 25px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+#recus,
+#autres {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1; /* prend la même largeur que l'autre bloc */
-  max-width: 500px; /* limite la largeur si l'écran est très large */
 }
 .bi {
   font-size: 1.5em;
@@ -281,13 +277,7 @@ button:disabled {
 
 
 
-#recus,
-#autres {
-  flex: 1; /* ⚡ les deux prennent une hauteur égale */
-  display: flex;
-  flex-direction: column;
-  /*justify-content: space-between;*/
-}
+
 h2 {
   margin-bottom: 20px;
 }
@@ -367,12 +357,12 @@ h2 {
     width: 70%;
   }
   
-  #recus,
+ /* #recus,
   #autres {
-    flex: 1;               /* chacun prend 50% */
+    flex: 1;               
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
   }
   /* Notifications centrées en haut */
   #notifications {
