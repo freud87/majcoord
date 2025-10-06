@@ -125,7 +125,6 @@ header h2{
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
   /*transition: background 0.3s, transform 0.2s;*/
   box-sizing: border-box;
 }
@@ -157,7 +156,6 @@ header h2{
   font-weight: bold;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
   padding: 12px 20px;
   box-sizing: border-box;
   background: #909090;
@@ -226,7 +224,6 @@ input:disabled {
   color: #fff;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
   transition: background 0.3s, transform 0.2s;
   box-sizing: border-box;
 }
@@ -304,14 +301,13 @@ h2 {
   z-index: 9999;       /* Toujours au-dessus */
 }
 .logoutBtn {
-  background: #f37640;           /* même bleu que le bouton login */
+  background: #f37640;
   color: white;
   border: none;
-  /*padding: 12px 20px;*/
+  padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
   border-radius: 6px;
-  cursor: pointer;
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
   transition: all 0.25s ease-in-out;
 }
@@ -411,7 +407,7 @@ h2 {
   .logoutBtn {
     font-size: 35px;
     padding: 10px 15px;
-    width: auto;
+    /*width: auto;*/
   }
   #logoutBtnmob{
     display:block;
