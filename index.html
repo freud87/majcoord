@@ -222,6 +222,9 @@ if (data.Modifie) {
         recu1URL = data.Recu1 || null;
         recu2URL = data.Recu2 || null;
 
+        document.getElementById("btnrecu1").disabled = !recu1URL;
+        document.getElementById("btnrecu2").disabled = !recu2URL;
+
         // Désactiver le bouton initialement
       document.getElementById("btnsubmit").disabled = true;
 
