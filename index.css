@@ -46,6 +46,9 @@ header {
   flex-direction: column;
   align-items: center;
 }
+#btnrecus {
+  width: 50%;
+}
 #autres {
   flex: 1;
   display: flex;
@@ -66,8 +69,8 @@ header {
   display: inline-block; /* ne prend pas toute la largeur */
   /*align-self: flex-start; dans un parent flex-col, ne s'étire pas */
 }
-#btnrecu2 { /*bouton au milieu éloigne les autres*/
-  margin: 10px 0;
+#btnrecus button{
+  width: 100%;
 }
 .bi {
   font-size: 1.5em;
