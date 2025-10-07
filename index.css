@@ -47,12 +47,12 @@ header {
   align-items: center;
 }
 #btnrecus {
-  width: 50%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   /*align-items: center;*/
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
 #autres {
   flex: 1;
