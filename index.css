@@ -76,6 +76,7 @@ header {
   /*align-self: flex-start; dans un parent flex-col, ne s'étire pas */
 }
 #btnrecus button{
+  display: none;
   width: 100%;
 }
 .bi {
