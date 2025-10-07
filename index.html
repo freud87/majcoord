@@ -109,13 +109,9 @@ fetch(sheetURL)
     document.getElementById("annuniv").textContent = currentAnnee;
 
     // 🔥 Affichage des boutons selon le niveau
-    if (niveauActuel === "1") {
-      document.getElementById("btnrecu1").style.display = "inline-block";
-    } else if (niveauActuel === "2") {
-      document.getElementById("btnrecu2").style.display = "inline-block";
-    } else if (niveauActuel === "3") {
-      document.getElementById("btnrecu3").style.display = "inline-block";
-    }
+    if (niveauActuel >= 1) document.getElementById("btnrecu1").style.display = "inline-block";
+    if (niveauActuel >= 2) document.getElementById("btnrecu2").style.display = "inline-block";
+    if (niveauActuel >= 3) document.getElementById("btnrecu3").style.display = "inline-block";
   })
   .catch(err => {
     console.error("Erreur import GSheet :", err);
