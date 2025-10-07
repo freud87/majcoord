@@ -364,10 +364,12 @@ button:disabled {
   #infos {
     flex: 0; /* hauteur naturelle */
     max-width: 100%;
+    box-shadow: none;
   }
   #services {
     flex: 1; /* prend tout le reste de la hauteur */
     max-width: 100%;
+    box-shadow: none;
   }
   
   .container button {
