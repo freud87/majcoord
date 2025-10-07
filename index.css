@@ -39,6 +39,7 @@ header {
   flex-direction: column;
   flex: 1; /* prend la même largeur que l'autre bloc */
   max-width: 500px; /* limite la largeur si l'écran est très large */
+  gap: 10px;
 }
 #recus {
   flex: 0 0 auto;
