@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Journal de Caisse 2025</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="caisse.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  </head>
+  <body>
+    <header>
+        <h1>💰 Journal de Caisse 2025</h1>
+        <label>Disponible en caisse :<br><span id="dispo"></span></label>
+    </header>
+    <main>
+      <div class="actions">
+        <div class="ajouter">
+          <button id="btnAlim" class="green">+ Alimentation</button>
+          <button id="btnDep" class="red">+ Dépense</button>
+        </div>
+        <div id="stats">
+          <button id="btnref" style="display: none;">Tous les mouvements</button>
+          <button id="btnMois">Mouvements du mois</button>
+          <button id="btnStats">Statistiques</button>
+        </div>
+      </div>
+      <div id="formcontainer">
+        <div id="formop">
+          <div id="topForm">
+            <h3><span id="typeOperation"></span></h3>
+            <div id="formbuttons">
+              <button id="btnEnregistrerAlim"><span class="mobicon"><i class="bi bi-floppy"></i></span><span class="pcicon">Enregistrer</span></button>
+              <button id="btnFermerAlim"><span class="mobicon"><i class="bi bi-x-lg"></i></span><span class="pcicon">Fermer</span></button>
+            </div>
+          </div>
+          <div id="basForm">
+            <div class="labels">
+              <label>N° (auto) :</label>
+              <label>Date :</label>
+              <label>Libellé :</label>
+              <label>Montant :</label>
+              <label class="typAlim">Reçue par :</label>
+              <label>Rubrique :</label>
+              <label>Objet :</label>
+            </div>
+            <div class="inputs">
+              <input type="text" id="numop"/>
+              <input type="date" id="datop" />
+              <input type="text" id="libelop" />
+              <input type="number" id="montop" />
+              <div class="typAlim">
+                <label class="typAlim"><input type="radio" name="modeAlim" value="Mandat"> Mandat </label>
+                <label class="typAlim"><input type="radio" name="modeAlim" value="Espèces"> Espèces </label>
+              </div>
+              <input type="text" id="rubop" />
+              <input type="text" id="objop" />
+            </div>
+          </div>
+        </div>  
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Date</th>
+            <th>Libellé</th>
+            <th>Débit</th>
+            <th>Crédit</th>
+            <th>Solde</th>
+            <th>Rubrique</th>
+            <th>Objet</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </main>
+    <footer>© 2025 — Journal de Caisse connecté à Supabase</footer>
+    <script>
+    const { createClient } = window.supabase;
+    const SUPABASE_URL = "https://ruejiywyrbnlflzyacou.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1ZWppeXd5cmJubGZsenlhY291Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2ODI1NDEsImV4cCI6MjA2MzI1ODU0MX0.MaMVpNzCWdiBufFzhd6RL4riLQQejTUG4FWd5cuHUd8";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const formDiv = document.getElementById("formcontainer");
+    const btnAlim = document.getElementById("btnAlim");
+    const btnFermerAlim = document.getElementById("btnFermerAlim");
+    document.getElementById("numop").disabled = true;
+
+    btnAlim.onclick = () => formDiv.style.display = "flex";
+    btnFermerAlim.onclick = () => formDiv.style.display = "none";
+
+    async function chargerCaisse() {
+        const { data, error } = await supabase
+        .from("caisse2025")
+        .select("*")
+        .order("Date", { ascending: true });
+
+        if (error) {
+          alert("❌ Impossible de charger les données : " + error.message);
+          return;
+        }
+
+        afficherTable(data);
+        calculerProchainNo(data);
+    }
+
+    function afficherTable(donnees) {
+      const tbody = document.getElementById("table-body");
+      tbody.innerHTML = "";
+      let dernierSolde = 0;
+
+      donnees.forEach((ligne) => {
+        const tr = document.createElement("tr");
+        if (ligne.Solde != null) dernierSolde = ligne.Solde;
+        tr.innerHTML = `
+          <td>${ligne.No || ""}</td>
+          <td>${ligne.Date || ""}</td>
+          <td>${ligne.Libelles || ""}</td>
+          <td style="text-align:right;">
+              ${ligne.Debit != null ? ligne.Debit.toLocaleString('fr-TN', { minimumFractionDigits: 3 }) + " DT" : ""}
+          </td>
+          <td style="text-align:right;">
+              ${ligne.Credit != null ? ligne.Credit.toLocaleString('fr-TN', { minimumFractionDigits: 3 }) + " DT" : ""}
+          </td>
+          <td style="text-align:right;font-weight:bold;">
+              ${ligne.Solde != null ? ligne.Solde.toLocaleString('fr-TN', { minimumFractionDigits: 3 }) + " DT" : ""}
+          </td>
+          <td>${ligne.Rubriques || ""}</td>
+          <td>${ligne.Objet || ""}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("dispo").textContent =
+        dernierSolde.toLocaleString('fr-TN', { minimumFractionDigits: 3 }) + " DT";
+
+      activerActionsLigne();
+    }
+
+    let typeOperation = null;
+
+    btnAlim.onclick = () => {
+      typeOperation = "Alimentation";
+      formDiv.style.display = "flex";
+      document.getElementById("typeOperation").textContent = "Ajouter une alimentation";
+      document.getElementById("numop").value = genererNumero("A");
+      document.getElementById("datop").value = new Date().toISOString().split("T")[0];
+      document.getElementById("libelop").value = "Alimentation de la caisse";
+      document.getElementById("rubop").value = "ALM";
+      document.getElementById("objop").value = "";
+      document.querySelectorAll(".typAlim").forEach(el => el.style.display = "flex");
+      document.getElementById("montop").focus();
+      document.querySelectorAll("input[name='modeAlim']").forEach(radio => {
+        radio.onchange = () => {
+          document.getElementById("objop").value = radio.value;
+        };
+      });
+    };
+
+    const btnDep = document.getElementById("btnDep");
+    btnDep.onclick = () => {
+      typeOperation = "Dépense";
+      formDiv.style.display = "flex";
+      document.getElementById("typeOperation").textContent = "Ajouter une dépense";
+      document.getElementById("numop").value = genererNumero("D");
+      document.getElementById("datop").value = new Date().toISOString().split("T")[0];
+      document.getElementById("libelop").value = "";
+      document.getElementById("rubop").value = "";
+      document.getElementById("objop").value = "";
+      document.querySelectorAll(".typAlim").forEach(el => el.style.display = "none");
+      document.getElementById("libelop").focus();
+    };
+
+    function genererNumero(prefixe) {
+      const tbody = document.getElementById("table-body");
+      const numeros = Array.from(tbody.rows)
+        .map(r => r.cells[0]?.textContent.trim())
+        .filter(n => n);
+      let nums = [];
+      if (prefixe === "A") {
+        nums = numeros.filter(n => n.startsWith("A")).map(n => parseInt(n.substring(1))).filter(n => !isNaN(n));
+      } else {
+        nums = numeros.filter(n => !n.startsWith("A")).map(n => parseInt(n)).filter(n => !isNaN(n));
+      }
+      const max = nums.length > 0 ? Math.max(...nums) : 0;
+      const suivant = max + 1;
+      return prefixe === "A" ? "A" + suivant : suivant.toString().padStart(2, "0");
+    }
+
+    document.getElementById("btnEnregistrerAlim").onclick = async () => {
+      const No = document.getElementById("numop").value.trim();
+      const DateA = document.getElementById("datop").value;
+      const Libelles = document.getElementById("libelop").value.trim();
+      const Montant = Number(parseFloat(document.getElementById("montop").value).toFixed(3));
+      const Rubriques = document.getElementById("rubop").value.trim() || null;
+      const Objet = document.getElementById("objop").value.trim() || null;
+
+      if (!DateA || !Libelles || !Montant || !Rubriques) {
+        alert("⚠️ Remplir tous les champs obligatoires !");
+        return;
+      }
+
+      let dernierSolde = 0;
+      const tbody = document.getElementById("table-body");
+      if (tbody.lastElementChild) {
+        dernierSolde = parseFloat(tbody.lastElementChild.cells[5].textContent.replace(/\s|DT|Dinar/g, "").replace(",", ".")) || 0;
+      }
+
+      let Debit = null, Credit = null, Solde = dernierSolde;
+      if (typeOperation === "Alimentation") {
+        Debit = Montant;
+        Solde += Montant;
+      } else if (typeOperation === "Dépense") {
+        Credit = Montant;
+        Solde -= Montant;
+      }
+
+      const { error } = await supabase
+        .from("caisse2025")
+        .insert([{ No, Date: DateA, Libelles, Debit, Credit, Solde, Rubriques, Objet }]);
+
+     if (error) {
+  alert("❌ Erreur : " + error.message);
+} else {
+  alert(`✅ ${typeOperation} enregistrée !`);
+
+  // --- Calculs/Préparations pour Google Docs ---
+  const annee = new Date(DateA).getFullYear();
+
+  // Détecte "Voiture" dans l'objet (insensible à la casse)
+  const benef = (Objet && Objet.toLowerCase().includes("voiture")) ? "ABED Jaber" : "MELLITI Ferid";
+
+  // Fonction : convertir montant (nombre) en lettres (français simple)
+  function numberToFrenchWords(n) {
+    // version simple, gère 0..999999, avec décimales en centimes (optionnel)
+    const units = ["zéro","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix",
+      "onze","douze","treize","quatorze","quinze","seize","dix-sept","dix-huit","dix-neuf"];
+    const tens = ["", "", "vingt","trente","quarante","cinquante","soixante","soixante","quatre-vingt","quatre-vingt"];
+
+    if (isNaN(n)) return "";
+    n = Math.abs(Math.round(n * 100) / 100); // arrondi 2 décimales
+    const entier = Math.floor(n);
+    const dec = Math.round((n - entier) * 100); // centimes
+
+    function underThousand(n) {
+      let s = "";
+      if (n >= 100) {
+        const h = Math.floor(n / 100);
+        if (h > 1) s += units[h] + " ";
+        s += "cent";
+        if (n % 100 === 0 && h > 1) s += "s";
+        if (n % 100 !== 0) s += " ";
+      }
+      const r = n % 100;
+      if (r < 20) s += (r ? units[r] : "");
+      else {
+        const d = Math.floor(r / 10);
+        const u = r % 10;
+        if (d === 7 || d === 9) {
+          s += tens[d] + (u + 10 === 11 ? "-et-" : "-") + units[u + 10];
+        } else {
+          s += tens[d];
+          if (u === 1 && (d === 1 || d === 3 || d === 4 || d === 5 || d === 6)) s += "-et-un";
+          else if (u) s += (s ? "-" : "") + units[u];
+        }
+      }
+      return s;
+    }
+
+    let words = "";
+    if (entier === 0) words = "zéro";
+    else {
+      if (entier >= 1000) {
+        const thousands = Math.floor(entier / 1000);
+        if (thousands > 1) words += underThousand(thousands) + " ";
+        words += "mille";
+        if (entier % 1000 !== 0) words += " ";
+        const rest = entier % 1000;
+        if (rest) words += underThousand(rest);
+      } else {
+        words += underThousand(entier);
+      }
+    }
+
+    if (dec > 0) {
+      words += " et " + dec + "/100";
+    }
+
+    return words;
+  }
+
+  const mtlettre = numberToFrenchWords(Montant) + " Dinars";
+
+  const payload = {
+    numop: No,
+    datop: DateA,
+    annee: annee,
+    libelop: Libelles,
+    montop: Montant,
+    benef: benef,
+    mtlettre: mtlettre
+  };
+
+  // --- Envoi vers Google Apps Script (Web App) ---
+  fetch("https://script.google.com/macros/s/AKfycbz4XrJLZQ8BZkDrVJy-ftNzuxynKcbLRvtP3loBa9fMaAqS8WZjF3hYbbTcHxiQOhy5_A/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(r => {
+    console.log("📄 Google Docs mis à jour :", r);
+    // Nettoyage du formulaire (après succès)
+    document.getElementById("numop").value = "";
+    document.getElementById("datop").value = "";
+    document.getElementById("libelop").value = "";
+    document.getElementById("montop").value = "";
+    document.getElementById("rubop").value = "";
+    document.getElementById("objop").value = "";
+    typeOperation = null;
+    formDiv.style.display = "none";
+    chargerCaisse();
+  })
+  .catch(err => {
+    console.error("❌ Erreur Google Docs :", err);
+    // Même en cas d'erreur côté Google Docs, on nettoie et recharge localement
+    document.getElementById("numop").value = "";
+    document.getElementById("datop").value = "";
+    document.getElementById("libelop").value = "";
+    document.getElementById("montop").value = "";
+    document.getElementById("rubop").value = "";
+    document.getElementById("objop").value = "";
+    typeOperation = null;
+    formDiv.style.display = "none";
+    chargerCaisse();
+    alert("⚠️ Enregistrement Supabase OK, mais impossible de mettre à jour Google Docs. Voir console.");
+  });
+}
+
+    };
+
+    function activerActionsLigne() {
+      const tbody = document.getElementById("table-body");
+      const lignes = tbody.querySelectorAll("tr");
+      lignes.forEach((tr, index) => {
+        if (index === 0) return;
+        tr.onclick = (e) => {
+          e.stopPropagation();
+          const oldMenu = document.getElementById("ligneActions");
+          if (oldMenu) oldMenu.remove();
+          lignes.forEach(l => l.classList.remove("selected"));
+          tr.classList.add("selected");
+
+          const actionRow = document.createElement("tr");
+          actionRow.id = "ligneActions";
+          const cell = document.createElement("td");
+          cell.colSpan = 8;
+          cell.style.textAlign = "left";
+          cell.style.background = "#f5f5f5";
+          cell.style.padding = "8px";
+
+          const btnModifier = document.createElement("button");
+          btnModifier.innerHTML = `<span class="mobicon"><i class="bi bi-pencil-square"></i></span><span class="pcicon">Modifier</span>`;
+          btnModifier.className = "action-btn blue";
+
+          const btnImprimer = document.createElement("button");
+          btnImprimer.innerHTML = `<span class="mobicon"><i class="bi bi-printer"></i></span><span class="pcicon">Imprimer</span>`;
+          btnImprimer.className = "action-btn gray";
+
+          const btnSupprimer = document.createElement("button");
+          btnSupprimer.innerHTML = `<span class="mobicon"><i class="bi bi-trash3"></i></span><span class="pcicon">Supprimer</span>`;
+          btnSupprimer.className = "action-btn red";
+
+          const btnAnnuler = document.createElement("button");
+          btnAnnuler.innerHTML = `<span class="mobicon"><i class="bi bi-x-lg"></i></span><span class="pcicon">Annuler</span>`;
+          btnAnnuler.className = "action-btn black";
+
+          cell.append(btnModifier, btnImprimer);
+          if (index === lignes.length - 1) cell.append(btnSupprimer);
+          cell.append(btnAnnuler);
+
+          actionRow.appendChild(cell);
+          tr.insertAdjacentElement("afterend", actionRow);
+
+          btnAnnuler.onclick = () => {
+            actionRow.remove();
+            tr.classList.remove("selected");
+          };
+
+          btnModifier.onclick = () => alert(`📝 Modifier la ligne ${tr.cells[0].textContent}`);
+
+          // ✅ Le bouton Imprimer reste visible mais ne fait rien
+          btnImprimer.onclick = () => alert("🖨️ Impression à venir...");
+
+          btnSupprimer.onclick = async () => {
+            if (confirm(`⚠️ Supprimer la dernière ligne ${tr.cells[0].textContent} ?`)) {
+              const { error } = await supabase
+                .from("caisse2025")
+                .delete()
+                .eq("No", tr.cells[0].textContent);
+              if (error) alert("❌ Erreur : " + error.message);
+              else {
+                alert("🗑️ Ligne supprimée !");
+                tr.remove();
+                actionRow.remove();
+                chargerCaisse();
+              }
+            }
+          };
+        };
+      });
+
+      document.addEventListener("click", (e) => {
+        const actionRow = document.getElementById("ligneActions");
+        if (actionRow && !actionRow.contains(e.target)) {
+          actionRow.remove();
+          const selected = document.querySelector("tr.selected");
+          if (selected) selected.classList.remove("selected");
+        }
+      });
+    }
+
+    document.getElementById("btnMois").onclick = () => {
+      document.getElementById("btnref").style.display = "inline";
+      document.getElementById("btnMois").style.display = "none";
+      const tbody = document.getElementById("table-body");
+      const rows = Array.from(tbody.rows);
+      const now = new Date();
+      const mois = now.getMonth() + 1;
+      const annee = now.getFullYear();
+      rows.forEach(row => {
+        const d = new Date(row.cells[1].textContent);
+        row.style.display = (d.getMonth() + 1 === mois && d.getFullYear() === annee) ? "" : "none";
+      });
+    };
+
+    document.getElementById("btnref").onclick = () => {
+      document.getElementById("btnref").style.display = "none";
+      document.getElementById("btnMois").style.display = "inline";
+      Array.from(document.getElementById("table-body").rows).forEach(row => row.style.display = "");
+    };
+
+    function calculerProchainNo(data) {
+      const alims = data.filter(x => x.No && x.No.startsWith("A"));
+      let max = 0;
+      alims.forEach(a => {
+        const num = parseInt(a.No.substring(1));
+        if (num > max) max = num;
+      });
+      document.getElementById("numop").value = "A" + (max + 1);
+    }
+
+    async function testSupabase() {
+      const { data, error } = await supabase.from("caisse2025").select("*").limit(1);
+      console.log("🧩 Test connexion — Data:", data);
+      console.log("🧩 Test connexion — Error:", error);
+    }
+
+    testSupabase();
+    chargerCaisse();
+    </script>
+  </body>
+</html>
