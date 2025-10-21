@@ -79,9 +79,10 @@
   </div><!-- fin container -->
   <div id="notifications"></div>
   <div class="filigrane">LTI Pr2</div>
-  <div id="recuPreview" style="display:none; position:fixed; pointer-events:none; z-index:1000; border:2px solid #ccc; border-radius:10px; background:#fff; box-shadow:0 0 15px rgba(0,0,0,0.2);">
+  <!--<div id="recuPreview" style="display:none; position:fixed; pointer-events:none; z-index:1000; border:2px solid #ccc; border-radius:10px; background:#fff; box-shadow:0 0 15px rgba(0,0,0,0.2);">
     <iframe id="previewFrame" width="400" height="568" style="border:none;"></iframe>
-  </div>
+  </div>-->
+  <div class="preview-recu" id="previewRecu"></div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     //Année en cours
@@ -412,59 +413,30 @@ function mettreAJourValeursInitiales() {
       }
     });
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 🔹 Prévisualisation dynamique du reçu
-const previewBox = document.getElementById("recuPreview");
-const previewFrame = document.getElementById("previewFrame");
+    // Sélectionne tous les boutons "Reçu"
+const boutonsRecu = document.querySelectorAll(".btn-recu");
+const preview = document.getElementById("previewRecu");
 
-// Déplacement du cadre avec la souris
-document.addEventListener("mousemove", (e) => {
-  if (previewBox.style.display === "block") {
-    const offsetX = 15; // petit écart du curseur
-    const offsetY = 15;
+boutonsRecu.forEach(btn => {
+  btn.addEventListener("mouseenter", e => {
+    const url = btn.dataset.recu; // URL du reçu
+    preview.innerHTML = `<iframe src="${url}"></iframe>`;
+    preview.style.display = "block";
+  });
 
-    // On récupère les dimensions du cadre
-    const previewWidth = previewBox.offsetWidth;
-    const previewHeight = previewBox.offsetHeight;
+  btn.addEventListener("mousemove", e => {
+    // Afficher à gauche du curseur
+    const offsetX = -520; // à gauche du bouton
+    const offsetY = -50;
+    preview.style.left = `${e.pageX + offsetX}px`;
+    preview.style.top = `${e.pageY + offsetY}px`;
+  });
 
-    // Si le bouton est à droite, on place le cadre à gauche de la souris
-    let left = e.clientX - previewWidth - offsetX;
-    let top = e.clientY - offsetY;
-
-    // Empêcher que la fenêtre sorte de l’écran
-    if (left < 0) left = 10;
-    if (top + previewHeight > window.innerHeight)
-      top = window.innerHeight - previewHeight - 10;
-
-    previewBox.style.left = `${left}px`;
-    previewBox.style.top = `${top}px`;
-  }
+  btn.addEventListener("mouseleave", () => {
+    preview.style.display = "none";
+    preview.innerHTML = "";
+  });
 });
-
-// Fonction d'affichage du reçu
-function showRecuPreview(annee) {
-  const recuID = (annee === 1) ? recu1URL : recu2URL;
-  if (!recuID) return;
-  
-  const recuURL = `https://drive.google.com/file/d/${recuID}/preview`;
-  previewFrame.src = recuURL;
-  previewBox.style.display = "block";
-}
-
-// Fonction pour cacher le reçu
-function hideRecuPreview() {
-  previewBox.style.display = "none";
-  previewFrame.src = "";
-}
-
-// Attache les événements aux boutons
-document.getElementById("btnrecu1").addEventListener("mouseenter", () => showRecuPreview(1));
-document.getElementById("btnrecu2").addEventListener("mouseenter", () => showRecuPreview(2));
-document.getElementById("btnrecu3").addEventListener("mouseenter", () => showRecuPreview(3));
-
-document.getElementById("btnrecu1").addEventListener("mouseleave", hideRecuPreview);
-document.getElementById("btnrecu2").addEventListener("mouseleave", hideRecuPreview);
-document.getElementById("btnrecu3").addEventListener("mouseleave", hideRecuPreview);
-
 </script>
 </body>
 </html>
