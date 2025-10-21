@@ -217,9 +217,6 @@ if (data.Modifie) {
   document.getElementById("modifie").value = "";
 }
 
-       
-        //document.getElementById("modifie").value = data.Modifie || "";
-        //recuURL = data.Recu || null;
         recu1URL = data.Recu1 || null;
         recu2URL = data.Recu2 || null;
 
@@ -299,13 +296,19 @@ function surveillerModifications() {
 }
   // 🔹 Télécharger reçu 1ère ou 2ème année
 function getrecu(annee) {
-  const recuURL = (annee === 1) ? recu1URL : recu2URL;
+    // On récupère l'ID au lieu de l'URL
+  const recuID = (annee === 1) ? recu1URL : recu2URL;
   let suffixe = (annee == 1) ? "ère" : "ème";
-  if (!recuURL) {
+
+  if (!recuID) {
     showMessage(`<i class="bi bi-file-earmark-x"></i> Aucun reçu disponible pour la ${annee}${suffixe} année.`, "error");
     return;
   }
 
+  // Construit dynamiquement l’URL de téléchargement
+  const recuURL = `https://drive.google.com/uc?export=download&id=${recuID}`;
+
+  // Crée un lien de téléchargement invisible
   const link = document.createElement("a");
   link.href = recuURL;
   link.target = "_blank";
