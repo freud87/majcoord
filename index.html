@@ -80,7 +80,7 @@
   <div id="notifications"></div>
   <div class="filigrane">LTI Pr2</div>
   <div id="recuPreview" style="display:none; position:fixed; pointer-events:none; z-index:1000; border:2px solid #ccc; border-radius:10px; background:#fff; box-shadow:0 0 15px rgba(0,0,0,0.2);">
-    <iframe id="previewFrame" width="500" height="710" style="border:none;"></iframe>
+    <iframe id="previewFrame" width="400" height="568" style="border:none;"></iframe>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
@@ -419,8 +419,24 @@ const previewFrame = document.getElementById("previewFrame");
 // Déplacement du cadre avec la souris
 document.addEventListener("mousemove", (e) => {
   if (previewBox.style.display === "block") {
-    previewBox.style.left = (e.clientX + 15) + "px";
-    previewBox.style.top = (e.clientY + 15) + "px";
+    const offsetX = 15; // petit écart du curseur
+    const offsetY = 15;
+
+    // On récupère les dimensions du cadre
+    const previewWidth = previewBox.offsetWidth;
+    const previewHeight = previewBox.offsetHeight;
+
+    // Si le bouton est à droite, on place le cadre à gauche de la souris
+    let left = e.clientX - previewWidth - offsetX;
+    let top = e.clientY - offsetY;
+
+    // Empêcher que la fenêtre sorte de l’écran
+    if (left < 0) left = 10;
+    if (top + previewHeight > window.innerHeight)
+      top = window.innerHeight - previewHeight - 10;
+
+    previewBox.style.left = `${left}px`;
+    previewBox.style.top = `${top}px`;
   }
 });
 
