@@ -79,6 +79,9 @@
   </div><!-- fin container -->
   <div id="notifications"></div>
   <div class="filigrane">LTI Pr2</div>
+  <div id="recuPreview" style="display:none; position:fixed; pointer-events:none; z-index:1000; border:2px solid #ccc; border-radius:10px; background:#fff; box-shadow:0 0 15px rgba(0,0,0,0.2);">
+    <iframe id="previewFrame" width="400" height="300" style="border:none;"></iframe>
+  </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     //Année en cours
@@ -408,6 +411,44 @@ function mettreAJourValeursInitiales() {
         chercherEtudiant(); // exécute la même fonction que le bouton
       }
     });
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 🔹 Prévisualisation dynamique du reçu
+const previewBox = document.getElementById("recuPreview");
+const previewFrame = document.getElementById("previewFrame");
+
+// Déplacement du cadre avec la souris
+document.addEventListener("mousemove", (e) => {
+  if (previewBox.style.display === "block") {
+    previewBox.style.left = (e.clientX + 15) + "px";
+    previewBox.style.top = (e.clientY + 15) + "px";
+  }
+});
+
+// Fonction d'affichage du reçu
+function showRecuPreview(annee) {
+  const recuID = (annee === 1) ? recu1URL : recu2URL;
+  if (!recuID) return;
+  
+  const recuURL = `https://drive.google.com/file/d/${recuID}/preview`;
+  previewFrame.src = recuURL;
+  previewBox.style.display = "block";
+}
+
+// Fonction pour cacher le reçu
+function hideRecuPreview() {
+  previewBox.style.display = "none";
+  previewFrame.src = "";
+}
+
+// Attache les événements aux boutons
+document.getElementById("btnrecu1").addEventListener("mouseenter", () => showRecuPreview(1));
+document.getElementById("btnrecu2").addEventListener("mouseenter", () => showRecuPreview(2));
+document.getElementById("btnrecu3").addEventListener("mouseenter", () => showRecuPreview(3));
+
+document.getElementById("btnrecu1").addEventListener("mouseleave", hideRecuPreview);
+document.getElementById("btnrecu2").addEventListener("mouseleave", hideRecuPreview);
+document.getElementById("btnrecu3").addEventListener("mouseleave", hideRecuPreview);
+
 </script>
 </body>
 </html>
