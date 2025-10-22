@@ -1,126 +1,103 @@
-/* 🎨 Palette CNFCPP */
-:root {
-  --bleu-principal: #1370B6;   /* bleu logo CNFCPP */
-  --bleu-clair: #8FADCC;       /* bleu clair (hover, bordures, effets) */
-  --orange-principal: #F37640; /* orange logo CNFCPP */
-  --fond-clair: #F4F6F9;       /* fond général */
-  --gris-clair: #E9ECEF;       /* champs désactivés */
-  --gris-texte: #333333;       /* texte standard */
-  --blanc: #FFFFFF;            /* blanc pur */
-}
-
-/* 🌐 Styles généraux */
+/* 🌐 Styles des conteneurs */
 html, body {
-  height: 100%;
+  height: 100%; /* Important pour que flex fonctionne sur tout l'écran */
   margin: 0;
 }
 body {
   font-family: Arial, sans-serif;
-  background: var(--fond-clair);
+  background: #f4f6f9;
   display: flex;
   flex-direction: column;
+  /*justify-content: center;
+  padding: 10px;*/
   font-size: 16px;
-  color: var(--gris-texte);
 }
-
-/* 🧭 Header */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 5px 0 5px;
   margin-bottom: 10px;
-  flex: 0 0 auto;
+  flex: 0 0 auto; /* header garde sa hauteur naturelle */
 }
-
-/* 🧩 Conteneurs principaux */
 .container {
   flex: 1;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-around; /* espace entre les blocs */
   width: 100%;
-  gap: 20px;
+  /*padding: 0 20px;  espace par rapport aux bords gauche/droite */
+  gap: 20px; /* espace entre #infos et #services */
 }
-
 #infos,
 #services {
   padding: 25px 30px;
   border-radius: 10px;
-  background: var(--blanc);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  /*width: 100%;*/
   display: flex;
   flex-direction: column;
-  flex: 1;
-  max-width: 500px;
+  flex: 1; /* prend la même largeur que l'autre bloc */
+  max-width: 500px; /* limite la largeur si l'écran est très large */
   gap: 10px;
 }
-
-/* 📂 Sections secondaires */
 #recus {
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 #btnrecus {
   width: 40%;
   display: flex;
   flex-direction: column;
+  /*align-items: center;*/
   justify-content: space-between;
   gap: 8px;
 }
-
 #autres {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-/* 🧱 Boutons */
+/* 🌐 Styles des boutons */
 .container button {
   font-weight: bold;
   padding: 12px 20px;
-  background: var(--bleu-principal);
-  color: var(--blanc);
+  background: #007BFF;
+  color: #fff;
   border: none;
   border-radius: 6px;
   transition: background 0.3s, transform 0.2s;
   box-sizing: border-box;
-  width: auto;
-  display: inline-block;
+  width: auto;       /* largeur naturelle du contenu */
+  display: inline-block; /* ne prend pas toute la largeur */
+  /*align-self: flex-start; dans un parent flex-col, ne s'étire pas */
 }
-.container button:hover {
-  background: var(--bleu-clair);
-  color: var(--bleu-principal);
-  transform: translateY(-2px);
-}
-
-#btnrecus button {
+#btnrecus button{
   display: none;
   width: 100%;
 }
-
-button:disabled {
-  background: #b0c7e4;
-  cursor: not-allowed;
+.bi {
+  font-size: 1.5em;
+  vertical-align: middle;
+  margin-right: 4px;
 }
-
-/* 🧾 Titres */
 h1, h2, h3, h4, h5, h6 {
-  margin: 0;
+  margin: 0; /* supprime les marges par défaut */
 }
 header h2 {
   margin: 0 0 10px 0;
 }
-#services h3 {
+h2 {
+  /*margin-bottom: 20px;*/
+}
+#services h3{
   margin: 0 0 10px 0;
   align-self: flex-start;
 }
-
-/* 🔐 Page Login */
+/*Styles page du login*/
 #login {
   display: flex;
   position: fixed;
@@ -132,21 +109,20 @@ header h2 {
   align-items: center;
   justify-content: center;
   padding: 30px;
-}
-
+ }
 .cadre {
-  background: var(--blanc);
+  background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /*gap: 15px;*/
   width: 400px;
   text-align: center;
   padding: 25px 30px;
 }
-
 #logform,
 #cinfail {
   align-items: center;
@@ -154,71 +130,88 @@ header h2 {
   flex-direction: column;
   width:100%;
 }
-
-#cinfail, #loader, #fail { display: none; }
-
+#cinfail {
+  display: none;
+}
+#loader {
+  display: none;
+}
 #fail {
+  display: none;
   animation: shakefailimage 0.25s ease-in-out 0s 2;
 }
 
-/* 🔢 Inputs */
-#login input {
+#login input{
   width: 100%;
   margin: 5px 0;
   box-sizing: border-box;
   text-align: center;
   font-weight: bold;
 }
-
 #logform input {
-  color: var(--bleu-principal);
-  background: var(--blanc);
+  color: #1370B6;
+  background: #fff;
   padding: 12px 20px;
-  border: 1px solid var(--bleu-principal);
+  border: 1px solid;
   border-radius: 6px;
   outline: none;
 }
-
 #logform input:focus {
-  border-color: var(--orange-principal);
-  box-shadow: 0 0 5px rgba(243,118,64,0.3);
+  border-color: #f37640;
+  box-shadow: 0 0 5px rgba(244,246,249,0.3);
 }
-
 #cinfail input {
   color: #717171;
-  background: var(--blanc);
+  background: #fff;
   padding: 12px 20px;
-  border: 1px solid #ccc;
+  border: 1px solid;
   border-radius: 6px;
   outline: none;
 }
-
-/* 🔘 Boutons du login */
 #logform button {
   width: 100%;
   margin: 5px 0;
+  box-sizing: border-box;
   text-align: center;
-  color: var(--blanc);
+  color: #fff;
   font-weight: bold;
-  background: var(--bleu-principal);
+  background: #1370B6;
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
-  transition: background 0.3s, transform 0.2s;
+  /*transition: background 0.3s, transform 0.2s;*/
+  box-sizing: border-box;
 }
 #logform button:hover {
-  color: var(--bleu-principal);
-  background: var(--bleu-clair);
+  color: #1370B6;
+  background: #8FADCC;
 }
-
-#btnfail button {
+.inputs input {
+  padding: 10px 12px;             /* confort visuel */
+  font-size: 16px;                /* taille de texte standard */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;                    /* prend toute la largeur */
+  box-sizing: border-box;         /* padding inclus dans la largeur */
+  transition: border-color 0.3s, box-shadow 0.3s;
+  color: #333;
+  background: #fff;
+  font-weight: bold;
+}
+#login img {
+  margin-bottom: 5px;
+  width: 160px;
+}
+#btnfail button {/* cinfailcncl et btnsignal */
   width: auto;
   flex: 1;
   margin: 5px 0;
+  box-sizing: border-box;
   font-weight: bold;
   border: none;
   border-radius: 6px;
   padding: 12px 20px;
+  box-sizing: border-box;
 }
 #cinfailcncl {
   background: #909090;
@@ -227,7 +220,6 @@ header h2 {
   background: #717171;
 }
 
-/* ⚙️ Animations */
 @keyframes shakefailimage {
   0% { transform: translate(0); }
   25% { transform: translate(-4px); }
@@ -235,8 +227,9 @@ header h2 {
   75% { transform: translate(-4px); }
   100% { transform: translate(0); }
 }
+/* 🔑 Zone login */
 
-/* 🔖 Disposition des zones de login */
+
 #topinfo,
 #btnfail {
   display: flex;
@@ -266,14 +259,36 @@ header h2 {
   flex-direction: column;
   justify-content: space-around;
 }
-
-/* 🧭 Champs désactivés */
 input:disabled {
-  background: var(--gris-clair);
+  background: #e9ecef;
+  cursor: not-allowed;
+}
+.container button {
+  font-weight: bold;
+  padding: 12px 20px;
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  transition: background 0.3s, transform 0.2s;
+  box-sizing: border-box;
+  width: auto;       /* largeur naturelle du contenu */
+  display: inline-block; /* ne prend pas toute la largeur */
+  /*align-self: flex-start; dans un parent flex-col, ne s'étire pas */
+}
+
+
+
+button:disabled {
+  background: #b0c7e4;
   cursor: not-allowed;
 }
 
-/* 🔔 Notifications (toasts) */
+#btnrecu {
+  margin-top: 10px;
+}
+
+/* 🔔 Conteneur global notifications */
 #notifications {
   position: fixed;
   top: 20px;
@@ -283,22 +298,27 @@ input:disabled {
   gap: 10px;
   z-index: 99999;
 }
+
+/* Style de base d’un message (toast) */
 .toast {
   min-width: 250px;
   padding: 12px 16px;
   border-radius: 6px;
   font-size: 14px;
   font-weight: bold;
-  color: var(--blanc);
+  color: #fff;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  animation: fadein 0.4s, fadeout 0.4s 4.6s;
+  animation: fadein 0.4s, fadeout 0.4s 4.6s; /* 5s total */
   opacity: 0.95;
 }
+
+/* Variantes */
 .toast.success { background: #28a745; }
 .toast.error   { background: #dc3545; }
-.toast.info    { background: var(--bleu-principal); }
-.toast.warning { background: var(--orange-principal); color: #fff; }
+.toast.info    { background: #007bff; }
+.toast.warning { background: #ffc107; color: #222; }
 
+/* Animations d’apparition/disparition */
 @keyframes fadein {
   from { opacity: 0; transform: translateX(100%); }
   to   { opacity: 1; transform: translateX(0); }
@@ -307,22 +327,18 @@ input:disabled {
   from { opacity: 1; transform: translateX(0); }
   to   { opacity: 0; transform: translateX(100%); }
 }
-
-/* 💧 Filigrane */
 .filigrane {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  opacity: 0.12;
-  font-size: 150px;
-  pointer-events: none;
-  z-index: 9999;
+  position: fixed;     /* Toujours visible */
+  bottom: 10px;        /* Décalage depuis le bas */
+  right: 10px;         /* Décalage depuis la droite */
+  opacity: 0.12;       /* Transparence */
+  font-size: 150px;     /* Taille du texte */
+  pointer-events: none; /* Ignorer les clics */
+  z-index: 9999;       /* Toujours au-dessus */
 }
-
-/* 🚪 Bouton Déconnexion */
 .logoutBtn {
-  background: var(--orange-principal);
-  color: var(--blanc);
+  background: #f37640;
+  color: white;
   border: none;
   padding: 12px 20px;
   font-size: 16px;
@@ -331,64 +347,86 @@ input:disabled {
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
   transition: all 0.25s ease-in-out;
 }
+
 .logoutBtn:hover {
-  background: var(--bleu-clair);
-  color: var(--bleu-principal);
+  background: #8FADCC;           /* bleu clair au survol */
+  color: #1370B6;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(0,0,0,0.15);
 }
+
 .logoutBtn:active {
   transform: translateY(0);
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+#logoutBtnpc{
+  display: block;
+}
+#logoutBtnmob{
+  display: none;
+}
 
-#logoutBtnpc { display: block; }
-#logoutBtnmob { display: none; }
 
-/* 📱 Mode mobile */
+/* 📱 Mode mobile (jusqu’à 1080px) */
 @media (max-width: 1080px) {
-  body { font-size: 40px; }
+  body {
+    font-size: 40px;
+  }
   .container {
     flex-direction: column;
-    align-items: stretch;
+    align-items: stretch; /* blocs étirés en largeur */
   }
-  #infos, #services {
-    flex: 0;
+  #infos {
+    flex: 0; /* hauteur naturelle */
     max-width: 100%;
     box-shadow: none;
   }
+  #services {
+    flex: 1; /* prend tout le reste de la hauteur */
+    max-width: 100%;
+    box-shadow: none;
+  }
+  
   .container button {
     font-size: 40px;
+}
+#login img {
+  width: 200px;
+}
+
+#logform input,
+#logform button,
+#cinfail input,
+#btnfail button,
+.inputs input {
+    font-size: 34px;        /* texte plus grand */
+    padding: 18px 22px;     /* plus d’espace pour les doigts */
+    border-radius: 10px;    /* arrondis plus doux */
+    border-width: 2px;      /* trait plus visible */
   }
-  #login img { width: 200px; }
-  #logform input,
-  #logform button,
-  #cinfail input,
-  #btnfail button,
-  .inputs input {
-    font-size: 34px;
-    padding: 18px 22px;
-    border-radius: 10px;
-    border-width: 2px;
+  .cadre {
+    width: 70%;
   }
-  .cadre { width: 70%; }
+  /* Notifications centrées en haut */
   #notifications {
     position: fixed;
     top: 90px;
     left: 50%;
     transform: translateX(-50%);
     right: auto;
-    width: 60%;
-    max-width: 500px;
-    align-items: center;
+    width: 60%;          /* occupe presque toute la largeur */
+    max-width: 500px;    /* limite pour éviter que ce soit trop large */
+    align-items: center; /* centre les toasts */
   }
   #notifications .toast {
-    font-size: 35px;
-    padding: 16px 20px;
-    width: 100%;
-    text-align: center;
-    animation: fadeinY 0.4s, fadeoutY 0.4s 4.6s;
+    font-size: 35px;     /* texte plus grand */
+    padding: 16px 20px;  /* plus d’espace intérieur */
+    min-width: auto;     /* on laisse la largeur s’adapter */
+    width: 100%;         /* chaque toast prend la largeur dispo */
+    text-align: center;  /* texte centré */
+    animation: fadeinY 0.4s, fadeoutY 0.4s 4.6s; /* animation adaptée */
   }
+  /* Animation verticale (mobile) */
   @keyframes fadeinY {
     from { opacity: 0; transform: translateY(-100%); }
     to   { opacity: 1; transform: translateY(0); }
@@ -400,7 +438,12 @@ input:disabled {
   .logoutBtn {
     font-size: 35px;
     padding: 10px 15px;
+    /*width: auto;*/
   }
-  #logoutBtnmob { display: block; }
-  #logoutBtnpc { display: none; }
+  #logoutBtnmob{
+    display: block;
+  }
+  #logoutBtnpc{
+    display: none;
+  }
 }
