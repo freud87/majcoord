@@ -1,124 +1,406 @@
-/* 🌐 Variables CSS pour une meilleure maintenabilité */
+/* 🎨 Palette CNFCPP */
 :root {
-  --primary-color: #007BFF;
-  --secondary-color: #1370B6;
-  --accent-color: #f37640;
-  --light-blue: #8FADCC;
-  --success-color: #28a745;
-  --error-color: #dc3545;
-  --warning-color: #ffc107;
-  --info-color: #007bff;
-  --gray-light: #f4f6f9;
-  --gray-medium: #909090;
-  --gray-dark: #717171;
-  --border-radius: 6px;
-  --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  --transition: all 0.3s ease;
+  --bleu-principal: #1370B6;   /* bleu logo CNFCPP */
+  --bleu-clair: #8FADCC;       /* bleu clair (hover, bordures, effets) */
+  --orange-principal: #F37640; /* orange logo CNFCPP */
+  --fond-clair: #F4F6F9;       /* fond général */
+  --gris-clair: #E9ECEF;       /* champs désactivés */
+  --gris-texte: #333333;       /* texte standard */
+  --blanc: #FFFFFF;            /* blanc pur */
 }
 
-/* 🔧 Corrections et optimisations */
+/* 🌐 Styles généraux */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: var(--fond-clair);
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  color: var(--gris-texte);
+}
 
-/* Simplification des déclarations répétées */
-.container button, 
-.logoutBtn,
-#logform button {
+/* 🧭 Header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5px 0 5px;
+  margin-bottom: 10px;
+  flex: 0 0 auto;
+}
+
+/* 🧩 Conteneurs principaux */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  gap: 20px;
+}
+
+#infos,
+#services {
+  padding: 25px 30px;
+  border-radius: 10px;
+  background: var(--blanc);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 500px;
+  gap: 10px;
+}
+
+/* 📂 Sections secondaires */
+#recus {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#btnrecus {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+#autres {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 🧱 Boutons */
+.container button {
   font-weight: bold;
   padding: 12px 20px;
+  background: var(--bleu-principal);
+  color: var(--blanc);
   border: none;
-  border-radius: var(--border-radius);
-  transition: var(--transition);
+  border-radius: 6px;
+  transition: background 0.3s, transform 0.2s;
   box-sizing: border-box;
-}
-
-/* Amélioration de la spécificité pour éviter les conflits */
-.container button:not(.logoutBtn) {
-  background: var(--primary-color);
-  color: #fff;
   width: auto;
   display: inline-block;
 }
-
-/* Optimisation des media queries */
-@media (max-width: 1080px) {
-  body {
-    font-size: clamp(16px, 4vw, 40px); /* Taille responsive */
-  }
-  
-  .container {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  #infos, #services {
-    max-width: 100%;
-    box-shadow: none;
-  }
-  
-  /* Amélioration de l'accessibilité tactile */
-  .container button,
-  #logform button,
-  .logoutBtn {
-    min-height: 60px; /* Cible tactile plus grande */
-  }
-  
-  .cadre {
-    width: min(90%, 500px); /* Limite la largeur maximum */
-  }
-}
-
-/* 🔍 Amélioration de l'accessibilité */
-button:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-}
-
-/* Amélioration du contraste pour le texte */
-.toast.warning {
-  color: #000; /* Meilleur contraste sur fond jaune */
-}
-
-/* 🎨 Amélioration des états de survol */
-.container button:hover:not(:disabled) {
-  background: #0056b3;
+.container button:hover {
+  background: var(--bleu-clair);
+  color: var(--bleu-principal);
   transform: translateY(-2px);
 }
 
-/* 🔄 Optimisation des animations */
+#btnrecus button {
+  display: none;
+  width: 100%;
+}
+
+button:disabled {
+  background: #b0c7e4;
+  cursor: not-allowed;
+}
+
+/* 🧾 Titres */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+header h2 {
+  margin: 0 0 10px 0;
+}
+#services h3 {
+  margin: 0 0 10px 0;
+  align-self: flex-start;
+}
+
+/* 🔐 Page Login */
+#login {
+  display: flex;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.cadre {
+  background: var(--blanc);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  text-align: center;
+  padding: 25px 30px;
+}
+
+#logform,
+#cinfail {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width:100%;
+}
+
+#cinfail, #loader, #fail { display: none; }
+
+#fail {
+  animation: shakefailimage 0.25s ease-in-out 0s 2;
+}
+
+/* 🔢 Inputs */
+#login input {
+  width: 100%;
+  margin: 5px 0;
+  box-sizing: border-box;
+  text-align: center;
+  font-weight: bold;
+}
+
+#logform input {
+  color: var(--bleu-principal);
+  background: var(--blanc);
+  padding: 12px 20px;
+  border: 1px solid var(--bleu-principal);
+  border-radius: 6px;
+  outline: none;
+}
+
+#logform input:focus {
+  border-color: var(--orange-principal);
+  box-shadow: 0 0 5px rgba(243,118,64,0.3);
+}
+
+#cinfail input {
+  color: #717171;
+  background: var(--blanc);
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* 🔘 Boutons du login */
+#logform button {
+  width: 100%;
+  margin: 5px 0;
+  text-align: center;
+  color: var(--blanc);
+  font-weight: bold;
+  background: var(--bleu-principal);
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  transition: background 0.3s, transform 0.2s;
+}
+#logform button:hover {
+  color: var(--bleu-principal);
+  background: var(--bleu-clair);
+}
+
+#btnfail button {
+  width: auto;
+  flex: 1;
+  margin: 5px 0;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+}
+#cinfailcncl {
+  background: #909090;
+}
+#btnsignal {
+  background: #717171;
+}
+
+/* ⚙️ Animations */
 @keyframes shakefailimage {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  75% { transform: translateX(8px); }
+  0% { transform: translate(0); }
+  25% { transform: translate(-4px); }
+  50% { transform: translate(4px); }
+  75% { transform: translate(-4px); }
+  100% { transform: translate(0); }
 }
 
-/* 📱 Amélioration responsive */
+/* 🔖 Disposition des zones de login */
+#topinfo,
+#btnfail {
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+#basinfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  margin-top:10px;
+}
+.labels {
+  flex:0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.inputs {
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+/* 🧭 Champs désactivés */
+input:disabled {
+  background: var(--gris-clair);
+  cursor: not-allowed;
+}
+
+/* 🔔 Notifications (toasts) */
+#notifications {
+  position: fixed;
+  top: 20px;
+  right: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 99999;
+}
+.toast {
+  min-width: 250px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--blanc);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  animation: fadein 0.4s, fadeout 0.4s 4.6s;
+  opacity: 0.95;
+}
+.toast.success { background: #28a745; }
+.toast.error   { background: #dc3545; }
+.toast.info    { background: var(--bleu-principal); }
+.toast.warning { background: var(--orange-principal); color: #fff; }
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeout {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(100%); }
+}
+
+/* 💧 Filigrane */
+.filigrane {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  opacity: 0.12;
+  font-size: 150px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* 🚪 Bouton Déconnexion */
+.logoutBtn {
+  background: var(--orange-principal);
+  color: var(--blanc);
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: all 0.25s ease-in-out;
+}
+.logoutBtn:hover {
+  background: var(--bleu-clair);
+  color: var(--bleu-principal);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+.logoutBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#logoutBtnpc { display: block; }
+#logoutBtnmob { display: none; }
+
+/* 📱 Mode mobile */
 @media (max-width: 1080px) {
-  header {
+  body { font-size: 40px; }
+  .container {
     flex-direction: column;
-    gap: 10px;
-    text-align: center;
+    align-items: stretch;
   }
-  
   #infos, #services {
-    padding: 20px 15px;
-  }
-  
-  #notifications {
-    width: 90%;
-    max-width: none;
-  }
-}
-
-/* 🖨️ Support impression */
-@media print {
-  .logoutBtn,
-  #notifications,
-  .filigrane {
-    display: none !important;
-  }
-  
-  #infos, #services {
+    flex: 0;
+    max-width: 100%;
     box-shadow: none;
-    border: 1px solid #ccc;
   }
+  .container button {
+    font-size: 40px;
+  }
+  #login img { width: 200px; }
+  #logform input,
+  #logform button,
+  #cinfail input,
+  #btnfail button,
+  .inputs input {
+    font-size: 34px;
+    padding: 18px 22px;
+    border-radius: 10px;
+    border-width: 2px;
+  }
+  .cadre { width: 70%; }
+  #notifications {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 60%;
+    max-width: 500px;
+    align-items: center;
+  }
+  #notifications .toast {
+    font-size: 35px;
+    padding: 16px 20px;
+    width: 100%;
+    text-align: center;
+    animation: fadeinY 0.4s, fadeoutY 0.4s 4.6s;
+  }
+  @keyframes fadeinY {
+    from { opacity: 0; transform: translateY(-100%); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeoutY {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-100%); }
+  }
+  .logoutBtn {
+    font-size: 35px;
+    padding: 10px 15px;
+  }
+  #logoutBtnmob { display: block; }
+  #logoutBtnpc { display: none; }
 }
