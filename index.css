@@ -1,463 +1,124 @@
-/* Définition des Variables de Couleurs (Pratique recommandée !) */
+/* 🌐 Variables CSS pour une meilleure maintenabilité */
 :root {
-  --color-primary: #1370B6; /* Bleu CNFCPP - Boutons principaux */
-  --color-secondary: #F37640; /* Orange Vif - Accent, Logout */
-  --color-background-light: #F4F6F9; /* Gris très clair - Fond du body */
-  --color-card-background: #FFFFFF; /* Blanc - Fond des conteneurs */
-  --color-text-dark: #333333; /* Texte principal */
-  --color-disabled: #B0C7E4; /* Bleu Clair Doux - Boutons désactivés */
-  --color-hover-secondary: #8FADCC; /* Nuance de bleu pour le survol */
+  --primary-color: #007BFF;
+  --secondary-color: #1370B6;
+  --accent-color: #f37640;
+  --light-blue: #8FADCC;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #007bff;
+  --gray-light: #f4f6f9;
+  --gray-medium: #909090;
+  --gray-dark: #717171;
+  --border-radius: 6px;
+  --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  --transition: all 0.3s ease;
 }
 
-/* 🌐 Styles des conteneurs */
-html, body {
-  height: 100%; /* Important pour que flex fonctionne sur tout l'écran */
-  margin: 0;
-}
-body {
-  font-family: Arial, sans-serif;
-  background: var(--color-background-light); /* Utilisation du Gris très clair */
-  display: flex;
-  flex-direction: column;
-  /*justify-content: center;
-  padding: 10px;*/
-  font-size: 16px;
-  color: var(--color-text-dark); /* Texte par défaut */
-}
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 5px 0 5px;
-  margin-bottom: 10px;
-  flex: 0 0 auto; /* header garde sa hauteur naturelle */
-}
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around; /* espace entre les blocs */
-  width: 100%;
-  /*padding: 0 20px;  espace par rapport aux bords gauche/droite */
-  gap: 20px; /* espace entre #infos et #services */
-}
-#infos,
-#services {
-  padding: 25px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  background: var(--color-card-background); /* Utilisation du Blanc */
-  /*width: 100%;*/
-  display: flex;
-  flex-direction: column;
-  flex: 1; /* prend la même largeur que l'autre bloc */
-  max-width: 500px; /* limite la largeur si l'écran est très large */
-  gap: 10px;
-}
-#recus {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-#btnrecus {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  /*align-items: center;*/
-  justify-content: space-between;
-  gap: 8px;
-}
-#autres {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-/* 🌐 Styles des boutons */
-.container button {
-  font-weight: bold;
-  padding: 12px 20px;
-  background: var(--color-primary); /* Bleu CNFCPP */
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  transition: background 0.3s, transform 0.2s;
-  box-sizing: border-box;
-  width: auto;       /* largeur naturelle du contenu */
-  display: inline-block; /* ne prend pas toute la largeur */
-  /*align-self: flex-start; dans un parent flex-col, ne s'étire pas */
-}
-#btnrecus button{
-  display: none;
-  width: 100%;
-}
-.bi {
-  font-size: 1.5em;
-  vertical-align: middle;
-  margin-right: 4px;
-}
-h1, h2, h3, h4, h5, h6 {
-  margin: 0; /* supprime les marges par défaut */
-}
-header h2 {
-  margin: 0 0 10px 0;
-}
-h2 {
-  /*margin-bottom: 20px;*/
-}
-#services h3{
-  margin: 0 0 10px 0;
-  align-self: flex-start;
-}
-/*Styles page du login*/
-#login {
-  display: flex;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.7); /* Fond plus clair */
-  backdrop-filter: blur(5px);
-  z-index: 9999;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-}
-.cadre {
-  background: var(--color-card-background); /* Utilisation du Blanc */
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /*gap: 15px;*/
-  width: 400px;
-  text-align: center;
-  padding: 25px 30px;
-}
-#logform,
-#cinfail {
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width:100%;
-}
-#cinfail {
-  display: none;
-}
-#loader {
-  display: none;
-}
-#fail {
-  display: none;
-  animation: shakefailimage 0.25s ease-in-out 0s 2;
-}
+/* 🔧 Corrections et optimisations */
 
-#login input{
-  width: 100%;
-  margin: 5px 0;
-  box-sizing: border-box;
-  text-align: center;
-  font-weight: bold;
-}
-#logform input {
-  color: var(--color-primary); /* Bleu CNFCPP */
-  background: var(--color-card-background); /* Blanc */
-  padding: 12px 20px;
-  border: 1px solid #ccc; /* Bordure neutre */
-  border-radius: 6px;
-  outline: none;
-}
-#logform input:focus {
-  border-color: var(--color-secondary); /* Orange Vif au focus */
-  box-shadow: 0 0 5px rgba(244,246,249,0.3);
-}
-#cinfail input {
-  color: #717171;
-  background: var(--color-card-background); /* Blanc */
-  padding: 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-}
+/* Simplification des déclarations répétées */
+.container button, 
+.logoutBtn,
 #logform button {
-  width: 100%;
-  margin: 5px 0;
-  box-sizing: border-box;
-  text-align: center;
-  color: #fff;
   font-weight: bold;
-  background: var(--color-primary); /* Bleu CNFCPP */
   padding: 12px 20px;
   border: none;
-  border-radius: 6px;
-  /*transition: background 0.3s, transform 0.2s;*/
+  border-radius: var(--border-radius);
+  transition: var(--transition);
   box-sizing: border-box;
 }
-#logform button:hover {
-  color: var(--color-primary); /* Texte Bleu CNFCPP */
-  background: var(--color-hover-secondary); /* Nuance de bleu pour le survol */
-}
-.inputs input {
-  padding: 10px 12px;             /* confort visuel */
-  font-size: 16px;                /* taille de texte standard */
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 100%;                    /* prend toute la largeur */
-  box-sizing: border-box;         /* padding inclus dans la largeur */
-  transition: border-color 0.3s, box-shadow 0.3s;
-  color: var(--color-text-dark);
-  background: var(--color-card-background);
-  font-weight: bold;
-}
-#login img {
-  margin-bottom: 5px;
-  width: 160px;
-}
-#btnfail button {/* cinfailcncl et btnsignal */
+
+/* Amélioration de la spécificité pour éviter les conflits */
+.container button:not(.logoutBtn) {
+  background: var(--primary-color);
+  color: #fff;
   width: auto;
-  flex: 1;
-  margin: 5px 0;
-  box-sizing: border-box;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 20px;
-  box-sizing: border-box;
-}
-#cinfailcncl {
-  background: #909090;
-}
-#btnsignal {
-  background: #717171;
+  display: inline-block;
 }
 
-@keyframes shakefailimage {
-  0% { transform: translate(0); }
-  25% { transform: translate(-4px); }
-  50% { transform: translate(4px); }
-  75% { transform: translate(-4px); }
-  100% { transform: translate(0); }
-}
-/* 🔑 Zone login */
-
-
-#topinfo,
-#btnfail {
-  display: flex;
-  flex-direction: row;
-  align-items:center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 10px;
-}
-#basinfo {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  gap: 10px;
-  margin-top:10px;
-}
-.labels {
-  flex:0 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-.inputs {
-  flex:1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-input:disabled {
-  background: #e9ecef;
-  cursor: not-allowed;
-}
-.container button {
-  font-weight: bold;
-  padding: 12px 20px;
-  background: var(--color-primary); /* Bleu CNFCPP */
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  transition: background 0.3s, transform 0.2s;
-  box-sizing: border-box;
-  width: auto;       /* largeur naturelle du contenu */
-  display: inline-block; /* ne prend pas toute la largeur */
-  /*align-self: flex-start; dans un parent flex-col, ne s'étire pas */
-}
-
-
-
-button:disabled {
-  background: var(--color-disabled); /* Bleu Clair Doux */
-  cursor: not-allowed;
-}
-
-#btnrecu {
-  margin-top: 10px;
-}
-
-/* 🔔 Conteneur global notifications */
-#notifications {
-  position: fixed;
-  top: 20px;
-  right: 160px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 99999;
-}
-
-/* Style de base d’un message (toast) */
-.toast {
-  min-width: 250px;
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  animation: fadein 0.4s, fadeout 0.4s 4.6s; /* 5s total */
-  opacity: 0.95;
-}
-
-/* Variantes */
-/* J'ai conservé les couleurs de statut standard pour les notifications (convention) */
-.toast.success { background: #28a745; }
-.toast.error   { background: #dc3545; }
-.toast.info    { background: var(--color-primary); } /* Bleu CNFCPP pour les infos */
-.toast.warning { background: #ffc107; color: var(--color-text-dark); } /* Texte foncé sur jaune */
-
-/* Animations d’apparition/disparition */
-@keyframes fadein {
-  from { opacity: 0; transform: translateX(100%); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes fadeout {
-  from { opacity: 1; transform: translateX(0); }
-  to   { opacity: 0; transform: translateX(100%); }
-}
-.filigrane {
-  position: fixed;     /* Toujours visible */
-  bottom: 10px;        /* Décalage depuis le bas */
-  right: 10px;         /* Décalage depuis la droite */
-  opacity: 0.12;       /* Transparence */
-  font-size: 150px;     /* Taille du texte */
-  pointer-events: none; /* Ignorer les clics */
-  z-index: 9999;       /* Toujours au-dessus */
-}
-.logoutBtn {
-  background: var(--color-secondary); /* Orange Vif */
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 6px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-  transition: all 0.25s ease-in-out;
-}
-
-.logoutBtn:hover {
-  background: var(--color-hover-secondary); /* Nuance de bleu pour le survol */
-  color: var(--color-primary); /* Texte Bleu CNFCPP */
-  transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-}
-
-.logoutBtn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-#logoutBtnpc{
-  display: block;
-}
-#logoutBtnmob{
-  display: none;
-}
-
-
-/* 📱 Mode mobile (jusqu’à 1080px) */
+/* Optimisation des media queries */
 @media (max-width: 1080px) {
   body {
-    font-size: 40px;
+    font-size: clamp(16px, 4vw, 40px); /* Taille responsive */
   }
+  
   .container {
     flex-direction: column;
-    align-items: stretch; /* blocs étirés en largeur */
+    gap: 15px;
   }
-  #infos {
-    flex: 0; /* hauteur naturelle */
-    max-width: 100%;
-    box-shadow: none;
-  }
-  #services {
-    flex: 1; /* prend tout le reste de la hauteur */
+  
+  #infos, #services {
     max-width: 100%;
     box-shadow: none;
   }
   
-  .container button {
-    font-size: 40px;
-}
-#login img {
-  width: 200px;
+  /* Amélioration de l'accessibilité tactile */
+  .container button,
+  #logform button,
+  .logoutBtn {
+    min-height: 60px; /* Cible tactile plus grande */
+  }
+  
+  .cadre {
+    width: min(90%, 500px); /* Limite la largeur maximum */
+  }
 }
 
-#logform input,
-#logform button,
-#cinfail input,
-#btnfail button,
-.inputs input {
-    font-size: 34px;        /* texte plus grand */
-    padding: 18px 22px;     /* plus d’espace pour les doigts */
-    border-radius: 10px;    /* arrondis plus doux */
-    border-width: 2px;      /* trait plus visible */
+/* 🔍 Amélioration de l'accessibilité */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Amélioration du contraste pour le texte */
+.toast.warning {
+  color: #000; /* Meilleur contraste sur fond jaune */
+}
+
+/* 🎨 Amélioration des états de survol */
+.container button:hover:not(:disabled) {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* 🔄 Optimisation des animations */
+@keyframes shakefailimage {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* 📱 Amélioration responsive */
+@media (max-width: 1080px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
   }
-  .cadre {
-    width: 70%;
+  
+  #infos, #services {
+    padding: 20px 15px;
   }
-  /* Notifications centrées en haut */
+  
   #notifications {
-    position: fixed;
-    top: 90px;
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-    width: 60%;          /* occupe presque toute la largeur */
-    max-width: 500px;    /* limite pour éviter que ce soit trop large */
-    align-items: center; /* centre les toasts */
+    width: 90%;
+    max-width: none;
   }
-  #notifications .toast {
-    font-size: 35px;     /* texte plus grand */
-    padding: 16px 20px;  /* plus d’espace intérieur */
-    min-width: auto;     /* on laisse la largeur s’adapter */
-    width: 100%;         /* chaque toast prend la largeur dispo */
-    text-align: center;  /* texte centré */
-    animation: fadeinY 0.4s, fadeoutY 0.4s 4.6s; /* animation adaptée */
+}
+
+/* 🖨️ Support impression */
+@media print {
+  .logoutBtn,
+  #notifications,
+  .filigrane {
+    display: none !important;
   }
-  /* Animation verticale (mobile) */
-  @keyframes fadeinY {
-    from { opacity: 0; transform: translateY(-100%); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeoutY {
-    from { opacity: 1; transform: translateY(0); }
-    to   { opacity: 0; transform: translateY(-100%); }
-  }
-  .logoutBtn {
-    font-size: 35px;
-    padding: 10px 15px;
-    /*width: auto;*/
-  }
-  #logoutBtnmob{
-    display: block;
-  }
-  #logoutBtnpc{
-    display: none;
+  
+  #infos, #services {
+    box-shadow: none;
+    border: 1px solid #ccc;
   }
 }
