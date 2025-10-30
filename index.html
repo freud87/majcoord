@@ -404,6 +404,44 @@ function mettreAJourValeursInitiales() {
       showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
     }
   }
+    // 🔹 Réinitialisation du mot de passe (m2p)
+async function getm2p() {
+  const nom = document.getElementById("nom").value.trim();
+  const email = document.getElementById("email").value.trim();
+
+  // Vérifications basiques
+  if (!nom) {
+    showMessage('<i class="bi bi-person-exclamation"></i> Le nom est requis pour envoyer la demande.', "error");
+    return;
+  }
+
+  if (!email) {
+    showMessage('<i class="bi bi-envelope-exclamation"></i> L’email est requis pour envoyer la demande.', "error");
+    return;
+  }
+
+  // Construction des données à envoyer
+  const formData = new URLSearchParams();
+  formData.append("action", "m2p");  // tu pourras filtrer côté Apps Script avec ce mot-clé
+  formData.append("Nom", nom);
+  formData.append("Objet", "Mot de passe");
+  formData.append("Email", email);
+
+  try {
+    const response = await fetch(apiURL, { method: "POST", body: formData });
+    const result = await response.json();
+
+    if (result.status === "success") {
+      showMessage('<i class="bi bi-shield-check"></i> Votre demande de réinitialisation a été envoyée.', "success");
+    } else {
+      showMessage('<i class="bi bi-shield-x"></i> Erreur lors de l’envoi de la demande.', "error");
+    }
+  } catch (error) {
+    console.error(error);
+    showMessage('<i class="bi bi-wifi-off"></i> Erreur de connexion au serveur.', "error");
+  }
+}
+
     // 🔹 Déclencher la recherche aussi avec la touche Entrée
     document.getElementById("cinInput").addEventListener("keydown", function(e) {
       if (e.key === "Enter") {
