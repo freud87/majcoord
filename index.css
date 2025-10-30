@@ -365,7 +365,9 @@ button:disabled {
 #logoutBtnmob{
   display: none;
 }
-
+button {
+   cursor: pointer;
+}
 
 /* 📱 Mode mobile (jusqu’à 1080px) */
 @media (max-width: 1080px) {
