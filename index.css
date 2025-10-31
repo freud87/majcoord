@@ -42,10 +42,9 @@ header {
   gap: 10px;
 }
 #social {
-  padding: 25px 30px;
+  /*padding: 25px 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  /*width: 100%;*/
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);*/
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -402,19 +401,23 @@ button {
     max-width: 100%;
     box-shadow: none;
   }
-  
+  #social {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
   .container button {
     font-size: 40px;
-}
-#login img {
-  width: 200px;
-}
+  }
+  #login img {
+    width: 200px;
+  }
 
-#logform input,
-#logform button,
-#cinfail input,
-#btnfail button,
-.inputs input {
+  #logform input,
+  #logform button,
+  #cinfail input,
+  #btnfail button,
+  .inputs input {
     font-size: 34px;        /* texte plus grand */
     padding: 18px 22px;     /* plus d’espace pour les doigts */
     border-radius: 10px;    /* arrondis plus doux */
