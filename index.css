@@ -42,9 +42,7 @@ header {
   gap: 10px;
 }
 #social {
-  /*padding: 25px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);*/
+  padding-bottom: 25px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -346,6 +344,7 @@ button:disabled {
   z-index: 9999;
 }*/
 .filigrane {
+  text-align: center;
   opacity: 0.12;
   font-size: 150px;
 }
@@ -464,5 +463,8 @@ button {
   }
   #logoutBtnpc{
     display: none;
+  }
+  .filigrane {
+    text-align: right;
   }
 }
