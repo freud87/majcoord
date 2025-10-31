@@ -82,7 +82,7 @@
         <h3>Signaler des problèmes au niveau de la plateforme</h3>
         <button id="btnm2p" onclick="getm2p()">Réinitialiser mon m2p</button>
       </div><!-- fin autres -->
-      <div class="filigrane">LTI Pr2</div>
+      <div class="filigrane"></div>
     </div><!-- fin services -->
   </div><!-- fin container -->
   <div id="notifications"></div>
@@ -201,7 +201,11 @@ fetch(sheetURL)
         nomsignal.focus();
         showMessage('<i class="bi bi-x-square"></i> Numéro de CIN introuvable ou erroné.', "error");
       } else {
-        // Étudiant trouvé        
+        // Étudiant trouvé
+        // ✅ Ajout : affichage de la filigrane avec le nom du fichier
+        const filigrane = document.querySelector(".filigrane");
+        filigrane.textContent = data.FileName || "Fichier inconnu";
+        
         document.getElementById("login").style.display = "none";
         currentRow = data.row;
         
@@ -260,6 +264,8 @@ if (data.Modifie) {
           const emailVal = document.getElementById("email").value.trim();
           document.getElementById("btnrecu").disabled = !emailVal;
         });*/
+        if (Object.keys(data).length === 0) {
+  
         // 🔄 ⏳ Compte à rebours 3 minutes avant rechargement
         let remaining = 180;
         const timer = setInterval(() => {
