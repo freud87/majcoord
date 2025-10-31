@@ -337,8 +337,6 @@ button:disabled {
   z-index: 9999;
 }*/
 .filigrane {
-  
-  flex: 1;
   opacity: 0.12;
   font-size: 150px;
 }
