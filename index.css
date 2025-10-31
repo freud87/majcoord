@@ -380,7 +380,15 @@ button:disabled {
 button {
    cursor: pointer;
 }
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
+a:hover, a:focus, a:visited {
+  text-decoration: none;
+  color: inherit;
+}
 /* 📱 Mode mobile (jusqu’à 1080px) */
 @media (max-width: 1080px) {
   body {
