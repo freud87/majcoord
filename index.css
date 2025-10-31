@@ -413,6 +413,7 @@ a:hover, a:focus, a:visited {
     flex-direction: row;
     justify-content: center;
     gap: 10px;
+    padding-bottom: 0;
   }
   .container button {
     font-size: 40px;
