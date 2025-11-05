@@ -396,15 +396,46 @@ a:hover, a:focus, a:visited {
   }
   .container {
     flex-direction: column;
-    align-items: stretch; /* blocs étirés en largeur */
+    align-items: stretch;
+    /* Réorganiser l'ordre des éléments */
+    order: 1;
+  }
+  
+  #infos {
+    flex: 0;
+    max-width: 100%;
+    box-shadow: none;
+    order: 1;
+  }
+  
+  #services {
+    flex: 1;
+    max-width: 100%;
+    box-shadow: none;
+    order: 2;
+  }
+  
+  #social {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 0;
+    /* Placer #social après #services */
+    order: 3;
+  }
+  /*
+  .container {
+    flex-direction: column;
+    align-items: stretch;
   }
   #infos {
-    flex: 0; /* hauteur naturelle */
+    flex: 0; 
     max-width: 100%;
     box-shadow: none;
   }
   #services {
-    flex: 1; /* prend tout le reste de la hauteur */
+    flex: 1; 
     max-width: 100%;
     box-shadow: none;
   }
@@ -415,6 +446,7 @@ a:hover, a:focus, a:visited {
     gap: 10px;
     padding-bottom: 0;
   }
+  */
   .container button {
     font-size: 40px;
   }
