@@ -250,7 +250,22 @@ if (data.Modifie) {
             } else {
               nomAffiche = mots.slice(0, 2).join(" ");
             }
-        showMessage(`<i class="bi bi-emoji-smile"></i> Bonjour ${nomAffiche}`, "success");
+        // 2. Détermination de la salutation en fonction de l'heure
+          const heureActuelle = new Date().getHours();
+          let salutation;
+      
+          if (heureActuelle >= 6 && heureActuelle < 12) {
+              salutation = "Bonjour";
+          } else if (heureActuelle >= 12 && heureActuelle < 17) {
+              salutation = "Bon après-midi";
+          } else if (heureActuelle >= 17 && heureActuelle < 20) {
+              salutation = "Bonsoir";
+          } else if (heureActuelle >= 20 && heureActuelle < 23) {
+              salutation = "Bonne soirée";
+          } else {
+              salutation = "Ravi de vous voir";
+          }
+        showMessage(`<i class="bi bi-emoji-smile"></i> ${salutation} ${nomAffiche}`, "success");
    
 
         const hasEmail = !!data.Email;
