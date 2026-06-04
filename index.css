@@ -253,6 +253,22 @@ h2 {
   border-bottom: none;
 }
 
+.etudiant-list li {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.etudiant-list li:hover {
+  background: #f0f4ff;
+}
+
+.etudiant-list li.selected {
+  background: #dce8ff;
+  font-weight: bold;
+  border-left: 3px solid #3a7bd5;
+  padding-left: 9px;
+}
+
 
 #topliste,
 #topinfo,
