@@ -34,11 +34,13 @@
         <div id="btnfail">
           <button id="btnsignal" onclick="signaler()">Signaler</button>
           <button id="cinfailcncl">Retour</button>
-        </div></div></div></div><div class="container">
-    <div id="liste" style="display:none;"> <div id="topliste">
+        </div></div></div></div>
+  <div class="container">
+    <div id="liste"> <div id="topliste">
         <h3>Liste des étudiants</h3>
         <button id="btnajout" onclick="ajouteretudiant()">Ajouter</button>
-      </div><div id="basliste"></div></div><div id="infos">
+      </div><div id="basliste"></div></div>
+    <div id="infos">
       <div id="topinfo">
         <h3>Editer vos informations</h3>
         <button id="btnsubmit" onclick="soumettre()">Soumettre</button>
@@ -50,14 +52,18 @@
           <label>Téléphone 2 :</label>
           <label>Email<span style="color:red">*</span> :</label>
           <label>Modifié le :</label>
-        </div><div class="inputs">
+        </div>
+        <div class="inputs">
           <input id="infocin" readonly>
           <input type="text" id="nom">
           <input type="text" id="tel1" required>
           <input type="text" id="tel2">
           <input type="email" id="email" required>
           <input id="modifie" readonly>
-        </div></div></div><div id="social">
+        </div>
+      </div>
+      </div>
+          <div id="social">
       <a href="https://www.cnfcpp.tn/" target="_blank"><i class="bi bi-globe2"></i></a>
       <a href="https://www.facebook.com/profile.php?id=61579755939691" target="_blank"><i class="bi bi-facebook"></i></a>
       <a href="tel:78874281" title="Appeler"><i class="bi bi-telephone-fill"></i></a>
@@ -177,11 +183,11 @@
           // 1. Masquer social et services
           document.getElementById("social").style.display = "none";
           document.getElementById("services").style.display = "none";
-          document.getElementById("infos").style.display = "none"; // Optionnel : Masque aussi le formulaire individuel
+          //document.getElementById("infos").style.display = "none"; // Optionnel : Masque aussi le formulaire individuel
           
           // 2. Afficher le container de la liste
           const listeDiv = document.getElementById("liste");
-          listeDiv.style.display = "block";
+         // listeDiv.style.display = "block";
 
           // 3. Remplir le bloc "basliste" avec le tableau des étudiants reçus de l'API
           const basliste = document.getElementById("basliste");
