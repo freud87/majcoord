@@ -192,27 +192,14 @@
           // 3. Remplir le bloc "basliste" avec le tableau des étudiants reçus de l'API
           const basliste = document.getElementById("basliste");
           if(data.etudiants && data.etudiants.length > 0) {
-            let htmlTable = `<table class="admin-table" border="1" style="width:100%; border-collapse:collapse; margin-top:10px;">
-                              <thead>
-                                <tr>
-                                  <th>CIN</th>
-                                  <th>Nom</th>
-                                  <th>Téléphone 1</th>
-                                  <th>Email</th>
-                                </tr>
-                              </thead>
-                              <tbody>`;
+            let htmlList = `<ul class="etudiant-list">`;
             
             data.etudiants.forEach(etudiant => {
-              htmlTable += `<tr>
-                              <td>${etudiant.cin || ''}</td>
-                              <td>${etudiant.nom || ''}</td>
-                              <td>${etudiant.tel1 || ''}</td>
-                              <td>${etudiant.email || ''}</td>
-                            </tr>`;
+              htmlList += `<li>${etudiant.nom || 'Nom inconnu'}</li>`;
             });
-            htmlTable += `</tbody></table>`;
-            basliste.innerHTML = htmlTable;
+            
+            htmlList += `</ul>`;
+            basliste.innerHTML = htmlList;
           } else {
             basliste.innerHTML = "<p>Aucun étudiant trouvé dans la base.</p>";
           }
