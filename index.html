@@ -243,7 +243,8 @@ function afficherInfosEtudiant(el) {
       hour: "2-digit", minute: "2-digit", hour12: false
     });
   } else {
-    document.getElementById("modifie").value = "";
+    //document.getElementById("modifie").value = "";
+    document.getElementById("modifie").value = el.dataset.modifie;
   }
 
   // Afficher le panneau infos et activer le bouton soumettre
