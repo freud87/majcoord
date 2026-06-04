@@ -29,6 +29,7 @@ header {
   /*padding: 0 20px;  espace par rapport aux bords gauche/droite */
   gap: 20px; /* espace entre #infos et #services */
 }
+#liste,
 #infos,
 #services {
   padding: 25px 30px;
