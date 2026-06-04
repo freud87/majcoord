@@ -177,6 +177,7 @@ fetch(sheetURL)
   // 🔹 Chercher étudiant
   async function chercherEtudiant() {
     const cin = document.getElementById("cinInput").value.trim();
+    liste.style.display = "none";
     loader.style.display = "flex";
     logo.style.display = "none";
 
