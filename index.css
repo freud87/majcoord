@@ -8,8 +8,8 @@ body {
   background: #f4f6f9;
   display: flex;
   flex-direction: column;
-  /*justify-content: center;
-  padding: 10px;*/
+  height: 100vh;
+  overflow: hidden;
   font-size: 16px;
 }
 header {
@@ -27,7 +27,9 @@ header {
   justify-content: space-around; /* espace entre les blocs */
   width: 100%;
   /*padding: 0 20px;  espace par rapport aux bords gauche/droite */
-  gap: 20px; /* espace entre #infos et #services */
+  gap: 20px;
+  min-height: 0; /* crucial */
+  overflow: hidden;
 }
 #liste,
 #infos,
@@ -35,7 +37,8 @@ header {
   padding: 25px 30px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  min-height: 0;
+  min-height: 0; /* crucial */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   flex: 1; /* prend la même largeur que l'autre bloc */
@@ -43,9 +46,9 @@ header {
   gap: 10px;
 }
 #basliste {
-  overflow-y: auto;
   flex: 1;
-  min-height: 0; /* crucial en flexbox pour que overflow fonctionne */
+  min-height: 0;
+  overflow-y: auto;
 }
 #social {
   padding-bottom: 25px;
