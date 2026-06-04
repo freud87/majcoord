@@ -26,8 +26,10 @@
           <div id="logform">
             <!-- <input type="tel" id="cinInput" inputmode="numeric" pattern="[0-9]*" placeholder="Entrer CIN"> -->
             <input type="tel" id="cinInput" inputmode="tel" placeholder="Entrer CIN">
-            <button onclick="chercherEtudiant()">Etudiant</button>
-            <button onclick="gererEtudiants()">Admin</button>
+            <div id="btnlog">
+              <button onclick="chercherEtudiant()">Etudiant</button>
+              <button onclick="gererEtudiants()">Admin</button>
+            </div><!-- fin btnlog -->
           </div><!-- fin logform -->
           <div id="cinfail">
             <input type="text" id="nomsignal" placeholder="Saisir votre nom">
