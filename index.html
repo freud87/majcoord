@@ -29,15 +29,13 @@
         <input type="tel" id="cinInput" inputmode="tel" placeholder="Entrer CIN">
         <div id="btnlog">
           <button onclick="chercherEtudiant()">Etudiant</button>
-          <button onclick="gererEtudiants()">Admin</button>
-        </div></div><div id="cinfail">
+          <button onclick="gererEtudiants()">Admin</button> </div></div><div id="cinfail">
         <input type="text" id="nomsignal" placeholder="Saisir votre nom">
         <div id="btnfail">
           <button id="btnsignal" onclick="signaler()">Signaler</button>
           <button id="cinfailcncl">Retour</button>
         </div></div></div></div><div class="container">
-    <div id="liste">
-      <div id="topliste">
+    <div id="liste" style="display:none;"> <div id="topliste">
         <h3>Liste des étudiants</h3>
         <button id="btnajout" onclick="ajouteretudiant()">Ajouter</button>
       </div><div id="basliste"></div></div><div id="infos">
@@ -71,7 +69,8 @@
         <div id="btnrecus">
           <button id="btnrecu1" onclick="getrecu(1)">Reçu 1ère année</button>
           <button id="btnrecu2" onclick="getrecu(2)">Reçu 2ème année</button>
-          <button id="btnrecu3" onclick="getrecu(3)">Reçu 3ème année</button> </div></div><div id="autres">
+          <button id="btnrecu3" onclick="getrecu(3)">Reçu 3ème année</button>
+        </div></div><div id="autres">
         <h3>Signaler des problèmes au niveau de la plateforme</h3>
         <button id="btnm2p" onclick="getm2p()">Réinitialiser mon m2p</button>
       </div><div class="filigrane">LTI Pr2</div>
@@ -83,7 +82,7 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // Année en cours
+    // Configuration de l'année en cours via GSheet
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSNJhHGgvdyQjfDKHTWpGBWK-jCRNV31zSxJjTYl2tz5WuLp4kUNL8F_Op4KuMXH-0_miPt4Ln9ZlDc/pub?gid=1147238427&single=true&output=csv";
 
     fetch(sheetURL)
@@ -96,7 +95,6 @@
 
         for (let i = 1; i < rows.length; i++) {
           const [niveau, annee, debutStr, finStr] = rows[i].map(v => v.trim());
-
           const [dDeb, mDeb, yDeb] = debutStr.split("/");
           const [dFin, mFin, yFin] = finStr.split("/");
           const debut = new Date(`${yDeb}-${mDeb}-${dDeb}`);
@@ -108,10 +106,8 @@
             break;
           }
         }
-
         document.getElementById("annuniv").textContent = currentAnnee;
 
-        // 🔥 Affichage des boutons selon le niveau
         if (niveauActuel >= 1) document.getElementById("btnrecu1").style.display = "inline-block";
         if (niveauActuel >= 2) document.getElementById("btnrecu2").style.display = "inline-block";
         if (niveauActuel >= 3) document.getElementById("btnrecu3").style.display = "inline-block";
@@ -121,31 +117,23 @@
         document.getElementById("annuniv").textContent = "Erreur de chargement";
       });
 
-    // Début script principal
+    // Configuration des URLs API
     const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
     let currentRow = null;
-    
-    let recu1URL = null;
-    let recu2URL = null;
-    let recu3URL = null; // ✅ Ajouté pour la 3ème année
+    let recu1URL = null, recu2URL = null, recu3URL = null;
 
     const loader = document.getElementById("loader");
     const logo = document.getElementById("logo");
 
-    // 🔹 Fonction d'affichage des notifications
     function showMessage(text, type = "info", duration = 5000) {
       const container = document.getElementById("notifications");
       const msg = document.createElement("div");
       msg.className = `toast ${type}`;
       msg.innerHTML = text; 
       container.appendChild(msg);
-
-      setTimeout(() => {
-        msg.remove();
-      }, duration);
+      setTimeout(() => { msg.remove(); }, duration);
     }
 
-    // 🔹 Focus au chargement
     window.addEventListener("load", function () {
       const input = document.getElementById("cinInput");
       input.focus();
@@ -154,14 +142,89 @@
       document.getElementById("infocin").disabled = true;
       document.getElementById("modifie").disabled = true;    
       document.getElementById("btnsubmit").disabled = true;
-
       document.getElementById("cinfailcncl").onclick = () => location.reload();
     });
 
-    // 🔹 Chercher étudiant
+    // 🔹 Fonction d'authentification et affichage Admin
+    async function gererEtudiants() {
+      const cin = document.getElementById("cinInput").value.trim();
+      loader.style.display = "flex";
+      logo.style.display = "none";
+
+      if (!cin) {
+        loader.style.display = "none";
+        logo.style.display = "flex";
+        showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez entrer votre CIN Admin !', "error");
+        return;
+      }
+
+      try {
+        // Envoi du paramètre action=admin à votre script Google Apps Script
+        const response = await fetch(`${apiURL}?action=admin&cin=${cin}`);
+        const data = await response.json();
+
+        if (data.status === "error" || !data.isAdmin) {
+          // Admin non reconnu
+          document.getElementById("fail").style.display = "flex";
+          document.getElementById("logform").style.display = "none";
+          document.getElementById("cinfail").style.display = "flex";
+          nomsignal.focus();
+          showMessage('<i class="bi bi-shield-x"></i> Accès refusé : CIN Admin incorrect.', "error");
+        } else {
+          // ✅ Admin connecté avec succès
+          document.getElementById("login").style.display = "none";
+          
+          // 1. Masquer social et services
+          document.getElementById("social").style.display = "none";
+          document.getElementById("services").style.display = "none";
+          document.getElementById("infos").style.display = "none"; // Optionnel : Masque aussi le formulaire individuel
+          
+          // 2. Afficher le container de la liste
+          const listeDiv = document.getElementById("liste");
+          listeDiv.style.display = "block";
+
+          // 3. Remplir le bloc "basliste" avec le tableau des étudiants reçus de l'API
+          const basliste = document.getElementById("basliste");
+          if(data.etudiants && data.etudiants.length > 0) {
+            let htmlTable = `<table class="admin-table" border="1" style="width:100%; border-collapse:collapse; margin-top:10px;">
+                              <thead>
+                                <tr>
+                                  <th>CIN</th>
+                                  <th>Nom</th>
+                                  <th>Téléphone 1</th>
+                                  <th>Email</th>
+                                </tr>
+                              </thead>
+                              <tbody>`;
+            
+            data.etudiants.forEach(etudiant => {
+              htmlTable += `<tr>
+                              <td>${etudiant.cin || ''}</td>
+                              <td>${etudiant.nom || ''}</td>
+                              <td>${etudiant.tel1 || ''}</td>
+                              <td>${etudiant.email || ''}</td>
+                            </tr>`;
+            });
+            htmlTable += `</tbody></table>`;
+            basliste.innerHTML = htmlTable;
+          } else {
+            basliste.innerHTML = "<p>Aucun étudiant trouvé dans la base.</p>";
+          }
+
+          showMessage('<i class="bi bi-shield-check"></i> Mode Administrateur activé.', "success");
+        }
+      } catch (error) {
+        console.error(error);
+        showMessage('<i class="bi bi-database-fill-x"></i> Erreur lors de la vérification Admin.', "error");
+      } finally {
+        loader.style.display = "none";
+      }
+    }
+
+    // 🔹 Chercher étudiant (Mode normal)
     async function chercherEtudiant() {
       const cin = document.getElementById("cinInput").value.trim();
-      liste.style.display = "none";
+      document.getElementById("liste").style.display = "none";
       loader.style.display = "flex";
       logo.style.display = "none";
 
@@ -169,7 +232,7 @@
         loader.style.display = "none";
         logo.style.display = "flex";
         document.getElementById("login").style.display = "flex";
-        cinInput.focus();
+        document.getElementById("cinInput").focus();
         showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez entrer le numéro de votre CIN !', "error");
         return;
       }
@@ -183,9 +246,7 @@
           document.getElementById("logform").style.display = "none";
           document.getElementById("cinfail").style.display = "flex";
           document.getElementById("btnsubmit").disabled = true; 
-          recu1URL = null;
-          recu2URL = null;
-          recu3URL = null; // ✅ Réinitialisé
+          recu1URL = null; recu2URL = null; recu3URL = null;
           nomsignal.focus();
           showMessage('<i class="bi bi-x-square"></i> Numéro de CIN introuvable ou erroné.', "error");
         } else {
@@ -198,32 +259,24 @@
           document.getElementById("tel2").value = data.Tel2 || "";
           document.getElementById("email").value = data.Email || "";
 
-          // Formater la date si elle existe
           if (data.Modifie) {
             const d = new Date(data.Modifie);
-            const formatted = d.toLocaleString("fr-FR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false
+            document.getElementById("modifie").value = d.toLocaleString("fr-FR", {
+              day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
             });
-            document.getElementById("modifie").value = formatted;
           } else {
             document.getElementById("modifie").value = "";
           }
 
           recu1URL = data.Recu1 || null;
           recu2URL = data.Recu2 || null;
-          recu3URL = data.Recu3 || null; // ✅ Récupération du reçu 3
+          recu3URL = data.Recu3 || null;
 
           document.getElementById("btnrecu1").disabled = !recu1URL;
           document.getElementById("btnrecu2").disabled = !recu2URL;
-          document.getElementById("btnrecu3").disabled = !recu3URL; // ✅ Activation automatique du bouton 3
+          document.getElementById("btnrecu3").disabled = !recu3URL;
 
           document.getElementById("btnsubmit").disabled = true;
-
           surveillerModifications();
 
           const nomComplet = document.getElementById("nom").value.trim();
@@ -231,12 +284,10 @@
           let nomAffiche = mots.length > 2 ? mots.slice(0, 2).join(" ") : mots[0];
 
           const heureActuelle = new Date().getHours();
-          let salutation;
-          if (heureActuelle >= 6 && heureActuelle < 12) salutation = "Bonjour";
-          else if (heureActuelle >= 12 && heureActuelle < 17) salutation = "Bon après-midi";
-          else if (heureActuelle >= 17 && heureActuelle < 20) salutation = "Bonsoir";
-          else if (heureActuelle >= 20 && heureActuelle < 23) salutation = "Bonne soirée";
-          else salutation = "Ravi de vous voir";
+          let salutation = (heureActuelle >= 6 && heureActuelle < 12) ? "Bonjour" : 
+                           (heureActuelle >= 12 && heureActuelle < 17) ? "Bon après-midi" : 
+                           (heureActuelle >= 17 && heureActuelle < 20) ? "Bonsoir" : 
+                           (heureActuelle >= 20 && heureActuelle < 23) ? "Bonne soirée" : "Ravi de vous voir";
 
           showMessage(`<i class="bi bi-emoji-smile"></i> ${salutation} ${nomAffiche}`, "success");
      
@@ -258,7 +309,6 @@
       }
     }
 
-    // 🔹 SURVEILLANT DE MODIFICATION
     function surveillerModifications() {
       const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
       const btnsubmit = document.getElementById("btnsubmit");
@@ -277,13 +327,8 @@
       });
     }
 
-    // 🔹 Télécharger reçu (Gère dynamiquement 1ère, 2ème et 3ème année)
     function getrecu(annee) {
-      let recuID;
-      if (annee === 1) recuID = recu1URL;
-      else if (annee === 2) recuID = recu2URL;
-      else recuID = recu3URL; // ✅ Gère la 3ème année
-
+      let recuID = (annee === 1) ? recu1URL : (annee === 2) ? recu2URL : recu3URL;
       let suffixe = (annee == 1) ? "ère" : "ème";
 
       if (!recuID) {
@@ -292,7 +337,6 @@
       }
 
       const recuURL = `https://drive.google.com/uc?export=download&id=${recuID}`;
-
       const link = document.createElement("a");
       link.href = recuURL;
       link.target = "_blank";
@@ -300,21 +344,15 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
       showMessage(`<i class="bi bi-file-earmark-check"></i> Reçu ${annee}${suffixe} année téléchargé.`, "info");
     }
 
-    // 🔹 Soumettre mise à jour
     async function soumettre() {
       const tel1 = document.getElementById("tel1").value.trim();
       const email = document.getElementById("email").value.trim();
 
-      if (!tel1) {
-        showMessage('<i class="bi bi-telephone"></i> Le numéro de téléphone est obligatoire !', "error");
-        return;
-      }
-      if (!email) {
-        showMessage('<i class="bi bi-envelope-at"></i> L’email est obligatoire !', "error");
+      if (!tel1 || !email) {
+        showMessage('<i class="bi bi-exclamation-circle"></i> Téléphone 1 et Email sont obligatoires !', "error");
         return;
       }
 
@@ -351,7 +389,6 @@
       });
     }
 
-    // 🔹 Signaler erreur
     async function signaler() {
       const nomsignal = document.getElementById("nomsignal").value.trim();
       if (!nomsignal) {
@@ -366,7 +403,6 @@
       try {
         const response = await fetch(apiURL, { method: "POST", body: formData });
         const result = await response.json();
-
         if (result.status === "success") {
           document.getElementById("nomsignal").value = "";
           showMessage('<i class="bi bi-send-check"></i> Signalement envoyé, merci !', "success");
@@ -379,17 +415,12 @@
       }
     }
 
-    // 🔹 Réinitialisation du mot de passe (m2p)
     async function getm2p() {
       const nom = document.getElementById("nom").value.trim();
       const email = document.getElementById("email").value.trim();
 
-      if (!nom) {
-        showMessage('<i class="bi bi-person-exclamation"></i> Le nom est requis pour envoyer la demande.', "error");
-        return;
-      }
-      if (!email) {
-        showMessage('<i class="bi bi-envelope-exclamation"></i> L’email est requis pour envoyer la demande.', "error");
+      if (!nom || !email) {
+        showMessage('<i class="bi bi-person-exclamation"></i> Nom et Email requis pour la demande.', "error");
         return;
       }
 
@@ -402,7 +433,6 @@
       try {
         const response = await fetch(apiURL, { method: "POST", body: formData });
         const result = await response.json();
-
         if (result.status === "success") {
           showMessage('<i class="bi bi-shield-check"></i> Votre demande de réinitialisation a été envoyée.', "success");
         } else {
@@ -414,7 +444,6 @@
       }
     }
 
-    // 🔹 Recherche avec touche Entrée
     document.getElementById("cinInput").addEventListener("keydown", function(e) {
       if (e.key === "Enter") {
         e.preventDefault(); 
@@ -422,15 +451,13 @@
       }
     });
 
-    // 🔹 Prévisualisation dynamique du reçu
+    // Prévisualisation dynamique du reçu
     const previewBox = document.getElementById("recuPreview");
     const previewFrame = document.getElementById("previewFrame");
 
     document.addEventListener("mousemove", (e) => {
       if (previewBox.style.display === "block") {
-        const offsetX = 15; 
-        const offsetY = 15;
-
+        const offsetX = 15, offsetY = 15;
         const previewWidth = previewBox.offsetWidth;
         const previewHeight = previewBox.offsetHeight;
 
@@ -446,13 +473,8 @@
     });
 
     function showRecuPreview(annee) {
-      let recuID;
-      if (annee === 1) recuID = recu1URL;
-      else if (annee === 2) recuID = recu2URL;
-      else recuID = recu3URL; // ✅ Gère le reçu 3 au survol
-
+      let recuID = (annee === 1) ? recu1URL : (annee === 2) ? recu2URL : recu3URL;
       if (!recuID) return;
-      
       const recuURL = `https://drive.google.com/file/d/${recuID}/preview`;
       previewFrame.src = recuURL;
       previewBox.style.display = "block";
@@ -463,14 +485,12 @@
       previewFrame.src = "";
     }
 
-    // Attache les événements aux boutons (Y compris le bouton 3)
     document.getElementById("btnrecu1").addEventListener("mouseenter", () => showRecuPreview(1));
     document.getElementById("btnrecu2").addEventListener("mouseenter", () => showRecuPreview(2));
-    document.getElementById("btnrecu3").addEventListener("mouseenter", () => showRecuPreview(3)); // ✅ Ajouté
-
+    document.getElementById("btnrecu3").addEventListener("mouseenter", () => showRecuPreview(3));
     document.getElementById("btnrecu1").addEventListener("mouseleave", hideRecuPreview);
     document.getElementById("btnrecu2").addEventListener("mouseleave", hideRecuPreview);
-    document.getElementById("btnrecu3").addEventListener("mouseleave", hideRecuPreview); // ✅ Ajouté
+    document.getElementById("btnrecu3").addEventListener("mouseleave", hideRecuPreview);
   </script>
 </body>
 </html>
