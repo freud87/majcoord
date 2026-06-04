@@ -430,7 +430,7 @@ a:hover, a:focus, a:visited {
   }
   .container {
     flex-direction: column;
-    align-items: stretch;
+    /*align-items: stretch;
     /* Réorganiser l'ordre des éléments */
     order: 1;
   }
