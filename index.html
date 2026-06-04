@@ -200,16 +200,17 @@
             let htmlList = `<ul class="etudiant-list">`;
             
             data.etudiants.forEach(etudiant => {
-              htmlList += '<li onclick="afficherInfosEtudiant(this)"
-                              data-row="${etudiant.row}"
-                              data-cin="${etudiant.cin || ''}"
-                              data-nom="${etudiant.nom || ''}"
-                              data-tel1="${etudiant.tel1 || ''}"
-                              data-tel2="${etudiant.tel2 || ''}"
-                              data-email="${etudiant.email || ''}"
-                              data-modifie="${etudiant.modifie || ''}">
-                             <i class="bi bi-person"></i> ${etudiant.nom || 'Nom inconnu'}
-                           </li>`;
+              htmlList += `
+              <li onclick="afficherInfosEtudiant(this)"
+                  data-row="${etudiant.row}"
+                  data-cin="${etudiant.cin || ''}"
+                  data-nom="${etudiant.nom || ''}"
+                  data-tel1="${etudiant.tel1 || ''}"
+                  data-tel2="${etudiant.tel2 || ''}"
+                  data-email="${etudiant.email || ''}"
+                  data-modifie="${etudiant.modifie || ''}">
+                  <i class="bi bi-person"></i> ${etudiant.nom || 'Nom inconnu'}
+              </li>`;
             });
             
             htmlList += `</ul>`;
@@ -269,7 +270,8 @@ function afficherInfosEtudiant(el) {
   document.getElementById("modifie").value = "";
 }
   /////////////////////////////////////////////////////////////////////////////////
-document.getElementById("infocin").readOnly = !modeAdmin;
+document.getElementById("infocin").disabled = false;
+document.getElementById("infocin").readOnly = false;
   // Afficher le panneau infos et activer le bouton soumettre
   //document.getElementById("infos").style.display = "flex";
   document.getElementById("liste").style.display  = "flex";
