@@ -462,10 +462,19 @@ a:hover, a:focus, a:visited {
     flex: 0 0 auto;
     max-width: 100%;
     order: 4;        /* #liste passe en bas */
+    
+    /* FIX SCROLL MOB: On lui donne une hauteur max raisonnable */
+    max-height: 60vh; /* Occupe au maximum 60% de la hauteur de l'écran */
+    display: flex;
+    flex-direction: column;
+  }
+  #basliste {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto; /* Active le scroll uniquement sur les éléments de la liste */
+    -webkit-overflow-scrolling: touch; /* Rend le défilement fluide sur iOS */
   }
   .etudiant-list li {
-    /*padding: 8px 12px;
-    border-bottom: 1px solid #e0e0e0;*/
     font-size: 35px;
   }
   .container button {
