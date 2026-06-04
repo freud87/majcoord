@@ -468,6 +468,7 @@ a:hover, a:focus, a:visited {
     order: 3;
   }
   #liste {
+    flex: 1;
     order: 4;        /* #liste passe en bas */
   }
   /*
