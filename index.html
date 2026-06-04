@@ -200,13 +200,14 @@
             let htmlList = `<ul class="etudiant-list">`;
             
             data.etudiants.forEach(etudiant => {
-              htmlList += `<li onclick="afficherInfosEtudiant(this)" 
-                               data-cin="${etudiant.cin || ''}"
-                               data-nom="${etudiant.nom || ''}"
-                               data-tel1="${etudiant.tel1 || ''}"
-                               data-tel2="${etudiant.tel2 || ''}"
-                               data-email="${etudiant.email || ''}"
-                               data-modifie="${etudiant.modifie || ''}">
+              htmlList += '<li onclick="afficherInfosEtudiant(this)"
+                              data-row="${etudiant.row}"
+                              data-cin="${etudiant.cin || ''}"
+                              data-nom="${etudiant.nom || ''}"
+                              data-tel1="${etudiant.tel1 || ''}"
+                              data-tel2="${etudiant.tel2 || ''}"
+                              data-email="${etudiant.email || ''}"
+                              data-modifie="${etudiant.modifie || ''}">
                              <i class="bi bi-person"></i> ${etudiant.nom || 'Nom inconnu'}
                            </li>`;
             });
@@ -229,6 +230,9 @@
 //***********************************************************************************************************************************
 function afficherInfosEtudiant(el) {
   // Retirer la sélection précédente
+  currentRow = el.dataset.row;
+
+  
   document.querySelectorAll(".etudiant-list li").forEach(li => li.classList.remove("selected"));
   el.classList.add("selected");
 
