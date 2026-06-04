@@ -467,6 +467,9 @@ a:hover, a:focus, a:visited {
     /* Placer #social après #services */
     order: 3;
   }
+  #liste {
+    order: 4;        /* #liste passe en bas */
+  }
   /*
   .container {
     flex-direction: column;
