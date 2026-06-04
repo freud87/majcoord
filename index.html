@@ -88,6 +88,8 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+    let modeAdmin = false;
+    
     // Configuration de l'année en cours via GSheet
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSNJhHGgvdyQjfDKHTWpGBWK-jCRNV31zSxJjTYl2tz5WuLp4kUNL8F_Op4KuMXH-0_miPt4Ln9ZlDc/pub?gid=1147238427&single=true&output=csv";
 
@@ -179,6 +181,7 @@
         } else {
           // ✅ Admin connecté avec succès
           document.getElementById("login").style.display = "none";
+          modeAdmin = true;
           
           // 1. Masquer social et services
           document.getElementById("social").style.display = "none";
@@ -235,18 +238,34 @@ function afficherInfosEtudiant(el) {
   document.getElementById("tel1").value      = el.dataset.tel1;
   document.getElementById("tel2").value      = el.dataset.tel2;
   document.getElementById("email").value     = el.dataset.email;
-
+////////////////////////////////////////////////////////////////////////////////
   if (el.dataset.modifie) {
-    const d = new Date(el.dataset.modifie);
-    document.getElementById("modifie").value = d.toLocaleString("fr-FR", {
-      day: "2-digit", month: "2-digit", year: "numeric",
-      hour: "2-digit", minute: "2-digit", hour12: false
-    });
-  } else {
-    //document.getElementById("modifie").value = "";
-    document.getElementById("modifie").value = el.dataset.modifie;
-  }
+  const d = new Date(el.dataset.modifie);
 
+  document.getElementById("modifie").value =
+    d.toLocaleString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    });
+} else if (modeAdmin) {
+  document.getElementById("modifie").value =
+    new Date().toLocaleString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    });
+} else {
+  document.getElementById("modifie").value = "";
+}
+  /////////////////////////////////////////////////////////////////////////////////
+document.getElementById("infocin").readOnly = !modeAdmin;
   // Afficher le panneau infos et activer le bouton soumettre
   //document.getElementById("infos").style.display = "flex";
   document.getElementById("liste").style.display  = "flex";
@@ -286,6 +305,7 @@ function afficherInfosEtudiant(el) {
           currentRow = data.row;
           
           document.getElementById("infocin").value = cin;
+          document.getElementById("infocin").readOnly = true;
           document.getElementById("nom").value = data.Nom || "";
           document.getElementById("tel1").value = data.Tel1 || "";
           document.getElementById("tel2").value = data.Tel2 || "";
@@ -389,7 +409,9 @@ function afficherInfosEtudiant(el) {
       }
 
       const formData = new URLSearchParams();
+      
       formData.append("row", currentRow);
+      formData.append("CIN", document.getElementById("infocin").value);
       formData.append("Nom", document.getElementById("nom").value);
       formData.append("Tel1", tel1);
       formData.append("Tel2", document.getElementById("tel2").value);
