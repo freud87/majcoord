@@ -377,15 +377,6 @@ button:disabled {
   from { opacity: 1; transform: translateX(0); }
   to   { opacity: 0; transform: translateX(100%); }
 }
-/*.filigrane {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  opacity: 0.12;
-  font-size: 150px;
-  pointer-events: none;
-  z-index: 9999;
-}*/
 .filigrane {
   text-align: center;
   opacity: 0.12;
@@ -445,7 +436,7 @@ a:hover, a:focus, a:visited {
   }
   
   #infos {
-    flex: 0;
+    flex: 1;
     max-width: 100%;
     box-shadow: none;
     order: 1;
