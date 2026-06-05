@@ -176,7 +176,7 @@
           document.getElementById("fail").style.display = "flex";
           document.getElementById("logform").style.display = "none";
           document.getElementById("cinfail").style.display = "flex";
-          nomsignal.focus();
+          document.getElementById("nomsignal").focus();
           showMessage('<i class="bi bi-shield-x"></i> Accès refusé : CIN Admin incorrect.', "error");
         } else {
           // ✅ Admin connecté avec succès
@@ -304,7 +304,7 @@ document.getElementById("infocin").readOnly = false;
           document.getElementById("cinfail").style.display = "flex";
           document.getElementById("btnsubmit").disabled = true; 
           recu1URL = null; recu2URL = null; recu3URL = null;
-          nomsignal.focus();
+          document.getElementById("nomsignal").focus();
           showMessage('<i class="bi bi-x-square"></i> Numéro de CIN introuvable ou erroné.', "error");
         } else {
           document.getElementById("login").style.display = "none";
@@ -449,31 +449,42 @@ document.getElementById("infocin").readOnly = false;
       });
     }
 
-    async function signaler() {
-      const nomsignal = document.getElementById("nomsignal").value.trim();
-      if (!nomsignal) {
-        showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez saisir votre nom afin de signaler une erreur.', "error");
-        return;
-      }
-
-      const formData = new URLSearchParams();
-      formData.append("action", "signalement");
-      formData.append("NomSignal", nomsignal);
-
-      try {
-        const response = await fetch(apiURL, { method: "POST", body: formData });
-        const result = await response.json();
-        if (result.status === "success") {
-          document.getElementById("nomsignal").value = "";
-          showMessage('<i class="bi bi-send-check"></i> Signalement envoyé, merci !', "success");
-        } else {
-          showMessage('<i class="bi bi-send-x"></i> Erreur lors de l\'envoi du signalement.', "error");
+        async function signaler() {
+          const nomsignal = document.getElementById("nomsignal").value.trim();
+          if (!nomsignal) {
+            showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez saisir votre nom afin de signaler une erreur.', "error");
+            return;
+          }
+    
+          const formData = new URLSearchParams();
+          formData.append("action", "signalement");
+          formData.append("NomSignal", nomsignal);
+    
+          try {
+            const response = await fetch(apiURL, { method: "POST", body: formData });
+            const text = await response.text(); // On récupère le texte brut d'abord
+            
+            let result;
+            try {
+              result = JSON.parse(text); // On tente de parser le JSON
+            } catch (parseError) {
+              // Si ce n'est pas du JSON, c'est que le script GAS a planté
+              console.error("Réponse serveur non JSON :", text);
+              showMessage('<i class="bi bi-database-exclamation"></i> Erreur serveur : ' + text, "error");
+              return;
+            }
+    
+            if (result.status === "success") {
+              document.getElementById("nomsignal").value = "";
+              showMessage('<i class="bi bi-send-check"></i> Signalement envoyé, merci !', "success");
+            } else {
+              showMessage('<i class="bi bi-send-x"></i> Erreur : ' + (result.message || 'Inconnue'), "error");
+            }
+          } catch (error) {
+            console.error(error);
+            showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
+          }
         }
-      } catch (error) {
-        console.error(error);
-        showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
-      }
-    }
 
     async function getm2p() {
       const nom = document.getElementById("nom").value.trim();
