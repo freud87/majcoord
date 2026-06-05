@@ -42,7 +42,7 @@
       </div><div id="basliste"></div></div>
     <div id="infos">
       <div id="topinfo">
-        <h3>Editer vos informations</h3>
+        <h3 id="titreInfos">Editer mes informations</h3>
         <button id="btnsubmit" onclick="soumettre()">Soumettre</button>
       </div><div id="basinfo">
         <div class="labels">
@@ -182,7 +182,7 @@
           // ✅ Admin connecté avec succès
           document.getElementById("login").style.display = "none";
           modeAdmin = true;
-          
+          document.getElementById("titreInfos").textContent = "Editer les informations";
           // 1. Masquer social et services
           document.getElementById("social").style.display = "none";
           document.getElementById("services").style.display = "none";
