@@ -503,7 +503,20 @@ document.getElementById("infocin").readOnly = false;
 
       try {
         const response = await fetch(apiURL, { method: "POST", body: formData });
-        const result = await response.json();
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+//        const result = await response.json();
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+const text = await response.text();
+console.log(text);
+
+let result;
+try {
+  result = JSON.parse(text);
+} catch(err) {
+  console.error("Réponse non JSON :", text);
+  throw err;
+}
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
         if (result.status === "success") {
           showMessage('<i class="bi bi-shield-check"></i> Votre demande de réinitialisation a été envoyée.', "success");
         } else {
