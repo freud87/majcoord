@@ -224,9 +224,15 @@
                   data-tel1="${etudiant.tel1 || ''}"
                   data-tel2="${etudiant.tel2 || ''}"
                   data-email="${etudiant.email || ''}"
-                  data-modifie="${etudiant.modifie || ''}">
-                  <i class="bi bi-person"></i> ${etudiant.nom || 'Nom inconnu'}
-              </li>`;
+                  data-modifie="${etudiant.modifie || ''}"
+                  data-m2p="${etudiant.m2p || ''}">
+                  
+                  ${etudiant.m2p
+                    ? '<i class="bi bi-key-fill text-danger"></i>'
+                    : '<i class="bi bi-person"></i>'}
+              
+                  ${etudiant.nom || 'Nom inconnu'}
+              </li>
             });
             
             htmlList += `</ul>`;
