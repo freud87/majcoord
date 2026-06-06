@@ -88,6 +88,16 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     let modeAdmin = false;
+
+    // Restriction cinInput : chiffres seulement, max 8
+    document.getElementById("cinInput").addEventListener("input", function() {
+      this.value = this.value.replace(/\D/g, "").slice(0, 8);
+    });
+    
+    // Restriction nomsignal : lettres + espaces + accents seulement
+    document.getElementById("nomsignal").addEventListener("input", function() {
+      this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
+    });
     
     // Configuration de l'année en cours via GSheet
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSNJhHGgvdyQjfDKHTWpGBWK-jCRNV31zSxJjTYl2tz5WuLp4kUNL8F_Op4KuMXH-0_miPt4Ln9ZlDc/pub?gid=1147238427&single=true&output=csv";
@@ -159,9 +169,16 @@
       logo.style.display = "none";
 
       if (!cin) {
+        
         loader.style.display = "none";
         logo.style.display = "flex";
         showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez entrer votre CIN Admin !', "error");
+        return;
+      }
+      if (cin.length !== 8) {
+        loader.style.display = "none";
+        logo.style.display = "flex";
+        showMessage('<i class="bi bi-exclamation-triangle"></i> Le CIN doit contenir exactement 8 chiffres !', "error");
         return;
       }
 
@@ -290,6 +307,12 @@ document.getElementById("infocin").readOnly = false;
         document.getElementById("login").style.display = "flex";
         document.getElementById("cinInput").focus();
         showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez entrer le numéro de votre CIN !', "error");
+        return;
+      }
+      if (cin.length !== 8) {
+        loader.style.display = "none";
+        logo.style.display = "flex";
+        showMessage('<i class="bi bi-exclamation-triangle"></i> Le CIN doit contenir exactement 8 chiffres !', "error");
         return;
       }
 
