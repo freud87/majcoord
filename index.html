@@ -516,7 +516,8 @@ document.getElementById("infocin").readOnly = false;
         showMessage('<i class="bi bi-person-exclamation"></i> Nom et Email requis pour la demande.', "error");
         return;
       }
-
+      if (!confirm("Votre mot de passe sera redéfinit brièvement\nVous en serez notifié par mail")) return;
+      
       const formData = new URLSearchParams();
       formData.append("action", "m2p");  
       formData.append("Nom", nom);
