@@ -392,19 +392,26 @@ document.getElementById("infocin").readOnly = false;
     function surveillerModifications() {
       const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
       const btnsubmit = document.getElementById("btnsubmit");
-      
+      const btnm2p = document.getElementById("btnm2p");
+    
       champsASurveiller.forEach(champId => {
         const champ = document.getElementById(champId);
         champ.dataset.valeurInitiale = champ.value;
-        
-        champ.addEventListener('input', function() {
+    
+        champ.oninput = function() {
           const aChange = champsASurveiller.some(id => {
             const element = document.getElementById(id);
             return element.value !== element.dataset.valeurInitiale;
           });
+    
           btnsubmit.disabled = !aChange;
-        });
+          btnm2p.disabled = aChange; // Désactive pendant l'édition
+        };
       });
+    
+      // Etat initial
+      btnsubmit.disabled = true;
+      btnm2p.disabled = false;
     }
 
     function getrecu(annee) {
@@ -453,6 +460,7 @@ document.getElementById("infocin").readOnly = false;
           document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
           mettreAJourValeursInitiales();
           document.getElementById("btnsubmit").disabled = true;
+          document.getElementById("btnm2p").disabled = false;
           showMessage('<i class="bi bi-floppy"></i> Modification enregistrée !', "success");
         } else {
           showMessage('<i class="bi bi-database-fill-x"></i> Erreur lors de la mise à jour !', "error");
