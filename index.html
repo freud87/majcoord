@@ -38,7 +38,7 @@
     <div id="liste">
       <div id="topliste">
         <h3>Liste des étudiants</h3>
-        <input type="text" id="txtSearch" placeholder="Chercher">
+        <input type="text" id="txtSearch" placeholder="Chercher" oninput="filtrerAdminEtudiants()">
       </div>
       <div id="basliste">
       </div>
@@ -269,6 +269,22 @@
         loader.style.display = "none";
       }
     }
+//***********************************************************************************************************************************
+function filtrerAdminEtudiants() {
+  const texteRecherche = document.getElementById("txtSearch").value.toLowerCase().trim();
+  const items = document.querySelectorAll(".etudiant-list li");
+
+  items.forEach(li => {
+    const nom = (li.dataset.nom || "").toLowerCase();
+    const cin = (li.dataset.cin || "").toLowerCase();
+
+    if (nom.includes(texteRecherche) || cin.includes(texteRecherche)) {
+      li.style.display = "";
+    } else {
+      li.style.display = "none";
+    }
+  });
+}
 //***********************************************************************************************************************************
 async function repondreM2P(nom){
 
