@@ -161,7 +161,7 @@
       document.getElementById("btnsubmit").disabled = true;
       document.getElementById("cinfailcncl").onclick = () => location.reload();
     });
-
+//***********************************************************************************************************************************
     // 🔹 Fonction d'authentification et affichage Admin
     async function gererEtudiants() {
       const cin = document.getElementById("cinInput").value.trim();
@@ -223,6 +223,7 @@
             data.etudiants.forEach(etudiant => {
               htmlList += `
               <li onclick="afficherInfosEtudiant(this)"
+              style="${etudiant.m2p ? 'background:#ffe5e5;border-left:4px solid #dc3545;' : ''}"
                   data-row="${etudiant.row}"
                   data-cin="${etudiant.cin || ''}"
                   data-nom="${etudiant.nom || ''}"
