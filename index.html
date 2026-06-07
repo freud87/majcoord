@@ -178,7 +178,7 @@
       if (cin.length !== 8) {
         loader.style.display = "none";
         logo.style.display = "flex";
-        showMessage('<i class="bi bi-exclamation-triangle"></i> Le CIN doit contenir exactement 8 chiffres !', "error");
+        showMessage('<i class="bi bi-exclamation-triangle"></i> Le CIN doit contenir 8 chiffres !', "error");
         return;
       }
 
@@ -193,7 +193,7 @@
           document.getElementById("logform").style.display = "none";
           document.getElementById("cinfail").style.display = "flex";
           document.getElementById("nomsignal").focus();
-          showMessage('<i class="bi bi-shield-x"></i> Accès refusé : CIN Admin incorrect.', "error");
+          showMessage('<i class="bi bi-shield-x"></i> CIN Admin incorrect.', "error");
         } else {
           // ✅ Admin connecté avec succès
           document.getElementById("login").style.display = "none";
@@ -202,17 +202,22 @@
           // 1. Masquer social et services
           document.getElementById("social").style.display = "none";
           document.getElementById("services").style.display = "none";
-          //document.getElementById("infos").style.display = "none"; // Optionnel : Masque aussi le formulaire individuel
           
           // 2. Afficher le container de la liste
           const listeDiv = document.getElementById("liste");
-         // listeDiv.style.display = "block";
 
           // 3. Remplir le bloc "basliste" avec le tableau des étudiants reçus de l'API
           const basliste = document.getElementById("basliste");
           //*****************************************
 
           if(data.etudiants && data.etudiants.length > 0) {
+
+            data.etudiants.sort((a, b) => {
+              if (a.m2p && !b.m2p) return -1;
+              if (!a.m2p && b.m2p) return 1;
+              return (a.nom || "").localeCompare(b.nom || "");
+            });
+            
             let htmlList = `<ul class="etudiant-list">`;
             
             data.etudiants.forEach(etudiant => {
@@ -240,12 +245,11 @@
           } else {
             basliste.innerHTML = "<p>Aucun étudiant trouvé dans la base.</p>";
           }
-//***********************************************
-          showMessage('<i class="bi bi-shield-check"></i> Mode Administrateur activé.', "success");
+          showMessage('<i class="bi bi-shield-check"></i> Mode Administrateur activé', "success");
         }
       } catch (error) {
         console.error(error);
-        showMessage('<i class="bi bi-database-fill-x"></i> Erreur lors de la vérification Admin.', "error");
+        showMessage('<i class="bi bi-database-fill-x"></i> Erreur lors de la vérification Admin', "error");
       } finally {
         loader.style.display = "none";
       }
