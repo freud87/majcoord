@@ -238,6 +238,15 @@
                     : '<i class="bi bi-person"></i>'}
               
                   ${etudiant.nom || 'Nom inconnu'}
+
+                  ${etudiant.m2p ? `
+                    <button
+                      class="btnRepondre"
+                      onclick="event.stopPropagation(); repondreM2P('${etudiant.email}','${etudiant.nom}',${etudiant.row})">
+                      Répondre
+                    </button>
+                  ` : ''}
+    
               </li>`;
             });
             
