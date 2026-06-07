@@ -281,6 +281,7 @@ async function repondreM2P(nom){
 
   if(result.status=="success"){
     showMessage('<i class="bi bi-envelope-check"></i> Mail envoyé.',"success");
+    gererEtudiants();
   }else{
     showMessage('<i class="bi bi-envelope-x"></i> '+result.message,"error");
   }
@@ -429,7 +430,7 @@ document.getElementById("infocin").readOnly = false;
         loader.style.display = "none";
       }
     }
-
+//***********************************************************************************************************************************
     function surveillerModifications() {
       const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
       const btnsubmit = document.getElementById("btnsubmit");
@@ -454,7 +455,7 @@ document.getElementById("infocin").readOnly = false;
       btnsubmit.disabled = true;
       btnm2p.disabled = false;
     }
-
+//***********************************************************************************************************************************
     function getrecu(annee) {
       let recuID = (annee === 1) ? recu1URL : (annee === 2) ? recu2URL : recu3URL;
       let suffixe = (annee == 1) ? "ère" : "ème";
@@ -474,7 +475,7 @@ document.getElementById("infocin").readOnly = false;
       document.body.removeChild(link);
       showMessage(`<i class="bi bi-file-earmark-check"></i> Reçu ${annee}${suffixe} année téléchargé.`, "info");
     }
-
+//***********************************************************************************************************************************
     async function soumettre() {
       const tel1 = document.getElementById("tel1").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -511,7 +512,7 @@ document.getElementById("infocin").readOnly = false;
         showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
       }
     }
-
+//***********************************************************************************************************************************
     function mettreAJourValeursInitiales() {
       const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
       champsASurveiller.forEach(champId => {
@@ -519,7 +520,7 @@ document.getElementById("infocin").readOnly = false;
         champ.dataset.valeurInitiale = champ.value;
       });
     }
-
+//***********************************************************************************************************************************
         async function signaler() {
           const nomsignal = document.getElementById("nomsignal").value.trim();
           if (!nomsignal) {
@@ -599,7 +600,7 @@ try {
         showMessage('<i class="bi bi-wifi-off"></i> Erreur de connexion au serveur.', "error");
       }
     }
-
+//***********************************************************************************************************************************
     document.getElementById("cinInput").addEventListener("keydown", function(e) {
       if (e.key === "Enter") {
         e.preventDefault(); 
