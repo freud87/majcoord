@@ -313,47 +313,45 @@ function afficherInfosEtudiant(el) {
   // Retirer la sélection précédente
   currentRow = el.dataset.row;
 
-  
-  document.querySelectorAll(".etudiant-list li").forEach(li => li.classList.remove("selected"));
+  // 1. On remet toutes les icônes de la liste à leur état d'origine (non remplies)
+  document.querySelectorAll(".etudiant-list li").forEach(li => {
+    li.classList.remove("selected");
+    
+    // On cible l'icône de profil classique pour la réinitialiser
+    const icone = li.querySelector(".bi-person-fill");
+    if (icone) {
+      icone.classList.replace("bi-person-fill", "bi-person");
+    }
+  });
+
+  // 2. On applique la classe selected sur l'élément cliqué
   el.classList.add("selected");
 
+  // 3. On change l'icône de l'élément cliqué pour la version "fill"
+  const iconeCourante = el.querySelector(".bi-person");
+  if (iconeCourante) {
+    iconeCourante.classList.replace("bi-person", "bi-person-fill");
+  }
+
+  // --- Le reste de votre code existant inchangé ---
   // Remplir le formulaire infos
   document.getElementById("infocin").value   = el.dataset.cin;
   document.getElementById("nom").value       = el.dataset.nom;
   document.getElementById("tel1").value      = el.dataset.tel1;
   document.getElementById("tel2").value      = el.dataset.tel2;
   document.getElementById("email").value     = el.dataset.email;
-////////////////////////////////////////////////////////////////////////////////
-  if (el.dataset.modifie) {
-  const d = new Date(el.dataset.modifie);
 
-  document.getElementById("modifie").value =
-    d.toLocaleString("fr-FR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
+  if (el.dataset.modifie) {
+    const d = new Date(el.dataset.modifie);
+    document.getElementById("modifie").value = d.toLocaleString("fr-FR", {
+      day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
     });
-/*} else if (modeAdmin) {
-  document.getElementById("modifie").value =
-    new Date().toLocaleString("fr-FR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
-    });*/
-} else {
-  document.getElementById("modifie").value = "";
-}
-  /////////////////////////////////////////////////////////////////////////////////
-document.getElementById("infocin").disabled = false;
-document.getElementById("infocin").readOnly = false;
-  // Afficher le panneau infos et activer le bouton soumettre
-  //document.getElementById("infos").style.display = "flex";
+  } else {
+    document.getElementById("modifie").value = "";
+  }
+
+  document.getElementById("infocin").disabled = false;
+  document.getElementById("infocin").readOnly = false;
   document.getElementById("liste").style.display  = "flex";
   surveillerModifications();
 }
