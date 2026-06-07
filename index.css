@@ -437,10 +437,12 @@ a:hover, a:focus, a:visited {
     font-size: 40px;
   }
   .container {
+    flex: 1;          /* ← ajoute ça */
+    min-height: 0;    /* ← ajoute ça */
     flex-direction: column;
-    justify-content: flex-start; /* Aligne les éléments en haut sans les disperser */
+    justify-content: flex-start;
     gap: 30px;
-    order: 1;
+    overflow-y: auto; /* ← le scroll global si tout ne rentre pas */
   }
   
   #infos {
@@ -467,14 +469,13 @@ a:hover, a:focus, a:visited {
     order: 3;
   }
   #liste {
-    flex: 0 0 auto;
+    flex: 1;          /* prend l'espace restant */
+    min-height: 0;    /* crucial : permet à flex de le contraindre */
     max-width: 100%;
-    order: 4;        /* #liste passe en bas */
-    
-    /* FIX SCROLL MOB: On lui donne une hauteur max raisonnable */
-    max-height: 60vh; /* Occupe au maximum 60% de la hauteur de l'écran */
+    order: 4;
     display: flex;
     flex-direction: column;
+    /* supprime max-height: 60vh — inutile si flex fonctionne bien */
   }
   #basliste {
     flex: 1;
