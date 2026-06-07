@@ -163,7 +163,7 @@
     });
 //***********************************************************************************************************************************
     // 🔹 Fonction d'authentification et affichage Admin
-    async function gererEtudiants() {
+    async function gererEtudiants(estRafraichissement = false) {
       const cin = document.getElementById("cinInput").value.trim();
       loader.style.display = "flex";
       logo.style.display = "none";
@@ -254,7 +254,9 @@
           } else {
             basliste.innerHTML = "<p>Aucun étudiant trouvé dans la base.</p>";
           }
-          showMessage('<i class="bi bi-shield-check"></i> Mode Administrateur activé', "success");
+          if (!estRafraichissement) {
+            showMessage('<i class="bi bi-shield-check"></i> Mode Administrateur activé', "success");
+          }
         }
       } catch (error) {
         console.error(error);
@@ -281,7 +283,7 @@ async function repondreM2P(nom){
 
   if(result.status=="success"){
     showMessage('<i class="bi bi-envelope-check"></i> Mail envoyé.',"success");
-    gererEtudiants();
+    gererEtudiants(true);
   }else{
     showMessage('<i class="bi bi-envelope-x"></i> '+result.message,"error");
   }
