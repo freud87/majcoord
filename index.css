@@ -195,7 +195,6 @@ h2 {
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
-  /*transition: background 0.3s, transform 0.2s;*/
   box-sizing: border-box;
 }
 #logform button:hover {
@@ -281,8 +280,9 @@ h2 {
   padding-left: 9px;
 }
 .etudiant-list li .btnRepondre {
-  margin-left: auto; 
-  /* Vous pouvez ajouter votre style de bouton ici (background, border, etc.) */
+  background: green;
+  padding: 8px 12px;
+  border-radius: 4px;
 }
 
 #topliste,
