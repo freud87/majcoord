@@ -240,9 +240,8 @@
                   ${etudiant.nom || 'Nom inconnu'}
 
                   ${etudiant.m2p ? `
-                    <button
-                      class="btnRepondre"
-                      onclick="event.stopPropagation(); repondreM2P('${etudiant.email}','${etudiant.nom}',${etudiant.row})">
+                    <button class="btnRepondre"
+                      onclick="event.stopPropagation(); repondreM2P('${etudiant.nom}')">
                       Répondre
                     </button>
                   ` : ''}
@@ -264,6 +263,28 @@
         loader.style.display = "none";
       }
     }
+//***********************************************************************************************************************************
+async function repondreM2P(nom){
+
+  if(!confirm("Envoyer le mail de confirmation ?")) return;
+
+  const formData = new URLSearchParams();
+  formData.append("action","reponseM2P");
+  formData.append("Nom",nom);
+
+  const response = await fetch(apiURL,{
+    method:"POST",
+    body:formData
+  });
+
+  const result = await response.json();
+
+  if(result.status=="success"){
+    showMessage('<i class="bi bi-envelope-check"></i> Mail envoyé.',"success");
+  }else{
+    showMessage('<i class="bi bi-envelope-x"></i> '+result.message,"error");
+  }
+}
 //***********************************************************************************************************************************
 function afficherInfosEtudiant(el) {
   // Retirer la sélection précédente
