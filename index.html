@@ -526,7 +526,7 @@ document.getElementById("infocin").readOnly = false;
             showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
           }
         }
-
+//***********************************************************************************************************************************
     async function getm2p() {
       const nom = document.getElementById("nom").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -535,7 +535,7 @@ document.getElementById("infocin").readOnly = false;
         showMessage('<i class="bi bi-person-exclamation"></i> Nom et Email requis pour la demande.', "error");
         return;
       }
-      if (!confirm("Votre mot de passe sera redéfinit brièvement\nVous en serez notifié par mail")) return;
+      if (!confirm("Votre mot de passe sera redéfinit brièvement.\nVous en serez notifié par mail.")) return;
       
       const formData = new URLSearchParams();
       formData.append("action", "m2p");  
@@ -576,7 +576,7 @@ try {
         chercherEtudiant(); 
       }
     });
-
+//***********************************************************************************************************************************
     // Prévisualisation dynamique du reçu
     const previewBox = document.getElementById("recuPreview");
     const previewFrame = document.getElementById("previewFrame");
