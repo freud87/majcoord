@@ -264,26 +264,55 @@
       }
     }
 //***********************************************************************************************************************************
-async function repondreM2P(nom){
+async function repondreM2P(nom) {
 
-  if(!confirm("Envoyer le mail de confirmation ?")) return;
+  if (!confirm(`Confirmer l'envoi du mail à "${nom}" ?`)) return;
 
   const formData = new URLSearchParams();
-  formData.append("action","reponseM2P");
-  formData.append("Nom",nom);
+  formData.append("action", "reponseM2P");
+  formData.append("Nom", nom);
 
-  const response = await fetch(apiURL,{
-    method:"POST",
-    body:formData
-  });
+  try {
 
-  const result = await response.json();
+    const response = await fetch(apiURL, {
+      method: "POST",
+      body: formData
+    });
 
-  if(result.status=="success"){
-    showMessage('<i class="bi bi-envelope-check"></i> Mail envoyé.',"success");
-  }else{
-    showMessage('<i class="bi bi-envelope-x"></i> '+result.message,"error");
+    const result = await response.json();
+
+    if (result.status === "success") {
+
+      showMessage(
+        '<i class="bi bi-envelope-check"></i> Mail envoyé avec succès.',
+        "success"
+      );
+
+      // Recharge la page après 1 seconde
+      setTimeout(() => {
+        await gererEtudiants();
+      }, 1000);
+
+    } else {
+
+      showMessage(
+        `<i class="bi bi-envelope-x"></i> ${result.message || "Erreur lors de l'envoi du mail."}`,
+        "error"
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      '<i class="bi bi-wifi-off"></i> Erreur de connexion au serveur.',
+      "error"
+    );
+
   }
+
 }
 //***********************************************************************************************************************************
 function afficherInfosEtudiant(el) {
