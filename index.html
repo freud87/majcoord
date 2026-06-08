@@ -24,25 +24,34 @@
       <img id="logo" src="logocnfcpp.png" alt="logocnfcpp">
       <img id="loader" src="load.gif" alt="Chargement...">
       <img id="fail" src="cinfail.png" alt="CIN introuvable ou erroné !">
-      
+
       <div id="logform">
-      <input type="tel" id="cinInput" inputmode="numeric" placeholder="Entrer CIN" maxlength="8" pattern="\d{8}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,8)">        <div id="btnlog">
+        <input type="tel" id="cinInput" inputmode="numeric" placeholder="Entrer CIN" maxlength="8" pattern="\d{8}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,8)">
+        <div id="btnlog">
           <button onclick="chercherEtudiant()">Etudiant</button>
-          <button onclick="gererEtudiants()">Admin</button> </div></div><div id="cinfail">
-          <input type="text" id="nomsignal" placeholder="Saisir votre nom" oninput="this.value=this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g,'')">
-            <div id="btnfail">
+          <button onclick="gererEtudiants()">Admin</button>
+        </div>
+      </div>
+
+      <div id="cinfail">
+        <input type="text" id="nomsignal" placeholder="Saisir votre nom" oninput="this.value=this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g,'')">
+        <div id="btnfail">
           <button id="btnsignal" onclick="signaler()">Signaler</button>
           <button id="cinfailcncl">Retour</button>
-        </div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div id="liste">
       <div id="topliste">
         <h3>Liste des étudiants</h3>
         <input type="text" id="txtSearch" placeholder="Chercher" oninput="filtrerAdminEtudiants()">
       </div>
-      <div id="basliste">
-      </div>
+      <div id="basliste"></div>
     </div>
+
     <div id="infos">
       <div id="topinfo">
         <h3 id="titreInfos">Editer mes informations</h3>
@@ -66,8 +75,9 @@
           <input id="modifie" readonly>
         </div>
       </div>
-      <button id="btnClearForm" onclick="annulerSelection()" style="display: none;">Vider le formulaire</button>
-      </div>
+      <button id="btnClearForm" onclick="annulerSelection()" style="display:none;">Vider le formulaire</button>
+    </div>
+
     <div id="social">
       <a href="https://www.cnfcpp.tn/" target="_blank"><i class="bi bi-globe2"></i></a>
       <a href="https://www.facebook.com/profile.php?id=61579755939691" target="_blank"><i class="bi bi-facebook"></i></a>
@@ -75,6 +85,7 @@
       <a href="tel:52434939" title="Appeler"><i class="bi bi-phone"></i></a>
       <a href="https://wa.me/21652434939" target="_blank" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
     </div>
+
     <div id="services">
       <div id="recus">
         <h3>Récupérer vos reçus de versement des frais</h3>
@@ -82,33 +93,53 @@
           <button id="btnrecu1" onclick="getrecu(1)">Reçu 1ère année</button>
           <button id="btnrecu2" onclick="getrecu(2)">Reçu 2ème année</button>
           <button id="btnrecu3" onclick="getrecu(3)">Reçu 3ème année</button>
-        </div></div><div id="autres">
+        </div>
+      </div>
+      <div id="autres">
         <h3>Signaler des problèmes au niveau de la plateforme</h3>
         <button id="btnm2p" onclick="getm2p()">Réinitialiser mon m2p</button>
-      </div><div class="filigrane">LTI Pr2</div>
-    </div></div><div id="notifications"></div>
-  
+      </div>
+      <div class="filigrane">LTI Pr2</div>
+    </div>
+  </div>
+
+  <div id="notifications"></div>
+
   <div id="recuPreview" style="display:none; position:fixed; pointer-events:none; z-index:1000; border:2px solid #ccc; border-radius:10px; background:#fff; box-shadow:0 0 15px rgba(0,0,0,0.2);">
     <iframe id="previewFrame" width="400" height="568" style="border:none;"></iframe>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    let modeAdmin = false;
+    // =========================================================
+    // 🔧 Variables globales
+    // =========================================================
+    let modeAdmin   = false;
+    let currentRow  = null;
+    let cinAdmin    = "";   // FIX: mémorisé dès la connexion admin réussie
+    let recu1URL    = null;
+    let recu2URL    = null;
+    let recu3URL    = null;
 
-    // Restriction cinInput : chiffres seulement, max 8
-    document.getElementById("cinInput").addEventListener("input", function() {
-      this.value = this.value.replace(/\D/g, "").slice(0, 8);
-    });
-    
-    // Restriction nomsignal : lettres + espaces + accents seulement
-    document.getElementById("nomsignal").addEventListener("input", function() {
-      this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
-    });
-    
-    // Configuration de l'année en cours via GSheet
+    const apiURL   = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSNJhHGgvdyQjfDKHTWpGBWK-jCRNV31zSxJjTYl2tz5WuLp4kUNL8F_Op4KuMXH-0_miPt4Ln9ZlDc/pub?gid=1147238427&single=true&output=csv";
 
+    const loader = document.getElementById("loader");
+    const logo   = document.getElementById("logo");
+
+    // =========================================================
+    // 🔧 Restrictions de saisie
+    // =========================================================
+    document.getElementById("cinInput").addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "").slice(0, 8);
+    });
+    document.getElementById("nomsignal").addEventListener("input", function () {
+      this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
+    });
+
+    // =========================================================
+    // 🔧 Année universitaire via GSheet
+    // =========================================================
     fetch(sheetURL)
       .then(res => res.text())
       .then(csv => {
@@ -122,8 +153,7 @@
           const [dDeb, mDeb, yDeb] = debutStr.split("/");
           const [dFin, mFin, yFin] = finStr.split("/");
           const debut = new Date(`${yDeb}-${mDeb}-${dDeb}`);
-          const fin = new Date(`${yFin}-${mFin}-${dFin}`);
-
+          const fin   = new Date(`${yFin}-${mFin}-${dFin}`);
           if (today >= debut && today <= fin) {
             currentAnnee = annee;
             niveauActuel = niveau;
@@ -131,7 +161,6 @@
           }
         }
         document.getElementById("annuniv").textContent = currentAnnee;
-
         if (niveauActuel >= 1) document.getElementById("btnrecu1").style.display = "inline-block";
         if (niveauActuel >= 2) document.getElementById("btnrecu2").style.display = "inline-block";
         if (niveauActuel >= 3) document.getElementById("btnrecu3").style.display = "inline-block";
@@ -141,104 +170,96 @@
         document.getElementById("annuniv").textContent = "Erreur de chargement";
       });
 
-    // Configuration des URLs API
-    const apiURL = "https://script.google.com/macros/s/AKfycbx8aH6rH6rBM68_JjSn-YxVjNcPOXHj_VuDg8QiXeskyaNhu91n_YmmIu2asKVc9fCi/exec";
-    let currentRow = null;
-    let recu1URL = null, recu2URL = null, recu3URL = null;
-
-    const loader = document.getElementById("loader");
-    const logo = document.getElementById("logo");
-
-    function showMessage(text, type = "info", duration = 5000) {
-      const container = document.getElementById("notifications");
-      const msg = document.createElement("div");
-      msg.className = `toast ${type}`;
-      msg.innerHTML = text; 
-      container.appendChild(msg);
-      setTimeout(() => { msg.remove(); }, duration);
-    }
-
+    // =========================================================
+    // 🔧 Initialisation à l'affichage
+    // =========================================================
     window.addEventListener("load", function () {
       const input = document.getElementById("cinInput");
       input.focus();
       setTimeout(() => { input.click(); input.focus(); }, 300);
-    
-      // --- Mode Étudiant par défaut au chargement ---
-      document.getElementById("titreInfos").textContent = "Editer mes informations";
-      document.getElementById("infocin").disabled = true;
-      
-      document.getElementById("modifie").disabled = true;    
-      document.getElementById("btnsubmit").disabled = true;
-      document.getElementById("cinfailcncl").onclick = () => location.reload();
+
+      document.getElementById("titreInfos").textContent  = "Editer mes informations";
+      document.getElementById("infocin").disabled        = true;
+      document.getElementById("modifie").disabled        = true;
+      document.getElementById("btnsubmit").disabled      = true;
+      document.getElementById("cinfailcncl").onclick     = () => location.reload();
     });
-//***********************************************************************************************************************************
-    // 🔹 Fonction d'authentification et affichage Admin
+
+    // =========================================================
+    // 🔧 Notifications toast
+    // =========================================================
+    function showMessage(text, type = "info", duration = 5000) {
+      const container = document.getElementById("notifications");
+      const msg = document.createElement("div");
+      msg.className = `toast ${type}`;
+      msg.innerHTML = text;
+      container.appendChild(msg);
+      setTimeout(() => { msg.remove(); }, duration);
+    }
+
+    // =========================================================
+    // 🔐 Authentification et affichage Admin
+    // =========================================================
     async function gererEtudiants(estRafraichissement = false) {
-      const cin = document.getElementById("cinInput").value.trim();
+      // FIX: en rafraîchissement on utilise cinAdmin mémorisé,
+      //      sinon on lit le champ de saisie
+      const cin = estRafraichissement ? cinAdmin : document.getElementById("cinInput").value.trim();
+
       loader.style.display = "flex";
-      logo.style.display = "none";
+      logo.style.display   = "none";
 
       if (!cin) {
-        
         loader.style.display = "none";
-        logo.style.display = "flex";
+        logo.style.display   = "flex";
         showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez entrer votre CIN Admin !', "error");
         return;
       }
       if (cin.length !== 8) {
         loader.style.display = "none";
-        logo.style.display = "flex";
+        logo.style.display   = "flex";
         showMessage('<i class="bi bi-exclamation-triangle"></i> Le CIN doit contenir 8 chiffres !', "error");
         return;
       }
 
       try {
-        // Envoi du paramètre action=admin à votre script Google Apps Script
         const response = await fetch(`${apiURL}?action=admin&cin=${cin}`);
-        const data = await response.json();
+        const data     = await response.json();
 
         if (data.status === "error" || !data.isAdmin) {
-          // Admin non reconnu
-          document.getElementById("fail").style.display = "flex";
+          document.getElementById("fail").style.display    = "flex";
           document.getElementById("logform").style.display = "none";
           document.getElementById("cinfail").style.display = "flex";
           document.getElementById("nomsignal").focus();
           showMessage('<i class="bi bi-shield-x"></i> CIN Admin incorrect.', "error");
         } else {
-          // ✅ Admin connecté avec succès
+          // FIX: mémoriser le CIN admin pour les rafraîchissements ultérieurs
+          cinAdmin = cin;
+
           document.getElementById("login").style.display = "none";
           modeAdmin = true;
-          
-          // Mises à jour mode Admin au chargement
-          document.getElementById("titreInfos").textContent = "Ajouter un étudiant";
-          document.getElementById("infocin").disabled = false;
-          document.getElementById("infocin").readOnly = false;
-          document.getElementById("infocin").value = ""; // On vide le champ pour un nouvel ajout
-          // 1. Masquer social et services
-          document.getElementById("social").style.display = "none";
-          document.getElementById("services").style.display = "none";
-          
-          // 2. Afficher le container de la liste
-          const listeDiv = document.getElementById("liste");
 
-          // 3. Remplir le bloc "basliste" avec le tableau des étudiants reçus de l'API
+          document.getElementById("titreInfos").textContent  = "Ajouter un étudiant";
+          document.getElementById("infocin").disabled        = false;
+          document.getElementById("infocin").readOnly        = false;
+          document.getElementById("infocin").value           = "";
+          document.getElementById("social").style.display    = "none";
+          document.getElementById("services").style.display  = "none";
+
+          // Reconstruction de la liste
           const basliste = document.getElementById("basliste");
-          //*****************************************
 
-          if(data.etudiants && data.etudiants.length > 0) {
-
+          if (data.etudiants && data.etudiants.length > 0) {
             data.etudiants.sort((a, b) => {
               if (a.m2p && !b.m2p) return -1;
-              if (!a.m2p && b.m2p) return 1;
+              if (!a.m2p && b.m2p)  return  1;
               return (a.nom || "").localeCompare(b.nom || "");
             });
-            
+
             let htmlList = `<ul class="etudiant-list">`;
-            
             data.etudiants.forEach(etudiant => {
               htmlList += `
               <li onclick="afficherInfosEtudiant(this)"
-              style="${etudiant.m2p ? 'background:#ffe5e5;border-left:4px solid #dc3545;' : ''}"
+                  style="${etudiant.m2p ? 'background:#ffe5e5;border-left:4px solid #dc3545;' : ''}"
                   data-row="${etudiant.row}"
                   data-cin="${etudiant.cin ? String(etudiant.cin).padStart(8, '0') : ''}"
                   data-nom="${etudiant.nom || ''}"
@@ -247,28 +268,26 @@
                   data-email="${etudiant.email || ''}"
                   data-modifie="${etudiant.modifie || ''}"
                   data-m2p="${etudiant.m2p || ''}">
-                  
+
                   ${etudiant.m2p
                     ? '<i class="bi bi-key-fill text-danger"></i>'
                     : '<i class="bi bi-person"></i>'}
-              
+
                   ${etudiant.nom || 'Nom inconnu'}
 
                   ${etudiant.m2p ? `
                     <button class="btnRepondre"
                       onclick="event.stopPropagation(); repondreM2P('${etudiant.nom}')">
                       Répondre
-                    </button>
-                  ` : ''}
-    
+                    </button>` : ''}
               </li>`;
             });
-            
             htmlList += `</ul>`;
             basliste.innerHTML = htmlList;
           } else {
             basliste.innerHTML = "<p>Aucun étudiant trouvé dans la base.</p>";
           }
+
           if (!estRafraichissement) {
             showMessage('<i class="bi bi-shield-check"></i> Mode Administrateur activé', "success");
           }
@@ -280,139 +299,126 @@
         loader.style.display = "none";
       }
     }
-//***********************************************************************************************************************************
-function filtrerAdminEtudiants() {
-  const texteRecherche = document.getElementById("txtSearch").value.toLowerCase().trim();
-  const items = document.querySelectorAll(".etudiant-list li");
 
-  items.forEach(li => {
-    const nom = (li.dataset.nom || "").toLowerCase();
-    const cin = (li.dataset.cin || "").toLowerCase();
-
-    if (nom.includes(texteRecherche) || cin.includes(texteRecherche)) {
-      li.style.display = "";
-    } else {
-      li.style.display = "none";
+    // =========================================================
+    // 🔍 Filtrage de la liste admin
+    // =========================================================
+    function filtrerAdminEtudiants() {
+      const texte = document.getElementById("txtSearch").value.toLowerCase().trim();
+      document.querySelectorAll(".etudiant-list li").forEach(li => {
+        const nom = (li.dataset.nom || "").toLowerCase();
+        const cin = (li.dataset.cin || "").toLowerCase();
+        li.style.display = (nom.includes(texte) || cin.includes(texte)) ? "" : "none";
+      });
     }
-  });
-}
-//***********************************************************************************************************************************
-async function repondreM2P(nom){
 
-  if(!confirm("Envoyer le mail de confirmation ?")) return;
+    // =========================================================
+    // 📧 Répondre à une demande m2p
+    // =========================================================
+    async function repondreM2P(nom) {
+      if (!confirm("Envoyer le mail de confirmation ?")) return;
 
-  const formData = new URLSearchParams();
-  formData.append("action","reponseM2P");
-  formData.append("Nom",nom);
+      const formData = new URLSearchParams();
+      formData.append("action", "reponseM2P");
+      formData.append("Nom", nom);
 
-  const response = await fetch(apiURL,{
-    method:"POST",
-    body:formData
-  });
+      try {
+        const response = await fetch(apiURL, { method: "POST", body: formData });
+        const result   = await response.json();
 
-  const result = await response.json();
-
-  if(result.status=="success"){
-    showMessage('<i class="bi bi-envelope-check"></i> Mail envoyé.',"success");
-    gererEtudiants(true);
-  }else{
-    showMessage('<i class="bi bi-envelope-x"></i> '+result.message,"error");
-  }
-}
-//***********************************************************************************************************************************
-function afficherInfosEtudiant(el) {
-  // Retirer la sélection précédente
-  currentRow = el.dataset.row;
-
-  // 1. On remet toutes les icônes de la liste à leur état d'origine (non remplies)
-  document.querySelectorAll(".etudiant-list li").forEach(li => {
-    li.classList.remove("selected");
-    
-    // On cible l'icône de profil classique pour la réinitialiser
-    const icone = li.querySelector(".bi-person-fill");
-    if (icone) {
-      icone.classList.replace("bi-person-fill", "bi-person");
+        if (result.status === "success") {
+          showMessage('<i class="bi bi-envelope-check"></i> Mail envoyé.', "success");
+          // FIX: le GAS réinitialise maintenant la colonne m2p dans Etudiants ;
+          //      le rafraîchissement reflète correctement la suppression de la surbrillance
+          await gererEtudiants(true);
+        } else {
+          showMessage('<i class="bi bi-envelope-x"></i> ' + result.message, "error");
+        }
+      } catch (error) {
+        console.error(error);
+        showMessage('<i class="bi bi-database-fill-x"></i> Erreur de connexion au serveur.', "error");
+      }
     }
-  });
 
-  // 2. On applique la classe selected sur l'élément cliqué
-  el.classList.add("selected");
+    // =========================================================
+    // 👤 Afficher les infos d'un étudiant (mode admin)
+    // =========================================================
+    function afficherInfosEtudiant(el) {
+      currentRow = el.dataset.row;
 
-  // 3. On change l'icône de l'élément cliqué pour la version "fill"
-  const iconeCourante = el.querySelector(".bi-person");
-  if (iconeCourante) {
-    iconeCourante.classList.replace("bi-person", "bi-person-fill");
-  }
+      document.querySelectorAll(".etudiant-list li").forEach(li => {
+        li.classList.remove("selected");
+        const icone = li.querySelector(".bi-person-fill");
+        if (icone) icone.classList.replace("bi-person-fill", "bi-person");
+      });
 
-  // --- Le reste de votre code existant inchangé ---
-  // Remplir le formulaire infos
-  document.getElementById("infocin").value   = el.dataset.cin;
-  document.getElementById("nom").value       = el.dataset.nom;
-  document.getElementById("tel1").value      = el.dataset.tel1;
-  document.getElementById("tel2").value      = el.dataset.tel2;
-  document.getElementById("email").value     = el.dataset.email;
+      el.classList.add("selected");
+      const iconeCourante = el.querySelector(".bi-person");
+      if (iconeCourante) iconeCourante.classList.replace("bi-person", "bi-person-fill");
 
-  if (el.dataset.modifie) {
-    const d = new Date(el.dataset.modifie);
-    document.getElementById("modifie").value = d.toLocaleString("fr-FR", {
-      day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
-    });
-  } else {
-    document.getElementById("modifie").value = "";
-  }
-  // Changement dynamique du titre et maintien du CIN actif
-  document.getElementById("titreInfos").textContent = "Editer les informations";
-  document.getElementById("infocin").disabled = false;
-  document.getElementById("infocin").readOnly = false;
-  document.getElementById("liste").style.display  = "flex";
-  document.getElementById("btnClearForm").style.display  = "flex";
-  surveillerModifications();
-}
-//***********************************************************************************************************************************
+      document.getElementById("infocin").value  = el.dataset.cin;
+      document.getElementById("nom").value      = el.dataset.nom;
+      document.getElementById("tel1").value     = el.dataset.tel1;
+      document.getElementById("tel2").value     = el.dataset.tel2;
+      document.getElementById("email").value    = el.dataset.email;
+
+      if (el.dataset.modifie) {
+        const d = new Date(el.dataset.modifie);
+        document.getElementById("modifie").value = d.toLocaleString("fr-FR", {
+          day: "2-digit", month: "2-digit", year: "numeric",
+          hour: "2-digit", minute: "2-digit", hour12: false
+        });
+      } else {
+        document.getElementById("modifie").value = "";
+      }
+
+      document.getElementById("titreInfos").textContent  = "Editer les informations";
+      document.getElementById("infocin").disabled        = false;
+      document.getElementById("infocin").readOnly        = false;
+      document.getElementById("liste").style.display     = "flex";
+      document.getElementById("btnClearForm").style.display = "flex";
+      surveillerModifications();
+    }
+
+    // =========================================================
+    // 🧹 Annuler la sélection / vider le formulaire
+    // =========================================================
     function annulerSelection() {
-  // 1. Déselectionner l'élément graphiquement dans la liste
-  document.querySelectorAll(".etudiant-list li").forEach(li => {
-    li.classList.remove("selected");
-    const icone = li.querySelector(".bi-person-fill");
-    if (icone) {
-      icone.classList.replace("bi-person-fill", "bi-person");
+      document.querySelectorAll(".etudiant-list li").forEach(li => {
+        li.classList.remove("selected");
+        const icone = li.querySelector(".bi-person-fill");
+        if (icone) icone.classList.replace("bi-person-fill", "bi-person");
+      });
+
+      currentRow = null;
+
+      document.getElementById("infocin").value  = "";
+      document.getElementById("nom").value      = "";
+      document.getElementById("tel1").value     = "";
+      document.getElementById("tel2").value     = "";
+      document.getElementById("email").value    = "";
+      document.getElementById("modifie").value  = "";
+
+      document.getElementById("titreInfos").textContent    = "Ajouter un étudiant";
+      document.getElementById("infocin").disabled          = false;
+      document.getElementById("infocin").readOnly          = false;
+      document.getElementById("btnClearForm").style.display = "none";
+
+      surveillerModifications();
     }
-  });
 
-  // 2. Vider la variable de suivi de la ligne GSheet
-  currentRow = null;
-
-  // 3. Vider tous les inputs du bloc basinfo
-  document.getElementById("infocin").value = "";
-  document.getElementById("nom").value = "";
-  document.getElementById("tel1").value = "";
-  document.getElementById("tel2").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("modifie").value = "";
-
-  // 4. Rétablir les paramètres pour un "Ajout" (Puisqu'on est en mode Admin)
-  document.getElementById("titreInfos").textContent = "Ajouter un étudiant";
-  
-  const infocin = document.getElementById("infocin");
-  infocin.disabled = false;
-  infocin.readOnly = false;
-
-  // 5. Réinitialiser l'état des boutons de validation
-  document.getElementById("btnsubmit").disabled = true;
-  document.getElementById("btnm2p").disabled = true; // Désactivé car aucun étudiant n'est sélectionné
-  document.getElementById("btnClearForm").style.display  = "none";   
-}
-//***********************************************************************************************************************************
-    // 🔹 Chercher étudiant (Mode normal)
+    // =========================================================
+    // 🎓 Chercher un étudiant (mode normal)
+    // =========================================================
     async function chercherEtudiant() {
       const cin = document.getElementById("cinInput").value.trim();
       document.getElementById("liste").style.display = "none";
       loader.style.display = "flex";
-      logo.style.display = "none";
+      logo.style.display   = "none";
 
       if (!cin) {
         loader.style.display = "none";
-        logo.style.display = "flex";
+        logo.style.display   = "flex";
         document.getElementById("login").style.display = "flex";
         document.getElementById("cinInput").focus();
         showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez entrer le numéro de votre CIN !', "error");
@@ -420,38 +426,40 @@ function afficherInfosEtudiant(el) {
       }
       if (cin.length !== 8) {
         loader.style.display = "none";
-        logo.style.display = "flex";
+        logo.style.display   = "flex";
         showMessage('<i class="bi bi-exclamation-triangle"></i> Le CIN doit contenir exactement 8 chiffres !', "error");
         return;
       }
 
       try {
         const response = await fetch(`${apiURL}?cin=${cin}`);
-        const data = await response.json();
+        const data     = await response.json();
 
         if (Object.keys(data).length === 0) {
-          document.getElementById("fail").style.display = "flex";
+          document.getElementById("fail").style.display    = "flex";
           document.getElementById("logform").style.display = "none";
           document.getElementById("cinfail").style.display = "flex";
-          document.getElementById("btnsubmit").disabled = true; 
+          document.getElementById("btnsubmit").disabled    = true;
           recu1URL = null; recu2URL = null; recu3URL = null;
           document.getElementById("nomsignal").focus();
           showMessage('<i class="bi bi-x-square"></i> Numéro de CIN introuvable ou erroné.', "error");
         } else {
           document.getElementById("login").style.display = "none";
           currentRow = data.row;
+
           document.getElementById("titreInfos").textContent = "Editer mes informations";
-          document.getElementById("infocin").value = cin;
-          document.getElementById("infocin").readOnly = true;
-          document.getElementById("nom").value = data.Nom || "";
-          document.getElementById("tel1").value = data.Tel1 || "";
-          document.getElementById("tel2").value = data.Tel2 || "";
-          document.getElementById("email").value = data.Email || "";
+          document.getElementById("infocin").value          = cin;
+          document.getElementById("infocin").readOnly       = true;
+          document.getElementById("nom").value              = data.Nom   || "";
+          document.getElementById("tel1").value             = data.Tel1  || "";
+          document.getElementById("tel2").value             = data.Tel2  || "";
+          document.getElementById("email").value            = data.Email || "";
 
           if (data.Modifie) {
             const d = new Date(data.Modifie);
             document.getElementById("modifie").value = d.toLocaleString("fr-FR", {
-              day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
+              day: "2-digit", month: "2-digit", year: "numeric",
+              hour: "2-digit", minute: "2-digit", hour12: false
             });
           } else {
             document.getElementById("modifie").value = "";
@@ -460,7 +468,6 @@ function afficherInfosEtudiant(el) {
           recu1URL = data.Recu1 || null;
           recu2URL = data.Recu2 || null;
           recu3URL = data.Recu3 || null;
-
           document.getElementById("btnrecu1").disabled = !recu1URL;
           document.getElementById("btnrecu2").disabled = !recu2URL;
           document.getElementById("btnrecu3").disabled = !recu3URL;
@@ -469,25 +476,21 @@ function afficherInfosEtudiant(el) {
           surveillerModifications();
 
           const nomComplet = document.getElementById("nom").value.trim();
-          const mots = nomComplet.split(/\s+/); 
-          let nomAffiche = mots.length > 2 ? mots.slice(0, 2).join(" ") : mots[0];
-
-          const heureActuelle = new Date().getHours();
-          let salutation = (heureActuelle >= 6 && heureActuelle < 12) ? "Bonjour" : 
-                           (heureActuelle >= 12 && heureActuelle < 17) ? "Bon après-midi" : 
-                           (heureActuelle >= 17 && heureActuelle < 20) ? "Bonsoir" : 
-                           (heureActuelle >= 20 && heureActuelle < 23) ? "Bonne soirée" : "Ravi de vous voir";
+          const mots       = nomComplet.split(/\s+/);
+          const nomAffiche = mots.length > 2 ? mots.slice(0, 2).join(" ") : mots[0];
+          const h          = new Date().getHours();
+          const salutation = h >= 6  && h < 12 ? "Bonjour"        :
+                             h >= 12 && h < 17 ? "Bon après-midi" :
+                             h >= 17 && h < 20 ? "Bonsoir"        :
+                             h >= 20 && h < 23 ? "Bonne soirée"   : "Ravi de vous voir";
 
           showMessage(`<i class="bi bi-emoji-smile"></i> ${salutation} ${nomAffiche}`, "success");
-     
+
           let remaining = 180;
           const timer = setInterval(() => {
             remaining--;
             if (remaining === 10) showMessage('<i class="bi bi-hourglass-split"></i> Vous serez déconnecté(e) dans 10 secondes.', "info");
-            if (remaining <= 0) {
-              clearInterval(timer);
-              window.location.reload(true);
-            }
+            if (remaining <= 0) { clearInterval(timer); window.location.reload(true); }
           }, 1000);
         }
       } catch (error) {
@@ -497,216 +500,252 @@ function afficherInfosEtudiant(el) {
         loader.style.display = "none";
       }
     }
-//***********************************************************************************************************************************
-    function surveillerModifications() {
-      const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
-      const btnsubmit = document.getElementById("btnsubmit");
-      const btnm2p = document.getElementById("btnm2p");
-    
-      champsASurveiller.forEach(champId => {
-        const champ = document.getElementById(champId);
-        champ.dataset.valeurInitiale = champ.value;
-    
-        champ.oninput = function() {
-          const aChange = champsASurveiller.some(id => {
-            const element = document.getElementById(id);
-            return element.value !== element.dataset.valeurInitiale;
-          });
-    
-          btnsubmit.disabled = !aChange;
-          btnm2p.disabled = aChange; // Désactive pendant l'édition
-        };
-      });
-    
-      // Etat initial
-      btnsubmit.disabled = true;
-      btnm2p.disabled = false;
-    }
-//***********************************************************************************************************************************
-    function getrecu(annee) {
-      let recuID = (annee === 1) ? recu1URL : (annee === 2) ? recu2URL : recu3URL;
-      let suffixe = (annee == 1) ? "ère" : "ème";
 
+    // =========================================================
+    // 👁️ Surveillance des modifications du formulaire
+    // =========================================================
+    function surveillerModifications() {
+      const champsASurveiller = ["nom", "tel1", "tel2", "email"];
+      const btnsubmit = document.getElementById("btnsubmit");
+
+      champsASurveiller.forEach(id => {
+        const champ = document.getElementById(id);
+        champ.dataset.valeurInitiale = champ.value;
+      });
+
+      const verifierEtatFormulaire = () => {
+        const cin   = document.getElementById("infocin").value.trim();
+        const nom   = document.getElementById("nom").value.trim();
+        const tel1  = document.getElementById("tel1").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const requisRemplis = cin.length === 8 && nom !== "" && tel1 !== "" && email !== "";
+
+        if (!requisRemplis) {
+          btnsubmit.disabled = true;
+          return;
+        }
+
+        if (currentRow === null) {
+          // Mode ajout : actif dès que les champs requis sont remplis
+          btnsubmit.disabled = false;
+        } else {
+          // Mode modification : actif uniquement si au moins un champ a changé
+          const aChange = champsASurveiller.some(id => {
+            const el = document.getElementById(id);
+            return el.value !== el.dataset.valeurInitiale;
+          });
+          // FIX: inclure aussi le CIN dans la détection de changement
+          const cinChange = cin !== (document.getElementById("infocin").dataset.valeurInitiale || cin);
+          btnsubmit.disabled = !(aChange || cinChange);
+
+          const btnm2p = document.getElementById("btnm2p");
+          if (btnm2p) btnm2p.disabled = (aChange || cinChange);
+        }
+      };
+
+      // Mémoriser la valeur initiale du CIN également
+      const infocin = document.getElementById("infocin");
+      infocin.dataset.valeurInitiale = infocin.value;
+
+      ["infocin", "nom", "tel1", "tel2", "email"].forEach(id => {
+        document.getElementById(id).oninput = verifierEtatFormulaire;
+      });
+
+      verifierEtatFormulaire();
+    }
+
+    // =========================================================
+    // 📄 Téléchargement des reçus
+    // =========================================================
+    function getrecu(annee) {
+      const recuID  = annee === 1 ? recu1URL : annee === 2 ? recu2URL : recu3URL;
+      const suffixe = annee === 1 ? "ère" : "ème";
       if (!recuID) {
         showMessage(`<i class="bi bi-file-earmark-x"></i> Aucun reçu disponible pour la ${annee}${suffixe} année.`, "error");
         return;
       }
-
-      const recuURL = `https://drive.google.com/uc?export=download&id=${recuID}`;
       const link = document.createElement("a");
-      link.href = recuURL;
-      link.target = "_blank";
+      link.href     = `https://drive.google.com/uc?export=download&id=${recuID}`;
+      link.target   = "_blank";
       link.download = `Recu_${annee}e_annee.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       showMessage(`<i class="bi bi-file-earmark-check"></i> Reçu ${annee}${suffixe} année téléchargé.`, "info");
     }
-//***********************************************************************************************************************************
+
+    // =========================================================
+    // 💾 Soumettre (ajout ou modification)
+    // =========================================================
     async function soumettre() {
-      const tel1 = document.getElementById("tel1").value.trim();
+      const cin   = document.getElementById("infocin").value.trim();
+      const nom   = document.getElementById("nom").value.trim();
+      const tel1  = document.getElementById("tel1").value.trim();
       const email = document.getElementById("email").value.trim();
 
-      if (!tel1 || !email) {
-        showMessage('<i class="bi bi-exclamation-circle"></i> Téléphone 1 et Email sont obligatoires !', "error");
+      if (!cin || !nom || !tel1 || !email) {
+        showMessage('<i class="bi bi-exclamation-circle"></i> Veuillez remplir tous les champs obligatoires (*)', "error");
         return;
       }
 
       const formData = new URLSearchParams();
-      
-      formData.append("row", currentRow);
-      formData.append("CIN", document.getElementById("infocin").value);
-      formData.append("Nom", document.getElementById("nom").value);
-      formData.append("Tel1", tel1);
-      formData.append("Tel2", document.getElementById("tel2").value);
+
+      if (currentRow === null) {
+        formData.append("action", "ajouterEtudiant");
+      } else {
+        formData.append("action", "modifierEtudiant");
+        formData.append("row", currentRow);
+      }
+
+      formData.append("CIN",   cin);
+      formData.append("Nom",   nom);
+      formData.append("Tel1",  tel1);
+      formData.append("Tel2",  document.getElementById("tel2").value.trim());
       formData.append("Email", email);
 
       try {
+        loader.style.display = "flex";
         const response = await fetch(apiURL, { method: "POST", body: formData });
-        const result = await response.json();
+        const result   = await response.json();
 
         if (result.status === "success") {
-          document.getElementById("modifie").value = result.modifie || new Date().toLocaleString();
-          mettreAJourValeursInitiales();
-          document.getElementById("btnsubmit").disabled = true;
-          document.getElementById("btnm2p").disabled = false;
-          showMessage('<i class="bi bi-floppy"></i> Modification enregistrée !', "success");
+          showMessage(
+            currentRow === null
+              ? '<i class="bi bi-person-check"></i> Étudiant ajouté avec succès !'
+              : '<i class="bi bi-floppy"></i> Modification enregistrée !',
+            "success"
+          );
+          // Réinitialiser le formulaire puis rafraîchir la liste
+          // FIX: annulerSelection() est appelé AVANT gererEtudiants(true) ;
+          //      cinAdmin est déjà mémorisé donc le rafraîchissement ne dépend
+          //      plus de cinInput.value
+          annulerSelection();
+          await gererEtudiants(true);
+
         } else {
-          showMessage('<i class="bi bi-database-fill-x"></i> Erreur lors de la mise à jour !', "error");
+          showMessage('<i class="bi bi-database-fill-x"></i> Erreur : ' + (result.message || "Échec de l'opération"), "error");
+        }
+      } catch (error) {
+        console.error(error);
+        showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
+      } finally {
+        loader.style.display = "none";
+      }
+    }
+
+    // =========================================================
+    // 🚨 Signalement d'un CIN introuvable
+    // =========================================================
+    async function signaler() {
+      const nomsignal = document.getElementById("nomsignal").value.trim();
+      if (!nomsignal) {
+        showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez saisir votre nom afin de signaler une erreur.', "error");
+        return;
+      }
+
+      const formData = new URLSearchParams();
+      formData.append("action",     "signalement");
+      formData.append("NomSignal",  nomsignal);
+
+      try {
+        const response = await fetch(apiURL, { method: "POST", body: formData });
+        const text     = await response.text();
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (parseError) {
+          console.error("Réponse serveur non JSON :", text);
+          showMessage('<i class="bi bi-database-exclamation"></i> Erreur serveur : ' + text, "error");
+          return;
+        }
+        if (result.status === "success") {
+          document.getElementById("nomsignal").value = "";
+          showMessage('<i class="bi bi-send-check"></i> Signalement envoyé, merci !', "success");
+        } else {
+          showMessage('<i class="bi bi-send-x"></i> Erreur : ' + (result.message || "Inconnue"), "error");
         }
       } catch (error) {
         console.error(error);
         showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
       }
     }
-//***********************************************************************************************************************************
-    function mettreAJourValeursInitiales() {
-      const champsASurveiller = ['nom', 'tel1', 'tel2', 'email'];
-      champsASurveiller.forEach(champId => {
-        const champ = document.getElementById(champId);
-        champ.dataset.valeurInitiale = champ.value;
-      });
-    }
-//***********************************************************************************************************************************
-        async function signaler() {
-          const nomsignal = document.getElementById("nomsignal").value.trim();
-          if (!nomsignal) {
-            showMessage('<i class="bi bi-exclamation-triangle"></i> Veuillez saisir votre nom afin de signaler une erreur.', "error");
-            return;
-          }
-    
-          const formData = new URLSearchParams();
-          formData.append("action", "signalement");
-          formData.append("NomSignal", nomsignal);
-    
-          try {
-            const response = await fetch(apiURL, { method: "POST", body: formData });
-            const text = await response.text(); // On récupère le texte brut d'abord
-            
-            let result;
-            try {
-              result = JSON.parse(text); // On tente de parser le JSON
-            } catch (parseError) {
-              // Si ce n'est pas du JSON, c'est que le script GAS a planté
-              console.error("Réponse serveur non JSON :", text);
-              showMessage('<i class="bi bi-database-exclamation"></i> Erreur serveur : ' + text, "error");
-              return;
-            }
-    
-            if (result.status === "success") {
-              document.getElementById("nomsignal").value = "";
-              showMessage('<i class="bi bi-send-check"></i> Signalement envoyé, merci !', "success");
-            } else {
-              showMessage('<i class="bi bi-send-x"></i> Erreur : ' + (result.message || 'Inconnue'), "error");
-            }
-          } catch (error) {
-            console.error(error);
-            showMessage('<i class="bi bi-database-exclamation"></i> Erreur de connexion au serveur.', "error");
-          }
-        }
-//***********************************************************************************************************************************
+
+    // =========================================================
+    // 🔐 Réinitialisation du mot de passe (m2p)
+    // =========================================================
     async function getm2p() {
-      const nom = document.getElementById("nom").value.trim();
+      const nom   = document.getElementById("nom").value.trim();
       const email = document.getElementById("email").value.trim();
 
       if (!nom || !email) {
         showMessage('<i class="bi bi-person-exclamation"></i> Nom et Email requis pour la demande.', "error");
         return;
       }
-      if (!confirm("Votre mot de passe sera redéfinit brièvement.\nVous en serez notifié par mail.")) return;
-      
+      if (!confirm("Votre mot de passe sera redéfini brièvement.\nVous en serez notifié par mail.")) return;
+
       const formData = new URLSearchParams();
-      formData.append("action", "m2p");  
-      formData.append("Nom", nom);
-      formData.append("Objet", "Mot de passe");
-      formData.append("Email", email);
+      formData.append("action", "m2p");
+      formData.append("Nom",    nom);
+      formData.append("Objet",  "Mot de passe");
+      formData.append("Email",  email);
 
       try {
         const response = await fetch(apiURL, { method: "POST", body: formData });
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
-//        const result = await response.json();
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-const text = await response.text();
-console.log(text);
-
-let result;
-try {
-  result = JSON.parse(text);
-} catch(err) {
-  console.error("Réponse non JSON :", text);
-  throw err;
-}
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        const text     = await response.text();
+        console.log(text);
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (err) {
+          console.error("Réponse non JSON :", text);
+          throw err;
+        }
         if (result.status === "success") {
           showMessage('<i class="bi bi-shield-check"></i> Votre demande de réinitialisation a été envoyée.', "success");
         } else {
-          showMessage('<i class="bi bi-shield-x"></i> Erreur lors de l’envoi de la demande.', "error");
+          showMessage('<i class="bi bi-shield-x"></i> Erreur lors de l\'envoi de la demande.', "error");
         }
       } catch (error) {
         console.error(error);
         showMessage('<i class="bi bi-wifi-off"></i> Erreur de connexion au serveur.', "error");
       }
     }
-//***********************************************************************************************************************************
-    document.getElementById("cinInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") {
-        e.preventDefault(); 
-        chercherEtudiant(); 
-      }
+
+    // =========================================================
+    // ⌨️ Touche Entrée sur le champ CIN
+    // =========================================================
+    document.getElementById("cinInput").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); chercherEtudiant(); }
     });
-//***********************************************************************************************************************************
-    // Prévisualisation dynamique du reçu
-    const previewBox = document.getElementById("recuPreview");
+
+    // =========================================================
+    // 🖼️ Prévisualisation des reçus au survol
+    // =========================================================
+    const previewBox   = document.getElementById("recuPreview");
     const previewFrame = document.getElementById("previewFrame");
 
     document.addEventListener("mousemove", (e) => {
       if (previewBox.style.display === "block") {
-        const offsetX = 15, offsetY = 15;
-        const previewWidth = previewBox.offsetWidth;
+        const previewWidth  = previewBox.offsetWidth;
         const previewHeight = previewBox.offsetHeight;
-
-        let left = e.clientX - previewWidth - offsetX;
-        let top = e.clientY - offsetY;
-
+        let left = e.clientX - previewWidth - 15;
+        let top  = e.clientY - 15;
         if (left < 0) left = 10;
         if (top + previewHeight > window.innerHeight) top = window.innerHeight - previewHeight - 10;
-
         previewBox.style.left = `${left}px`;
-        previewBox.style.top = `${top}px`;
+        previewBox.style.top  = `${top}px`;
       }
     });
 
     function showRecuPreview(annee) {
-      let recuID = (annee === 1) ? recu1URL : (annee === 2) ? recu2URL : recu3URL;
+      const recuID = annee === 1 ? recu1URL : annee === 2 ? recu2URL : recu3URL;
       if (!recuID) return;
-      const recuURL = `https://drive.google.com/file/d/${recuID}/preview`;
-      previewFrame.src = recuURL;
-      previewBox.style.display = "block";
+      previewFrame.src           = `https://drive.google.com/file/d/${recuID}/preview`;
+      previewBox.style.display   = "block";
     }
-
     function hideRecuPreview() {
       previewBox.style.display = "none";
-      previewFrame.src = "";
+      previewFrame.src         = "";
     }
 
     document.getElementById("btnrecu1").addEventListener("mouseenter", () => showRecuPreview(1));
