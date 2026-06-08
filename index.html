@@ -400,9 +400,7 @@ function afficherInfosEtudiant(el) {
   // 5. Réinitialiser l'état des boutons de validation
   document.getElementById("btnsubmit").disabled = true;
   document.getElementById("btnm2p").disabled = true; // Désactivé car aucun étudiant n'est sélectionné
-
-  // Optionnel : Remettre le focus sur le CIN pour une saisie rapide
-  infocin.focus();
+  document.getElementById("btnClearForm").style.display  = "none";   
 }
 //***********************************************************************************************************************************
     // 🔹 Chercher étudiant (Mode normal)
