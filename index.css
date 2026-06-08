@@ -347,6 +347,10 @@ button:disabled {
   margin-top: 10px;
 }
 
+#btnClearForm {
+  margin-left: auto;
+  width: auto;
+}
 /* 🔔 Conteneur global notifications */
 #notifications {
   position: fixed;
