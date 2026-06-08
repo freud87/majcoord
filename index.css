@@ -348,6 +348,7 @@ button:disabled {
 }
 
 #btnClearForm {
+  background: #f05a36;
   margin-left: auto;
   width: auto;
 }
