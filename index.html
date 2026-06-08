@@ -66,7 +66,7 @@
           <input id="modifie" readonly>
         </div>
       </div>
-      <button id="btnClearForm" style="display: none;">Vider le formulaire</button>
+      <button id="btnClearForm" onclick="annulerSelection()" style="display: none;">Vider le formulaire</button>
       </div>
     <div id="social">
       <a href="https://www.cnfcpp.tn/" target="_blank"><i class="bi bi-globe2"></i></a>
@@ -367,6 +367,42 @@ function afficherInfosEtudiant(el) {
   document.getElementById("liste").style.display  = "flex";
   document.getElementById("btnClearForm").style.display  = "flex";
   surveillerModifications();
+}
+//***********************************************************************************************************************************
+    function annulerSelection() {
+  // 1. Déselectionner l'élément graphiquement dans la liste
+  document.querySelectorAll(".etudiant-list li").forEach(li => {
+    li.classList.remove("selected");
+    const icone = li.querySelector(".bi-person-fill");
+    if (icone) {
+      icone.classList.replace("bi-person-fill", "bi-person");
+    }
+  });
+
+  // 2. Vider la variable de suivi de la ligne GSheet
+  currentRow = null;
+
+  // 3. Vider tous les inputs du bloc basinfo
+  document.getElementById("infocin").value = "";
+  document.getElementById("nom").value = "";
+  document.getElementById("tel1").value = "";
+  document.getElementById("tel2").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("modifie").value = "";
+
+  // 4. Rétablir les paramètres pour un "Ajout" (Puisqu'on est en mode Admin)
+  document.getElementById("titreInfos").textContent = "Ajouter un étudiant";
+  
+  const infocin = document.getElementById("infocin");
+  infocin.disabled = false;
+  infocin.readOnly = false;
+
+  // 5. Réinitialiser l'état des boutons de validation
+  document.getElementById("btnsubmit").disabled = true;
+  document.getElementById("btnm2p").disabled = true; // Désactivé car aucun étudiant n'est sélectionné
+
+  // Optionnel : Remettre le focus sur le CIN pour une saisie rapide
+  infocin.focus();
 }
 //***********************************************************************************************************************************
     // 🔹 Chercher étudiant (Mode normal)
