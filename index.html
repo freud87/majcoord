@@ -64,6 +64,7 @@
           <input type="text" id="tel2">
           <input type="email" id="email" required>
           <input id="modifie" readonly>
+          <button id="btnClearForm" style="display: non;">Vider le formulaire</button>
         </div>
       </div>
       </div>
@@ -364,6 +365,7 @@ function afficherInfosEtudiant(el) {
   document.getElementById("infocin").disabled = false;
   document.getElementById("infocin").readOnly = false;
   document.getElementById("liste").style.display  = "flex";
+  document.getElementById("btnClearForm").style.display  = "flex";
   surveillerModifications();
 }
 //***********************************************************************************************************************************
