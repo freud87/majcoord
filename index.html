@@ -47,7 +47,8 @@
       <div id="topinfo">
         <h3 id="titreInfos">Editer mes informations</h3>
         <button id="btnsubmit" onclick="soumettre()">Soumettre</button>
-      </div><div id="basinfo">
+      </div>
+      <div id="basinfo">
         <div class="labels">
           <label>CIN :</label>
           <label>Nom<span style="color:red">*</span> :</label>
@@ -66,13 +67,14 @@
         </div>
       </div>
       </div>
-          <div id="social">
+    <div id="social">
       <a href="https://www.cnfcpp.tn/" target="_blank"><i class="bi bi-globe2"></i></a>
       <a href="https://www.facebook.com/profile.php?id=61579755939691" target="_blank"><i class="bi bi-facebook"></i></a>
       <a href="tel:78874281" title="Appeler"><i class="bi bi-telephone"></i></a>
       <a href="tel:52434939" title="Appeler"><i class="bi bi-phone"></i></a>
       <a href="https://wa.me/21652434939" target="_blank" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
-    </div><div id="services">
+    </div>
+    <div id="services">
       <div id="recus">
         <h3>Récupérer vos reçus de versement des frais</h3>
         <div id="btnrecus">
@@ -159,8 +161,11 @@
       const input = document.getElementById("cinInput");
       input.focus();
       setTimeout(() => { input.click(); input.focus(); }, 300);
-
+    
+      // --- Mode Étudiant par défaut au chargement ---
+      document.getElementById("titreInfos").textContent = "Editer mes informations";
       document.getElementById("infocin").disabled = true;
+      
       document.getElementById("modifie").disabled = true;    
       document.getElementById("btnsubmit").disabled = true;
       document.getElementById("cinfailcncl").onclick = () => location.reload();
@@ -202,7 +207,12 @@
           // ✅ Admin connecté avec succès
           document.getElementById("login").style.display = "none";
           modeAdmin = true;
-          document.getElementById("titreInfos").textContent = "Editer les informations";
+          
+          // Mises à jour mode Admin au chargement
+          document.getElementById("titreInfos").textContent = "Ajouter un étudiant";
+          document.getElementById("infocin").disabled = false;
+          document.getElementById("infocin").readOnly = false;
+          document.getElementById("infocin").value = ""; // On vide le champ pour un nouvel ajout
           // 1. Masquer social et services
           document.getElementById("social").style.display = "none";
           document.getElementById("services").style.display = "none";
@@ -349,7 +359,8 @@ function afficherInfosEtudiant(el) {
   } else {
     document.getElementById("modifie").value = "";
   }
-
+  // Changement dynamique du titre et maintien du CIN actif
+  document.getElementById("titreInfos").textContent = "Editer les informations";
   document.getElementById("infocin").disabled = false;
   document.getElementById("infocin").readOnly = false;
   document.getElementById("liste").style.display  = "flex";
@@ -393,7 +404,7 @@ function afficherInfosEtudiant(el) {
         } else {
           document.getElementById("login").style.display = "none";
           currentRow = data.row;
-          
+          document.getElementById("titreInfos").textContent = "Editer les informations";
           document.getElementById("infocin").value = cin;
           document.getElementById("infocin").readOnly = true;
           document.getElementById("nom").value = data.Nom || "";
