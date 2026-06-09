@@ -287,7 +287,10 @@
           } else {
             basliste.innerHTML = "<p>Aucun étudiant trouvé dans la base.</p>";
           }
-
+          //////////////////////////////////////////
+          // ✅ Initialiser la surveillance pour le mode ajout
+          surveillerModifications();
+          //////////////////////
           if (!estRafraichissement) {
             showMessage('<i class="bi bi-shield-check"></i> Mode Administrateur activé', "success");
           }
